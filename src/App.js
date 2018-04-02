@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Container, Header, Image } from 'semantic-ui-react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -11,7 +10,7 @@ import './App.css';
 
 class App extends Component {
   render() {
-    const bodyMargin = { marginTop: '7em' };
+    const bodyMargin = { marginTop: '3em' };
     return (
       <Router>
         <div>
@@ -20,7 +19,6 @@ class App extends Component {
             <Route path="/draw" render={ () => <DrawingTool bodyMargin={bodyMargin} />} />
             <Route path="/" render={ () => <HomePage bodyMargin={bodyMargin} />} />
           </Switch>
-          <FooterBar />
         </div>
       </Router>
     );
