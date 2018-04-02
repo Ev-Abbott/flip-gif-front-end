@@ -1,33 +1,41 @@
 import React, { Component } from 'react';
-import { Container, Header, Image } from 'semantic-ui-react'
+import { Container, Header, Image } from 'semantic-ui-react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import HeaderBar from './components/HeaderBar/HeaderBar';
 import FooterBar from './components/FooterBar/FooterBar';
+import HomePage from './components/HomePage/Homepage';
+import DrawingTool from './components/DrawingTool/DrawingTool';
 import './App.css';
 
 class App extends Component {
   render() {
+    const bodyMargin = { marginTop: '7em' };
     return (
-      <div>
-        <HeaderBar />
-
-        <Container text style={{ marginTop: '7em' }}>
-          <Header as='h1'>Semantic UI React Fixed Template</Header>
-          <p>This is a basic fixed menu template using fixed size containers.</p>
-          <p>A text container is used for the main container, which is useful for single column layouts.</p>
-
-          <Image src='/assets/images/wireframe/media-paragraph.png' style={{ marginTop: '2em' }} />
-          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
-        </Container>
-
-        {/* <FooterBar /> */}
-      </div>
+      <Router>
+        <div>
+          <HeaderBar />
+          <Switch>
+            <Route path="/draw" render={ () => <DrawingTool bodyMargin={bodyMargin} />} />
+            <Route path="/" render={ () => <HomePage bodyMargin={bodyMargin} />} />
+          </Switch>
+          <FooterBar />
+        </div>
+      </Router>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
