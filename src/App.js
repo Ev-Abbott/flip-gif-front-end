@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Container, Header, Image } from 'semantic-ui-react'
+import HeaderBar from './components/HeaderBar/HeaderBar';
+import FooterBar from './components/FooterBar/FooterBar';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <HeaderBar />
+
+        <Container text style={{ marginTop: '7em' }}>
+          <Header as='h1'>Semantic UI React Fixed Template</Header>
+          <p>This is a basic fixed menu template using fixed size containers.</p>
+          <p>A text container is used for the main container, which is useful for single column layouts.</p>
+
+          <Image src='/assets/images/wireframe/media-paragraph.png' style={{ marginTop: '2em' }} />
+          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+          <Image src='/assets/images/wireframe/paragraph.png' style={{ marginTop: '2em' }} />
+        </Container>
+
+        {/* <FooterBar /> */}
       </div>
     );
   }
