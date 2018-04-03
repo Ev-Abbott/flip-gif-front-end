@@ -1,5 +1,3 @@
-'use strict'
-
 import React from 'react'
 import reactCSS from 'reactcss'
 import { CompactPicker } from 'react-color'
@@ -44,7 +42,7 @@ class SketchExample extends React.Component {
           padding: '5px',
           background: '#fff',
           borderRadius: '1px',
-          boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
+          boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
           display: 'inline-block',
           cursor: 'pointer',
         },

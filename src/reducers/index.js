@@ -1,8 +1,19 @@
 import { combineReducers } from 'redux';
-// import {
-//     ACTION_NAME_HERE
-// } from '../actions/actionTypes';
+import {
+    BRUSH_COLOR_SET
+} from '../actions/actionTypes';
+
+function brushColor(state = { r: 0, g: 0, b: 0}, action) {
+    switch(action.type) {
+        case BRUSH_COLOR_SET: {
+            return action.brushColor;
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 export default combineReducers({
-    // Insert reducer name here
+    brushColor
 });
