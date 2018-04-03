@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Tab } from 'semantic-ui-react';
 import DrawingCanvas from './DrawingCanvas/DrawingCanvas'
-import Toolbar from './Toolbar';
+import Toolbar from './Tabs/Toolbar';
 import './DrawingTool.css';
 
 class DrawingTool extends Component {

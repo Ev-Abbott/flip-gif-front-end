@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import paintBucket from './paint-bucket.svg';
-import TinyColorPicker from './TinyColorPicker';
+import BrushColorPicker from '../ColorPickers/BrushColorPicker';
 
 const Toolbar = () => {
     const setBrushColor = () => {
@@ -11,11 +11,11 @@ const Toolbar = () => {
             <div className='flex-container flex-column'>
                 <div className='flex-container flex-row justify-content-space-between align-content-center'>
                     <p>Brush: &nbsp;</p>
-                    <TinyColorPicker startingColor={{r: 0, g: 0, b: 0}}/> 
+                    <BrushColorPicker /> 
                 </div>
                 <div className='flex-container flex-row justify-content-space-between align-content-center'>
                     <p>Eraser: &nbsp;</p>
-                    <TinyColorPicker startingColor={{r: 255, g: 255, b: 255}}/> 
+                    {/* <TinyColorPicker startingColor={{r: 255, g: 255, b: 255}}/>  */}
                 </div>
             </div>
             <div className='flex-container flex-column'>
