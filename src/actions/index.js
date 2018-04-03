@@ -1,6 +1,7 @@
 import {
     BRUSH_COLOR_SET, 
-    ERASER_COLOR_SET
+    ERASER_COLOR_SET,
+    SELECTED_TOOL_SET
 } from '../actions/actionTypes';
 
 export function setBrushColor(brushColor) {
@@ -18,6 +19,15 @@ export function setEraserColor(eraserColor) {
             type: ERASER_COLOR_SET,
             eraserColor
         });
+    }
+}
+
+export function setSelectedTool(toolName) {
+    return (dispatch) => {
+        dispatch({
+            type: SELECTED_TOOL_SET,
+            toolName
+        })
     }
 }
 
