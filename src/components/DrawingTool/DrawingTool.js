@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Header, Tab } from 'semantic-ui-react';
+import Toolbar from './Toolbar';
 import './DrawingTool.css';
 
 class DrawingTool extends Component {
     state = {
         panes: [
-            { menuItem: 'Toolbar', render: () => <Tab.Pane>Toolbar Content</Tab.Pane> },
+            { menuItem: 'Toolbar', render: () => <Tab.Pane><Toolbar /></Tab.Pane> },
             { menuItem: 'Animation', render: () => <Tab.Pane>Animation Content</Tab.Pane> },
             { menuItem: 'Settings', render: () => <Tab.Pane>Settings Content</Tab.Pane> },
         ]
@@ -15,11 +16,18 @@ class DrawingTool extends Component {
         const canvas = this.myCanvas;
         const ctx = canvas.getContext('2d');
         const modelWidth = 320;
+        const maxWidth = 640;
         const marginPixels = 42;
-        const scaleFactor = (window.innerWidth-marginPixels)/modelWidth;
+        let canvasWidth = (window.innerWidth-marginPixels);
+
         // construct canvas element
-        canvas.width = window.innerWidth-marginPixels;
+        if (canvasWidth > maxWidth) {
+            canvasWidth = maxWidth; 
+        } 
+
+        canvas.width = canvasWidth;
         canvas.height = canvas.width;
+        let scaleFactor = canvasWidth/modelWidth;
 
         // placeholder img for testing
         let img = new Image();
