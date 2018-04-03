@@ -29,14 +29,8 @@ class DrawingCanvas extends Component {
         canvas.height = canvas.width;
         let scaleFactor = canvasWidth/modelWidth;
 
-        // placeholder img for testing
-        let img = new Image();
-        img.src = "http://via.placeholder.com/320x320";
-        img.onload = () => {
-            ctx.save();
-            ctx.scale(scaleFactor, scaleFactor);
-            ctx.drawImage(img, 0, 0)
-        }
+        ctx.scale(scaleFactor, scaleFactor);
+        
         this.setState({ scaleFactor });
     }
 
