@@ -11,7 +11,7 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
     const changeBrushSize = (e, setBrushSize) => {
         let sizeInput = parseInt(e.target.value);
         if (Number.isInteger(sizeInput)) {
-            if (sizeInput > 0 && sizeInput < 101) {
+            if (sizeInput > 0 && sizeInput < 100) {
                 setBrushSize(sizeInput)
             }
         } else {
@@ -21,26 +21,26 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
     return (
         <div className='flex-container flex-row justify-content-space-around'>
             <div className='flex-container flex-column align-items-center'>
-                <Segment>
-                    <Label attached='top'>Color</Label>
-                    <BrushColorPicker /> 
-                    <EraserColorPicker />
-                </Segment>
-            </div>
-            <div className='flex-container flex-column align-items-center'>
-                <Segment>
-                    <Label attached='top'>Size</Label>
-                    <Input error={brushSize === ''} placeholder={1} type='number'>
-                        <input
-                            value={brushSize}
-                            onFocus={(e) => console.log('Im focused')}
-                            onChange={(e) => changeBrushSize(e, setBrushSize)}
-                            style={{width: "60px"}} />
-                    </Input>
+                <Segment style={{ height: '180px' }}>
+                    <Label attached='top'>
+                        <i className="fas fa-paint-brush"></i> &amp; <i className="fas fa-eraser"></i>
+                    </Label>
+                    <div className='flex-container flex-column'>
+                        <BrushColorPicker /> 
+                        <EraserColorPicker />
+                        <Input error={brushSize === ''} placeholder={1} type='number'>
+                            <input
+                                value={brushSize}
+                                onFocus={(e) => console.log('Im focused')}
+                                onChange={(e) => changeBrushSize(e, setBrushSize)}
+                                style={{width: "50px"}} />
+                        </Input>
+                        
+                    </div>
                 </Segment>
             </div>
             <div className='flex-container flex-column'>
-                <Segment>
+                <Segment style={{ height: '180px' }}>
                     <Label attached='top'>Tools</Label>
                     <ToolSelector />
                 </Segment>

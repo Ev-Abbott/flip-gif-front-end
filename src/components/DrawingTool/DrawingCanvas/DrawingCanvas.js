@@ -18,12 +18,11 @@ class DrawingCanvas extends Component {
         const maxWidth = 640;
         const marginPixels = 42;
         let canvasWidth = (window.innerWidth-marginPixels);
-
+        
         // construct canvas element
         if (canvasWidth > maxWidth) canvasWidth = maxWidth; 
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
-
         // Fill canvas with selected eraser color
         ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);

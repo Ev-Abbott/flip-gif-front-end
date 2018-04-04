@@ -5,6 +5,11 @@
     touch-action: none;
 }
 
+.DrawingTool-brushProps-container {
+    margin-bottom: 5px;
+}
+
+
 .DrawingTool-numberInput {
     width: 60px;
 }
@@ -12,7 +17,6 @@
 .DrawingTool-tabsContainer {
     margin: 0px 20px 0px 20px;
 }
-
 
 .DrawingTool-iconContainer {
     padding: 5px;
