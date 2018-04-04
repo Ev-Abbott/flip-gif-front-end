@@ -71,43 +71,6 @@ class DrawingCanvas extends Component {
         this.setState({ paint: false, x: null, y: null });
     }
 
-    brushStartMouse = (e, tool, scaleFactor, brushColor) => {
-        e.preventDefault();
-        const canvas = this.myCanvas;
-        let brushX = (e.pageX - canvas.offsetLeft) / scaleFactor;
-        let brushY = (e.pageY - canvas.offsetTop) / scaleFactor;
-        if (tool === 'BRUSH' || tool === 'ERASER') {
-            this.setState({ paint: true, x: brushX, y: brushY })
-        }
-        if (tool === 'BUCKET') {
-            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
-        }
-    }
-    
-    brushMoveMouse = (e, paintState, tool, brushColor, eraserColor, scaleFactor) => {
-        e.preventDefault();
-        if (paintState) {
-            const canvas = this.myCanvas;
-            const ctx = canvas.getContext('2d');
-            let brushX = (e.pageX - canvas.offsetLeft) / scaleFactor;
-            let brushY = (e.pageY - canvas.offsetTop) / scaleFactor;
-            let color;
-            if (tool === 'BRUSH') {
-                color = brushColor;
-                this.drawToCanvas(ctx, brushX, brushY, color);
-            }
-            if (tool === 'ERASER') {
-                color = eraserColor;
-                this.drawToCanvas(ctx, brushX, brushY, color);
-            }
-        }
-    }
-
-    brushLeaveMouse = (e) => {
-        console.log('Mouse left');
-        this.setState({ paint: false, x: null, y: null });
-    }
-
     drawToCanvas = (ctx, brushX, brushY, color) => {
         ctx.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
         ctx.lineCap ='round';
@@ -203,13 +166,7 @@ class DrawingCanvas extends Component {
                 onTouchMove={(e) => this.brushMoveTouch(e, this.state.paint, this.props.selectedTool, 
                                                         this.props.brushColor, this.props.eraserColor, 
                                                         this.state.scaleFactor)}
-                onTouchEnd={(e) => this.brushLeaveTouch(e)} 
-                onMouseDown={(e) => this.brushStartMouse(e, this.props.selectedTool, this.state.scaleFactor, this.props.brushColor)}
-                onMouseMove={(e) => this.brushMoveMouse(e, this.state.paint, this.props.selectedTool, 
-                                                    this.props.brushColor, this.props.eraserColor, 
-                                                    this.state.scaleFactor)}
-                onMouseLeave={(e) => this.brushLeaveMouse(e)}
-                onMouseUp={(e) => this.brushLeaveMouse(e)}>
+                onTouchEnd={(e) => this.brushLeaveTouch(e)} >
             </canvas>
         );
     }
