@@ -28,7 +28,8 @@ class DrawingCanvas extends Component {
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
         let scaleFactor = canvasWidth/modelWidth;
-
+        ctx.fillRect(20,20,10,10);
+        ctx.fillRect(canvasWidth-20, canvasWidth-20, 10, 10);
         ctx.scale(scaleFactor, scaleFactor);
         
         this.setState({ scaleFactor });
@@ -91,7 +92,6 @@ class DrawingCanvas extends Component {
             const ctx = canvas.getContext('2d');
             let brushX = (e.pageX - canvas.offsetLeft) / scaleFactor;
             let brushY = (e.pageY - canvas.offsetTop) / scaleFactor;
-            console.log(brushX, brushY)
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
@@ -127,7 +127,6 @@ class DrawingCanvas extends Component {
         let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         let imgArray = [];
         let imgMatrix = [];
-
         for (let i = 0; i < imgData.data.length; i+=4) {
             imgArray.push([ imgData.data[i], imgData.data[i+1], imgData.data[i+2], imgData.data[i+3] ]);
         }
@@ -166,7 +165,7 @@ class DrawingCanvas extends Component {
             }
             let isTheSameColor = false;
             if (pixelToCheck) {
-                isTheSameColor = this.checkPixelColors(pixelToCheck, selectedColor);
+                isTheSameColor = this.checkPixelColors(selectedColor, pixelToCheck);
             }
             if (isTheSameColor) {
                 imgMatrix[xPos][yPos] = desiredColor;
@@ -178,9 +177,9 @@ class DrawingCanvas extends Component {
         }
     }
 
-    checkPixelColors= (oldColor, newColor) => {
+    checkPixelColors = (oldColor, surface) => {
         for (let i = 0; i < oldColor.length; i++) {
-            if (oldColor[i] !== newColor[i]) return false;
+            if (oldColor[i] !== surface[i]) return false;
         }
         return true;
     }
