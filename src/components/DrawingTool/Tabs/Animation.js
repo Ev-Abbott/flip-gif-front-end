@@ -58,5 +58,3 @@ const AnimationTab = () => {
 }
 
 export default AnimationTab;
-
-/* <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'></div> */
