@@ -26,16 +26,19 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
                         <i className="fas fa-paint-brush"></i> &amp; <i className="fas fa-eraser"></i>
                     </Label>
                     <div className='flex-container flex-column'>
-                        <BrushColorPicker /> 
-                        <EraserColorPicker />
-                        <Input error={brushSize === ''} placeholder={1} type='number'>
-                            <input
-                                value={brushSize}
-                                onFocus={(e) => console.log('Im focused')}
-                                onChange={(e) => changeBrushSize(e, setBrushSize)}
-                                style={{width: "50px"}} />
-                        </Input>
-                        
+                        <div>
+                            <BrushColorPicker /> 
+                            <EraserColorPicker />
+                        </div>
+                        <div>
+                            <Input error={brushSize === ''} placeholder={1} type='number'>
+                                <input
+                                    value={brushSize}
+                                    onFocus={(e) => console.log('Im focused')}
+                                    onChange={(e) => changeBrushSize(e, setBrushSize)}
+                                    style={{width: "50px"}} />
+                            </Input>
+                        </div>
                     </div>
                 </Segment>
             </div>
