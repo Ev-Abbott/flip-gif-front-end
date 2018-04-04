@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { setBrushPos } from '../../../actions';
 
 class DrawingCanvas extends Component {
     state = {
         paint: false,
-        x: null,
-        y: null,
         scaleFactor: 0
     }
 
@@ -23,6 +22,7 @@ class DrawingCanvas extends Component {
         if (canvasWidth > maxWidth) canvasWidth = maxWidth; 
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
+
         // Fill canvas with selected eraser color
         ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -33,13 +33,14 @@ class DrawingCanvas extends Component {
         this.setState({ scaleFactor });
     }
 
-    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor) => {
+    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos) => {
         e.preventDefault();
         const canvas = this.myCanvas;
         let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
         let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
         if (tool === 'BRUSH' || tool === 'ERASER') {
-            this.setState({ paint: true, x: brushX, y: brushY })
+            setBrushPos({ x: brushX, y: brushY });
+            this.setState({ paint: true })
         }
         if (tool === 'BUCKET') {
             this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
@@ -49,7 +50,7 @@ class DrawingCanvas extends Component {
         }
     }
 
-    brushMoveTouch = (e, paintState, tool, brushColor, eraserColor, scaleFactor, brushSize) => {
+    brushMoveTouch = (e, paintState, tool, brushColor, eraserColor, scaleFactor, brushSize, setBrushPos, brushPos) => {
         e.preventDefault();
         if (paintState) {
             const canvas = this.myCanvas;
@@ -59,17 +60,18 @@ class DrawingCanvas extends Component {
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
-                this.drawToCanvas(ctx, brushX, brushY, color, brushSize);
+                this.drawToCanvas(ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos);
             }
             if (tool === 'ERASER') {
                 color = eraserColor;
-                this.drawToCanvas(ctx, brushX, brushY, color, brushSize);
+                this.drawToCanvas(ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos);
             }
         }
     }
 
-    brushLeaveTouch = (e) => {
-        this.setState({ paint: false, x: null, y: null });
+    brushLeaveTouch = (e, setBrushPos) => {
+        setBrushPos(null);
+        this.setState({ paint: false });
     }
 
     clearScreen = (canvas, eraserColor) => {
@@ -78,17 +80,17 @@ class DrawingCanvas extends Component {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    drawToCanvas = (ctx, brushX, brushY, color, brushSize) => {
+    drawToCanvas = (ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos) => {
         ctx.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
         ctx.lineCap ='round';
         ctx.lineJoin = 'round';
         ctx.lineWidth = brushSize;
         ctx.beginPath();
-        ctx.moveTo(this.state.x, this.state.y);
+        ctx.moveTo(brushPos.x, brushPos.y);
         ctx.lineTo(brushX, brushY);
         ctx.stroke();
         ctx.closePath();
-        this.setState({ x: brushX, y: brushY });
+        setBrushPos({ x: brushX, y: brushY });
     }
 
     fillWithBucket = (canvas, brushX, brushY, scaleFactor, color) => {
@@ -169,11 +171,12 @@ class DrawingCanvas extends Component {
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}
                 onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.state.scaleFactor,
-                                                        this.props.brushColor, this.props.eraserColor)}
+                                                        this.props.brushColor, this.props.eraserColor, this.props.setBrushPos)}
                 onTouchMove={(e) => this.brushMoveTouch(e, this.state.paint, this.props.selectedTool, 
                                                         this.props.brushColor, this.props.eraserColor, 
-                                                        this.state.scaleFactor, this.props.brushSize)}
-                onTouchEnd={(e) => this.brushLeaveTouch(e)} >
+                                                        this.state.scaleFactor, this.props.brushSize,
+                                                        this.props.setBrushPos, this.props.brushPos)}
+                onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos)} >
             </canvas>
         );
     }
@@ -183,11 +186,12 @@ const mapStateToProps = (state) => ({
     brushColor: state.brushColor,
     eraserColor: state.eraserColor,
     selectedTool: state.selectedTool,
-    brushSize: state.brushSize
+    brushSize: state.brushSize,
+    brushPos: state.brushPos
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-
+    setBrushPos
 }, dispatch)
 
 export default connect(

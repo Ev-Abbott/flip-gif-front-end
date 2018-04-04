@@ -2,7 +2,8 @@ import {
     BRUSH_COLOR_SET, 
     BRUSH_SIZE_SET,
     ERASER_COLOR_SET,
-    SELECTED_TOOL_SET
+    SELECTED_TOOL_SET,
+    BRUSH_POS_SET
 } from '../actions/actionTypes';
 
 export function setBrushColor(brushColor) {
@@ -19,6 +20,15 @@ export function setBrushSize(brushSize) {
         dispatch({
             type: BRUSH_SIZE_SET,
             brushSize
+        })
+    }
+}
+
+export function setBrushPos(brushPos) {
+    return (dispatch) => {
+        dispatch({
+            type: BRUSH_POS_SET,
+            brushPos
         })
     }
 }

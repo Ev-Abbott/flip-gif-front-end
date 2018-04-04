@@ -3,7 +3,8 @@ import {
     BRUSH_COLOR_SET, 
     ERASER_COLOR_SET,
     SELECTED_TOOL_SET,
-    BRUSH_SIZE_SET
+    BRUSH_SIZE_SET,
+    BRUSH_POS_SET,
 } from '../actions/actionTypes';
 
 function brushColor(state = { r: 0, g: 0, b: 0}, action) {
@@ -27,6 +28,18 @@ function brushSize(state = 1, action) {
         }
     }
 }
+
+function brushPos(state = null, action) {
+    switch(action.type) {
+        case BRUSH_POS_SET: {
+            return action.brushPos;
+        }
+        default: {
+            return state;
+        }
+    }
+}
+
 
 function eraserColor(state = { r: 255, g: 255, b: 255}, action) {
     switch(action.type) {
@@ -54,6 +67,7 @@ function selectedTool(state = null, action) {
 export default combineReducers({
     brushColor,
     brushSize,
+    brushPos,
     eraserColor,
     selectedTool
 });
