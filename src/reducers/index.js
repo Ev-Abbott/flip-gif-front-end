@@ -5,7 +5,19 @@ import {
     SELECTED_TOOL_SET,
     BRUSH_SIZE_SET,
     BRUSH_POS_SET,
+    CAN_PAINT_TOGGLE
 } from '../actions/actionTypes';
+
+function canPaint(state = false, action) {
+    switch(action.type) {
+        case CAN_PAINT_TOGGLE: {
+            return action.canPaintStatus;
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 function brushColor(state = { r: 0, g: 0, b: 0}, action) {
     switch(action.type) {
@@ -69,5 +81,6 @@ export default combineReducers({
     brushSize,
     brushPos,
     eraserColor,
-    selectedTool
+    selectedTool,
+    canPaint
 });
