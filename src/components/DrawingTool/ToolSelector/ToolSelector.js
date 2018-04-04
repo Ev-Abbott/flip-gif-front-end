@@ -6,42 +6,43 @@ import paintBucket from './paint-bucket.svg';
 
 const ToolSelector = ({ selectedTool, setSelectedTool }) => {
     const determineToolToToggle = (e, setSelectedTool, tool) => {
+        console.log('Toggling');
         setSelectedTool(tool);
     }
     return (
         <div>
             <div className='flex-container flex-row justify-content-space-between'>
-                <div onClick={(e) => determineToolToToggle(e, setSelectedTool, 'BRUSH')} 
+                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BRUSH')} 
                     className={
                         (selectedTool === 'BRUSH' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
                     }>
-                    <i className="fas fa-paint-brush fa-lg"></i>
+                    <i className="fas fa-paint-brush fa-2x"></i>
                 </div>
-                <div onClick={(e) => determineToolToToggle(e, setSelectedTool, 'BUCKET')} 
+                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BUCKET')} 
                     className={
                         (selectedTool === 'BUCKET' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
                     }>
-                    <img src={paintBucket} width='19' height='16'/>
+                    <img src={paintBucket} width='28' height='28.5'/>
                 </div>
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-undo fa-lg"></i>
+                    <i className="fas fa-undo fa-2x"></i>
                 </div>
             </div>
             <div className='flex-container flex-row justify-content-space-between'>
-                <div onClick={(e) => determineToolToToggle(e, setSelectedTool, 'ERASER')} 
+                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'ERASER')} 
                     className={
                         (selectedTool === 'ERASER' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
                     }>
-                    <i className="fas fa-eraser fa-lg"></i>
+                    <i className="fas fa-eraser fa-2x"></i>
                 </div>
-                <div onClick={(e) => determineToolToToggle(e, setSelectedTool, 'BOMB')} 
+                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BOMB')} 
                     className={
                         (selectedTool === 'BOMB' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
                     }>
-                    <i className="fas fa-bomb fa-lg"></i>
+                    <i className="fas fa-bomb fa-2x"></i>
                 </div>
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-redo fa-lg"></i>
+                    <i className="fas fa-redo fa-2x"></i>
                 </div>
             </div>
             
