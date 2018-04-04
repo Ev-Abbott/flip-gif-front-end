@@ -8,15 +8,13 @@ const SettingsTab = () => {
                     <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                         <i class="fas fa-save fa-lg"></i>
                     </div>
-                    <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    </div>
+                    <p>Save</p>
                 </div>
                 <div className='flex-container flex-row justify-content-space-between align-content-center'>
                     <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                         <i class="fas fa-cloud-upload-alt fa-lg"></i>
                     </div>
-                    <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    </div>
+                    <p>Publish</p>
                 </div>
             </div>
             <div className='flex-container flex-column'>
@@ -24,15 +22,13 @@ const SettingsTab = () => {
                     <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                         <i class="fas fa-download fa-lg"></i>
                     </div>
-                    <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    </div>
+                    <p>Export</p>
                 </div>
                 <div className='flex-container flex-row justify-content-space-between align-content-center'>
                     <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                         <i class="fas fa-sign-out-alt fa-lg"></i>
                     </div>
-                    <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    </div>
+                    <p>Exit</p>
                 </div>
             </div>
         </div>
