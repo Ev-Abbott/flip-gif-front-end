@@ -79,6 +79,9 @@ class DrawingCanvas extends Component {
         if (tool === 'BRUSH' || tool === 'ERASER') {
             this.setState({ paint: true, x: brushX, y: brushY })
         }
+        if (tool === 'BUCKET') {
+            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
+        }
     }
     
     brushMoveMouse = (e, paintState, tool, brushColor, eraserColor, scaleFactor) => {
@@ -141,14 +144,16 @@ class DrawingCanvas extends Component {
         let selectedColor = imgMatrix[fillX][fillY];
         let fillColor = [color.r, color.g, color.b, 255];
         this.fill(imgMatrix, fillX, fillY, fillColor, selectedColor, canvas.width);
-        let newImgArr = [].concat.apply([], imgMatrix);
-        let newImgData = [].concat.apply([], newImgArr);
+        let newImgArr = this.flatten(imgMatrix);
+        let newImgData = this.flatten(newImgArr);
         let imgToRender = new Uint8ClampedArray(newImgData);
         imgData.data.set(imgToRender);
         ctx.putImageData(imgData, 0, 0);
     }
 
     fill = (imgMatrix, x, y, desiredColor, selectedColor, width) => {
+        let isFillImpossible = this.checkPixelColors(desiredColor, selectedColor);
+        if (isFillImpossible) return;
         let stack = [ [x, y] ];
         while (stack.length > 0) {
             let coordinates = stack.pop();
@@ -156,16 +161,14 @@ class DrawingCanvas extends Component {
             let yPos = coordinates[1];
             let setPixel = (xPos >= 0 && xPos < width) && (yPos >= 0 && yPos < width);
             let pixelToCheck;
-            let isTheSameColor = true;
             if (setPixel) {
-                pixelToCheck = imgMatrix[xPos][yPos];
+               pixelToCheck = imgMatrix[xPos][yPos]; 
             }
+            let isTheSameColor = false;
             if (pixelToCheck) {
-                for (let i = 0; i < pixelToCheck.length; i++) {
-                    if (pixelToCheck[i] !== desiredColor[i]) isTheSameColor = false;
-                }
+                isTheSameColor = this.checkPixelColors(pixelToCheck, selectedColor);
             }
-            if (!isTheSameColor) {
+            if (isTheSameColor) {
                 imgMatrix[xPos][yPos] = desiredColor;
                 stack.push([ xPos + 1, yPos]);
                 stack.push([ xPos - 1, yPos]);
@@ -173,6 +176,24 @@ class DrawingCanvas extends Component {
                 stack.push([ xPos, yPos - 1]);
             }
         }
+    }
+
+    checkPixelColors= (oldColor, newColor) => {
+        for (let i = 0; i < oldColor.length; i++) {
+            if (oldColor[i] !== newColor[i]) return false;
+        }
+        return true;
+    }
+
+    flatten = (array) => {
+        let flattened = []
+        for (let i = 0; i < array.length; i++) {
+            let current = array[i];
+            for (let j = 0; j < current.length; j++) {
+                flattened.push(current[j]);
+            }
+        }
+        return flattened;
     }
 
     render() {
