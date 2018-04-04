@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setBrushPos, toggleCanPaint } from '../../../actions';
+import { setBrushPos, toggleCanPaint, setScaleFactor } from '../../../actions';
 
 class DrawingCanvas extends Component {
-    state = {
-        scaleFactor: 0
-    }
 
     componentDidMount() {
         // Set canvas context
@@ -28,8 +25,7 @@ class DrawingCanvas extends Component {
 
         let scaleFactor = canvasWidth/modelWidth;
         ctx.scale(scaleFactor, scaleFactor);
-
-        this.setState({ scaleFactor });
+        this.props.setScaleFactor(scaleFactor);
     }
 
     brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint) => {
@@ -169,12 +165,12 @@ class DrawingCanvas extends Component {
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}
-                onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.state.scaleFactor,
+                onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
                                                         this.props.brushColor, this.props.eraserColor, 
                                                         this.props.setBrushPos, this.props.toggleCanPaint)}
                 onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
                                                         this.props.brushColor, this.props.eraserColor, 
-                                                        this.state.scaleFactor, this.props.brushSize,
+                                                        this.props.scaleFactor, this.props.brushSize,
                                                         this.props.setBrushPos, this.props.brushPos)}
                 onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, this.props.toggleCanPaint)} >
             </canvas>
@@ -188,12 +184,14 @@ const mapStateToProps = (state) => ({
     selectedTool: state.selectedTool,
     brushSize: state.brushSize,
     brushPos: state.brushPos,
-    canPaint: state.canPaint
+    canPaint: state.canPaint,
+    scaleFactor: state.scaleFactor
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setBrushPos,
-    toggleCanPaint
+    toggleCanPaint,
+    setScaleFactor
 }, dispatch)
 
 export default connect(

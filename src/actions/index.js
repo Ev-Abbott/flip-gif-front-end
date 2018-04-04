@@ -4,8 +4,18 @@ import {
     ERASER_COLOR_SET,
     SELECTED_TOOL_SET,
     BRUSH_POS_SET,
-    CAN_PAINT_TOGGLE
+    CAN_PAINT_TOGGLE,
+    SCALE_FACTOR_SET
 } from '../actions/actionTypes';
+
+export function setScaleFactor(scaleFactor) {
+    return (dispatch) => {
+        dispatch({
+            type: SCALE_FACTOR_SET,
+            scaleFactor
+        })
+    }
+}
 
 export function toggleCanPaint(canPaintStatus) {
     return (dispatch) => {

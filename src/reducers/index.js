@@ -5,8 +5,20 @@ import {
     SELECTED_TOOL_SET,
     BRUSH_SIZE_SET,
     BRUSH_POS_SET,
-    CAN_PAINT_TOGGLE
+    CAN_PAINT_TOGGLE,
+    SCALE_FACTOR_SET
 } from '../actions/actionTypes';
+
+function scaleFactor(state = 0, action) {
+    switch(action.type) {
+        case SCALE_FACTOR_SET: {
+            return action.scaleFactor;
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 function canPaint(state = false, action) {
     switch(action.type) {
@@ -82,5 +94,6 @@ export default combineReducers({
     brushPos,
     eraserColor,
     selectedTool,
-    canPaint
+    canPaint,
+    scaleFactor
 });
