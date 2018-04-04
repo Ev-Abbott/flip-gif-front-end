@@ -23,6 +23,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool }) => {
                     }>
                     <img src={paintBucket} width='19' height='16'/>
                 </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-undo fa-lg"></i>
+                </div>
             </div>
             <div className='flex-container flex-row justify-content-space-between'>
                 <div onClick={(e) => determineToolToToggle(e, setSelectedTool, 'ERASER')} 
@@ -37,7 +40,11 @@ const ToolSelector = ({ selectedTool, setSelectedTool }) => {
                     }>
                     <i className="fas fa-bomb fa-lg"></i>
                 </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-redo fa-lg"></i>
+                </div>
             </div>
+            
         </div>
     );
 }

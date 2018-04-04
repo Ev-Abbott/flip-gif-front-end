@@ -21,15 +21,15 @@ class DrawingCanvas extends Component {
         let canvasWidth = (window.innerWidth-marginPixels);
 
         // construct canvas element
-        if (canvasWidth > maxWidth) {
-            canvasWidth = maxWidth; 
-        } 
-
+        if (canvasWidth > maxWidth) canvasWidth = maxWidth; 
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
+
+        // Fill canvas with selected eraser color
+        ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         let scaleFactor = canvasWidth/modelWidth;
-        ctx.fillRect(20,20,10,10);
-        ctx.fillRect(canvasWidth-20, canvasWidth-20, 10, 10);
         ctx.scale(scaleFactor, scaleFactor);
 
         this.setState({ scaleFactor });
@@ -45,6 +45,9 @@ class DrawingCanvas extends Component {
         }
         if (tool === 'BUCKET') {
             this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
+        }
+        if (tool === 'BOMB') {
+            this.clearScreen(canvas, eraserColor);
         }
     }
 
@@ -69,6 +72,12 @@ class DrawingCanvas extends Component {
 
     brushLeaveTouch = (e) => {
         this.setState({ paint: false, x: null, y: null });
+    }
+
+    clearScreen = (canvas, eraserColor) => {
+        let ctx = canvas.getContext('2d');
+        ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
     drawToCanvas = (ctx, brushX, brushY, color) => {
