@@ -2,13 +2,25 @@ import { combineReducers } from 'redux';
 import {
     BRUSH_COLOR_SET, 
     ERASER_COLOR_SET,
-    SELECTED_TOOL_SET
+    SELECTED_TOOL_SET,
+    BRUSH_SIZE_SET
 } from '../actions/actionTypes';
 
 function brushColor(state = { r: 0, g: 0, b: 0}, action) {
     switch(action.type) {
         case BRUSH_COLOR_SET: {
             return action.brushColor;
+        }
+        default: {
+            return state;
+        }
+    }
+}
+
+function brushSize(state = 1, action) {
+    switch(action.type) {
+        case BRUSH_SIZE_SET: {
+            return action.brushSize;
         }
         default: {
             return state;
@@ -41,6 +53,7 @@ function selectedTool(state = null, action) {
 
 export default combineReducers({
     brushColor,
+    brushSize,
     eraserColor,
     selectedTool
 });

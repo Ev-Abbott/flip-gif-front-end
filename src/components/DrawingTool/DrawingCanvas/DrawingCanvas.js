@@ -7,7 +7,6 @@ class DrawingCanvas extends Component {
         paint: false,
         x: null,
         y: null,
-        size: 5,
         scaleFactor: 0
     }
 
@@ -51,7 +50,7 @@ class DrawingCanvas extends Component {
         }
     }
 
-    brushMoveTouch = (e, paintState, tool, brushColor, eraserColor, scaleFactor) => {
+    brushMoveTouch = (e, paintState, tool, brushColor, eraserColor, scaleFactor, brushSize) => {
         e.preventDefault();
         if (paintState) {
             const canvas = this.myCanvas;
@@ -61,11 +60,11 @@ class DrawingCanvas extends Component {
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
-                this.drawToCanvas(ctx, brushX, brushY, color);
+                this.drawToCanvas(ctx, brushX, brushY, color, brushSize);
             }
             if (tool === 'ERASER') {
                 color = eraserColor;
-                this.drawToCanvas(ctx, brushX, brushY, color);
+                this.drawToCanvas(ctx, brushX, brushY, color, brushSize);
             }
         }
     }
@@ -80,11 +79,11 @@ class DrawingCanvas extends Component {
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    drawToCanvas = (ctx, brushX, brushY, color) => {
+    drawToCanvas = (ctx, brushX, brushY, color, brushSize) => {
         ctx.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
         ctx.lineCap ='round';
         ctx.lineJoin = 'round';
-        ctx.lineWidth = this.state.size;
+        ctx.lineWidth = brushSize;
         ctx.beginPath();
         ctx.moveTo(this.state.x, this.state.y);
         ctx.lineTo(brushX, brushY);
@@ -174,7 +173,7 @@ class DrawingCanvas extends Component {
                                                         this.props.brushColor, this.props.eraserColor)}
                 onTouchMove={(e) => this.brushMoveTouch(e, this.state.paint, this.props.selectedTool, 
                                                         this.props.brushColor, this.props.eraserColor, 
-                                                        this.state.scaleFactor)}
+                                                        this.state.scaleFactor, this.props.brushSize)}
                 onTouchEnd={(e) => this.brushLeaveTouch(e)} >
             </canvas>
         );
@@ -184,7 +183,8 @@ class DrawingCanvas extends Component {
 const mapStateToProps = (state) => ({
     brushColor: state.brushColor,
     eraserColor: state.eraserColor,
-    selectedTool: state.selectedTool
+    selectedTool: state.selectedTool,
+    brushSize: state.brushSize
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

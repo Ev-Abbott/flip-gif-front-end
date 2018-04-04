@@ -9,9 +9,9 @@ import './DrawingTool.css';
 class DrawingTool extends Component {
     state = {
         panes: [
-            { menuItem: 'Toolbar', render: () => <Tab.Pane><Toolbar /></Tab.Pane> },
-            { menuItem: 'Animation', render: () => <Tab.Pane><AnimationTab /></Tab.Pane> },
-            { menuItem: 'Settings', render: () => <Tab.Pane><SettingsTab /></Tab.Pane> },
+            { menuItem: 'Toolbar', render: () => <Tab.Pane className='header-styled-text'><Toolbar /></Tab.Pane> },
+            { menuItem: 'Animation', render: () => <Tab.Pane className='header-styled-text'><AnimationTab /></Tab.Pane> },
+            { menuItem: 'Settings', render: () => <Tab.Pane className='header-styled-text'><SettingsTab /></Tab.Pane> },
         ]
     }
 
