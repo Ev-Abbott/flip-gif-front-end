@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import BrushColorPicker from '../ColorPickers/BrushColorPicker';
 import EraserColorPicker from '../ColorPickers/EraserColorPicker';
 import ToolSelector from '../ToolSelector/ToolSelector';
 
 const Toolbar = () => {
     return (
-        <div className='flex-container flex-row justify-content-space-around'>
+        <div className='flex-container flex-row justify-content-space-around align-items-center'>
             <div className='flex-container flex-column'>
                 <div className='flex-container flex-row justify-content-space-between align-content-center'>
                     <p>Brush: &nbsp;</p>
