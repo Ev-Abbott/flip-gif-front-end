@@ -31,7 +31,7 @@ class DrawingCanvas extends Component {
         ctx.fillRect(20,20,10,10);
         ctx.fillRect(canvasWidth-20, canvasWidth-20, 10, 10);
         ctx.scale(scaleFactor, scaleFactor);
-        
+
         this.setState({ scaleFactor });
     }
 
@@ -44,8 +44,7 @@ class DrawingCanvas extends Component {
             this.setState({ paint: true, x: brushX, y: brushY })
         }
         if (tool === 'BUCKET') {
-            // debugger;
-            // this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
+            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
         }
     }
 
@@ -69,7 +68,6 @@ class DrawingCanvas extends Component {
     }
 
     brushLeaveTouch = (e) => {
-        console.log('Touch Left');
         this.setState({ paint: false, x: null, y: null });
     }
 
@@ -82,7 +80,6 @@ class DrawingCanvas extends Component {
             this.setState({ paint: true, x: brushX, y: brushY })
         }
         if (tool === 'BUCKET') {
-            // debugger;
             this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
         }
     }
@@ -140,13 +137,11 @@ class DrawingCanvas extends Component {
             }
             imgMatrix[j].push(imgArray[i]);
         }
-        // debugger;
         let fillX = Math.floor(brushX * scaleFactor);
         let fillY = Math.floor(brushY * scaleFactor);
         let selectedColor = imgMatrix[fillY][fillX];
         let fillColor = [color.r, color.g, color.b, 255];
         this.fill(imgMatrix, fillY, fillX, fillColor, selectedColor, canvas.width);
-        imgMatrix[fillY][fillX] = [244, 78, 59, 255];
         let newImgArr = this.flatten(imgMatrix);
         let newImgData = this.flatten(newImgArr);
         let imgToRender = new Uint8ClampedArray(newImgData);
@@ -154,29 +149,29 @@ class DrawingCanvas extends Component {
         ctx.putImageData(imgData, 0, 0);
     }
 
-    fill = (imgMatrix, x, y, desiredColor, selectedColor, width) => {
+    fill = (imgMatrix, y, x, desiredColor, selectedColor, width) => {
         let isFillImpossible = this.checkPixelColors(desiredColor, selectedColor);
         if (isFillImpossible) return;
-        let stack = [ [x, y] ];
+        let stack = [ [y, x] ];
         while (stack.length > 0) {
             let coordinates = stack.pop();
-            let xPos = coordinates[0];
-            let yPos = coordinates[1];
-            let setPixel = (xPos >= 0 && xPos < width) && (yPos >= 0 && yPos < width);
+            let yPos = coordinates[0];
+            let xPos = coordinates[1];
+            let setPixel = (yPos >= 0 && yPos < width) && (xPos >= 0 && xPos < width);
             let pixelToCheck;
             if (setPixel) {
-               pixelToCheck = imgMatrix[xPos][yPos]; 
+               pixelToCheck = imgMatrix[yPos][xPos]; 
             }
             let isTheSameColor = false;
             if (pixelToCheck) {
                 isTheSameColor = this.checkPixelColors(selectedColor, pixelToCheck);
             }
             if (isTheSameColor) {
-                imgMatrix[xPos][yPos] = desiredColor;
-                stack.push([ xPos + 1, yPos]);
-                stack.push([ xPos - 1, yPos]);
-                stack.push([ xPos, yPos + 1]);
-                stack.push([ xPos, yPos - 1]);
+                imgMatrix[yPos][xPos] = desiredColor;
+                stack.push([ yPos + 1, xPos]);
+                stack.push([ yPos - 1, xPos]);
+                stack.push([ yPos, xPos + 1]);
+                stack.push([ yPos, xPos - 1]);
             }
         }
     }
