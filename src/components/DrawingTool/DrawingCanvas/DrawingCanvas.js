@@ -34,13 +34,16 @@ class DrawingCanvas extends Component {
         this.setState({ scaleFactor });
     }
 
-    brushStartTouch = (e, tool, scaleFactor) => {
+    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor) => {
         e.preventDefault();
         const canvas = this.myCanvas;
         let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
         let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
         if (tool === 'BRUSH' || tool === 'ERASER') {
             this.setState({ paint: true, x: brushX, y: brushY })
+        }
+        if (tool === 'BUCKET') {
+            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
         }
     }
 
@@ -54,11 +57,12 @@ class DrawingCanvas extends Component {
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
+                this.drawToCanvas(ctx, brushX, brushY, color);
             }
             if (tool === 'ERASER') {
                 color = eraserColor;
+                this.drawToCanvas(ctx, brushX, brushY, color);
             }
-            this.drawToCanvas(ctx, brushX, brushY, color);
         }
     }
 
@@ -67,7 +71,7 @@ class DrawingCanvas extends Component {
         this.setState({ paint: false, x: null, y: null });
     }
 
-    brushStartMouse = (e, tool, scaleFactor) => {
+    brushStartMouse = (e, tool, scaleFactor, brushColor) => {
         e.preventDefault();
         const canvas = this.myCanvas;
         let brushX = (e.pageX - canvas.offsetLeft) / scaleFactor;
@@ -88,15 +92,17 @@ class DrawingCanvas extends Component {
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
+                this.drawToCanvas(ctx, brushX, brushY, color);
             }
             if (tool === 'ERASER') {
                 color = eraserColor;
+                this.drawToCanvas(ctx, brushX, brushY, color);
             }
-            this.drawToCanvas(ctx, brushX, brushY, color);
         }
     }
 
     brushLeaveMouse = (e) => {
+        console.log('Mouse left');
         this.setState({ paint: false, x: null, y: null });
     }
 
@@ -113,15 +119,76 @@ class DrawingCanvas extends Component {
         this.setState({ x: brushX, y: brushY });
     }
 
+    fillWithBucket = (canvas, brushX, brushY, scaleFactor, color) => {
+        let ctx = canvas.getContext('2d');
+        let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let imgArray = [];
+        let imgMatrix = [];
+
+        for (let i = 0; i < imgData.data.length; i+=4) {
+            imgArray.push([ imgData.data[i], imgData.data[i+1], imgData.data[i+2], imgData.data[i+3] ]);
+        }
+        let j = -1;
+        for (let i = 0; i < imgArray.length; i++) {
+            if (i % canvas.width === 0) {
+                j++;
+                imgMatrix[j] = [];
+            }
+            imgMatrix[j].push(imgArray[i]);
+        }
+        let fillX = Math.floor(brushX * scaleFactor);
+        let fillY = Math.floor(brushY * scaleFactor);
+        let selectedColor = imgMatrix[fillX][fillY];
+        let fillColor = [color.r, color.g, color.b, 255];
+        this.fill(imgMatrix, fillX, fillY, fillColor, selectedColor, canvas.width);
+        let newImgArr = [].concat.apply([], imgMatrix);
+        let newImgData = [].concat.apply([], newImgArr);
+        let imgToRender = new Uint8ClampedArray(newImgData);
+        imgData.data.set(imgToRender);
+        ctx.putImageData(imgData, 0, 0);
+    }
+
+    fill = (imgMatrix, x, y, desiredColor, selectedColor, width) => {
+        let stack = [ [x, y] ];
+        while (stack.length > 0) {
+            let coordinates = stack.pop();
+            let xPos = coordinates[0];
+            let yPos = coordinates[1];
+            let setPixel = (xPos >= 0 && xPos < width) && (yPos >= 0 && yPos < width);
+            let pixelToCheck;
+            let isTheSameColor = true;
+            if (setPixel) {
+                pixelToCheck = imgMatrix[xPos][yPos];
+            }
+            if (pixelToCheck) {
+                for (let i = 0; i < pixelToCheck.length; i++) {
+                    if (pixelToCheck[i] !== desiredColor[i]) isTheSameColor = false;
+                }
+            }
+            if (!isTheSameColor) {
+                imgMatrix[xPos][yPos] = desiredColor;
+                stack.push([ xPos + 1, yPos]);
+                stack.push([ xPos - 1, yPos]);
+                stack.push([ xPos, yPos + 1]);
+                stack.push([ xPos, yPos - 1]);
+            }
+        }
+    }
+
     render() {
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}
-                onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.state.scaleFactor)}
-                onTouchMove={(e) => this.brushMoveTouch(e, this.state.paint, this.props.selectedTool, this.props.brushColor, this.props.eraserColor, this.state.scaleFactor)}
-                onTouchCancel={(e) => this.brushLeaveTouch(e)} 
-                onMouseDown={(e) => this.brushStartMouse(e, this.props.selectedTool, this.state.scaleFactor)}
-                onMouseMove={(e) => this.brushMoveMouse(e, this.state.paint, this.props.selectedTool, this.props.brushColor, this.props.eraserColor, this.state.scaleFactor)}
+                onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.state.scaleFactor,
+                                                        this.props.brushColor, this.props.eraserColor)}
+                onTouchMove={(e) => this.brushMoveTouch(e, this.state.paint, this.props.selectedTool, 
+                                                        this.props.brushColor, this.props.eraserColor, 
+                                                        this.state.scaleFactor)}
+                onTouchEnd={(e) => this.brushLeaveTouch(e)} 
+                onMouseDown={(e) => this.brushStartMouse(e, this.props.selectedTool, this.state.scaleFactor, this.props.brushColor)}
+                onMouseMove={(e) => this.brushMoveMouse(e, this.state.paint, this.props.selectedTool, 
+                                                    this.props.brushColor, this.props.eraserColor, 
+                                                    this.state.scaleFactor)}
                 onMouseLeave={(e) => this.brushLeaveMouse(e)}
                 onMouseUp={(e) => this.brushLeaveMouse(e)}>
             </canvas>
