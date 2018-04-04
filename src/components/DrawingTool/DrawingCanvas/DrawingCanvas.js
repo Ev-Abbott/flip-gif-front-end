@@ -44,7 +44,8 @@ class DrawingCanvas extends Component {
             this.setState({ paint: true, x: brushX, y: brushY })
         }
         if (tool === 'BUCKET') {
-            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
+            // debugger;
+            // this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
         }
     }
 
@@ -81,6 +82,7 @@ class DrawingCanvas extends Component {
             this.setState({ paint: true, x: brushX, y: brushY })
         }
         if (tool === 'BUCKET') {
+            // debugger;
             this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
         }
     }
@@ -138,11 +140,13 @@ class DrawingCanvas extends Component {
             }
             imgMatrix[j].push(imgArray[i]);
         }
+        // debugger;
         let fillX = Math.floor(brushX * scaleFactor);
         let fillY = Math.floor(brushY * scaleFactor);
-        let selectedColor = imgMatrix[fillX][fillY];
+        let selectedColor = imgMatrix[fillY][fillX];
         let fillColor = [color.r, color.g, color.b, 255];
-        this.fill(imgMatrix, fillX, fillY, fillColor, selectedColor, canvas.width);
+        this.fill(imgMatrix, fillY, fillX, fillColor, selectedColor, canvas.width);
+        imgMatrix[fillY][fillX] = [244, 78, 59, 255];
         let newImgArr = this.flatten(imgMatrix);
         let newImgData = this.flatten(newImgArr);
         let imgToRender = new Uint8ClampedArray(newImgData);
