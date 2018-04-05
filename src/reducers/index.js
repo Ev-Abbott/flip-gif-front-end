@@ -7,8 +7,30 @@ import {
     BRUSH_POS_SET,
     CAN_PAINT_TOGGLE,
     SCALE_FACTOR_SET,
-    CURR_CANVAS_SAVE_IMG_DATA
+    CURR_CANVAS_SAVE_IMG_DATA,
+    CANVAS_SAVE,
+    CANVAS_UNDO
 } from '../actions/actionTypes';
+
+function canvasSave(state = {index: -1, imageHistory: []}, action) {
+    switch(action.type) {
+        case CANVAS_SAVE: {
+            return {
+                index: state.index + 1,
+                imageHistory: [...state.imageHistory.slice(0, state.index+1), action.imgURL]
+            }
+        }
+        case CANVAS_UNDO: {
+            return {
+                index: state.index - 1,
+                imageHistory: state.imageHistory
+            }
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 function canvasDataHistory(state = [], action) {
     switch (action.type) {
@@ -113,5 +135,6 @@ export default combineReducers({
     selectedTool,
     canPaint,
     scaleFactor,
-    canvasDataHistory
+    canvasDataHistory,
+    canvasSave
 });

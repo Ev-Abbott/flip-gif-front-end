@@ -6,8 +6,27 @@ import {
     BRUSH_POS_SET,
     CAN_PAINT_TOGGLE,
     SCALE_FACTOR_SET,
-    CURR_CANVAS_SAVE_IMG_DATA
+    CURR_CANVAS_SAVE_IMG_DATA,
+    CANVAS_SAVE,
+    CANVAS_UNDO
 } from '../actions/actionTypes';
+
+export function canvasSave(imgURL) {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_SAVE,
+            imgURL
+        })
+    }
+}
+
+export function canvasUndo() {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_UNDO
+        })
+    }
+}
 
 export function saveCurrCanvas(imgURL) {
     return (dispatch) => {
