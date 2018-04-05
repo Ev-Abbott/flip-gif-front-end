@@ -7,8 +7,6 @@ export const BRUSH_SIZE_SET = 'BRUSH_SIZE_SET';
 export const BRUSH_POS_SET = 'BRUSH_POS_SET';
 export const CAN_PAINT_TOGGLE = 'CAN_PAINT_TOGGLE';
 export const SCALE_FACTOR_SET = 'SCALE_FACTOR_SET';
-// Delete this
-export const CURR_CANVAS_SAVE_IMG_DATA = 'CURR_CANVAS_SAVE_IMG_DATA';
 
 export const CANVAS_SAVE = 'CANVAS_SAVE';
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setBrushPos, toggleCanPaint, setScaleFactor, saveCurrCanvas, canvasSave } from '../../../actions';
+import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave } from '../../../actions';
 
 let currIndex = -1
 
@@ -30,7 +30,7 @@ class DrawingCanvas extends Component {
         this.props.setScaleFactor(scaleFactor);
     }
 
-    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint, saveCurrCanvas, canvasSave) => {
+    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint, canvasSave) => {
         e.preventDefault();
         const canvas = this.myCanvas;
         let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
@@ -40,10 +40,10 @@ class DrawingCanvas extends Component {
             toggleCanPaint(true);
         }
         if (tool === 'BUCKET') {
-            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor, saveCurrCanvas, canvasSave)
+            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor, canvasSave)
         }
         if (tool === 'BOMB') {
-            this.clearScreen(canvas, eraserColor, saveCurrCanvas, canvasSave);
+            this.clearScreen(canvas, eraserColor, canvasSave);
         }
     }
 
@@ -66,25 +66,24 @@ class DrawingCanvas extends Component {
         }
     }
 
-    brushLeaveTouch = (e, setBrushPos, toggleCanPaint, canPaint, saveCurrCanvas, canvasSave) => {
+    brushLeaveTouch = (e, setBrushPos, toggleCanPaint, canPaint, canvasSave) => {
         setBrushPos(null);
         if (canPaint) {
             let canvas = this.myCanvas;
             let imgURL = canvas.toDataURL();
-            saveCurrCanvas(imgURL);
             canvasSave(imgURL);
             currIndex++
         }
         toggleCanPaint(false);
     }
 
-    clearScreen = (canvas, eraserColor, saveCurrCanvas, canvasSave) => {
+    clearScreen = (canvas, eraserColor, canvasSave) => {
         let ctx = canvas.getContext('2d');
         ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         let imgURL = canvas.toDataURL();
-        saveCurrCanvas(imgURL);
         canvasSave(imgURL);
+        currIndex++
     }
 
     drawToCanvas = (ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos) => {
@@ -100,7 +99,7 @@ class DrawingCanvas extends Component {
         setBrushPos({ x: brushX, y: brushY });
     }
 
-    fillWithBucket = (canvas, brushX, brushY, scaleFactor, color, saveCurrCanvas, canvasSave) => {
+    fillWithBucket = (canvas, brushX, brushY, scaleFactor, color, canvasSave) => {
         let ctx = canvas.getContext('2d');
         let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         let imgArray = [];
@@ -127,8 +126,8 @@ class DrawingCanvas extends Component {
         imgData.data.set(imgToRender);
         ctx.putImageData(imgData, 0, 0);
         let imgDataToSave = canvas.toDataURL();
-        saveCurrCanvas(imgDataToSave);
         canvasSave(imgDataToSave)
+        currIndex++
     }
 
     fill = (imgMatrix, y, x, desiredColor, selectedColor, width) => {
@@ -177,35 +176,45 @@ class DrawingCanvas extends Component {
     }
 
     render() {
+
         let canvas = this.myCanvas;
         if (canvas && this.props.canvasSaveData.index < currIndex) {
-          console.log('IMAGE REDRAW', this.props)
-          console.log(canvas.width);
+          
+          
           let ctx = canvas.getContext('2d');
-          let img = new Image();
-          img.onload = () => {
+          if(this.props.canvasSaveData.index > -1) {
+            let img = new Image();
+            img.onload = () => {
               ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
               ctx.clearRect(0, 0, canvas.width, canvas.height);
               ctx.drawImage(img, 0, 0);
               ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+            }
+            img.src = this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index];
+            currIndex = this.props.canvasSaveData.index
+          } else {
+            
+            ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+            currIndex = this.props.canvasSaveData.index
           }
-          img.src = this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index];
-          currIndex = this.props.canvasSaveData.index
         }
+        
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}
                 onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
                                                         this.props.brushColor, this.props.eraserColor, 
                                                         this.props.setBrushPos, this.props.toggleCanPaint,
-                                                        this.props.saveCurrCanvas, this.props.canvasSave)}
+                                                         this.props.canvasSave)}
                 onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
                                                         this.props.brushColor, this.props.eraserColor, 
                                                         this.props.scaleFactor, this.props.brushSize,
                                                         this.props.setBrushPos, this.props.brushPos)}
                 onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, 
                                                     this.props.toggleCanPaint, this.props.canPaint,
-                                                    this.props.saveCurrCanvas, this.props.canvasSave)} >
+                                                     this.props.canvasSave)} >
             </canvas>
         );
     }
@@ -226,7 +235,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setBrushPos,
     toggleCanPaint,
     setScaleFactor,
-    saveCurrCanvas,
     canvasSave
 }, dispatch)
 
