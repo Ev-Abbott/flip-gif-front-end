@@ -20,6 +20,9 @@ function canvasSave(state = {index: -1, imageHistory: []}, action) {
             }
         }
         case CANVAS_UNDO: {
+            if ((state.index - 1 ) < -1) {
+                return state;
+            }
             return {
                 index: state.index - 1,
                 imageHistory: state.imageHistory
