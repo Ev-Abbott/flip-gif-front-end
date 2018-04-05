@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setBrushPos, toggleCanPaint, setScaleFactor } from '../../../actions';
+import { setBrushPos, toggleCanPaint, setScaleFactor, saveCurrCanvas } from '../../../actions';
 
 class DrawingCanvas extends Component {
 
@@ -28,7 +28,11 @@ class DrawingCanvas extends Component {
         this.props.setScaleFactor(scaleFactor);
     }
 
-    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint) => {
+    componentWillReceiveProps() {
+        
+    }
+
+    brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint, saveCurrCanvas) => {
         e.preventDefault();
         const canvas = this.myCanvas;
         let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
@@ -38,10 +42,10 @@ class DrawingCanvas extends Component {
             toggleCanPaint(true);
         }
         if (tool === 'BUCKET') {
-            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor)
+            this.fillWithBucket(canvas, brushX, brushY, scaleFactor, brushColor, saveCurrCanvas)
         }
         if (tool === 'BOMB') {
-            this.clearScreen(canvas, eraserColor);
+            this.clearScreen(canvas, eraserColor, saveCurrCanvas);
         }
     }
 
@@ -64,15 +68,22 @@ class DrawingCanvas extends Component {
         }
     }
 
-    brushLeaveTouch = (e, setBrushPos, toggleCanPaint) => {
+    brushLeaveTouch = (e, setBrushPos, toggleCanPaint, canPaint, saveCurrCanvas) => {
         setBrushPos(null);
+        if (canPaint) {
+            let canvas = this.myCanvas;
+            let imgURL = canvas.toDataURL();
+            saveCurrCanvas(imgURL);
+        }
         toggleCanPaint(false);
     }
 
-    clearScreen = (canvas, eraserColor) => {
+    clearScreen = (canvas, eraserColor, saveCurrCanvas) => {
         let ctx = canvas.getContext('2d');
         ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+        let imgURL = canvas.toDataURL();
+        saveCurrCanvas(imgURL);
     }
 
     drawToCanvas = (ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos) => {
@@ -88,7 +99,7 @@ class DrawingCanvas extends Component {
         setBrushPos({ x: brushX, y: brushY });
     }
 
-    fillWithBucket = (canvas, brushX, brushY, scaleFactor, color) => {
+    fillWithBucket = (canvas, brushX, brushY, scaleFactor, color, saveCurrCanvas) => {
         let ctx = canvas.getContext('2d');
         let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         let imgArray = [];
@@ -114,6 +125,8 @@ class DrawingCanvas extends Component {
         let imgToRender = new Uint8ClampedArray(newImgData);
         imgData.data.set(imgToRender);
         ctx.putImageData(imgData, 0, 0);
+        let imgDataToSave = canvas.toDataURL();
+        saveCurrCanvas(imgDataToSave);
     }
 
     fill = (imgMatrix, y, x, desiredColor, selectedColor, width) => {
@@ -167,12 +180,15 @@ class DrawingCanvas extends Component {
                 ref={(c => this.myCanvas = c)}
                 onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
                                                         this.props.brushColor, this.props.eraserColor, 
-                                                        this.props.setBrushPos, this.props.toggleCanPaint)}
+                                                        this.props.setBrushPos, this.props.toggleCanPaint,
+                                                        this.props.saveCurrCanvas)}
                 onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
                                                         this.props.brushColor, this.props.eraserColor, 
                                                         this.props.scaleFactor, this.props.brushSize,
                                                         this.props.setBrushPos, this.props.brushPos)}
-                onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, this.props.toggleCanPaint)} >
+                onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, 
+                                                    this.props.toggleCanPaint, this.props.canPaint,
+                                                    this.props.saveCurrCanvas)} >
             </canvas>
         );
     }
@@ -191,7 +207,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setBrushPos,
     toggleCanPaint,
-    setScaleFactor
+    setScaleFactor,
+    saveCurrCanvas
 }, dispatch)
 
 export default connect(

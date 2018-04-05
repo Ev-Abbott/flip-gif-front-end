@@ -1,16 +1,33 @@
 import { combineReducers } from 'redux';
 import {
-    BRUSH_COLOR_SET, 
+    BRUSH_COLOR_SET,
     ERASER_COLOR_SET,
     SELECTED_TOOL_SET,
     BRUSH_SIZE_SET,
     BRUSH_POS_SET,
     CAN_PAINT_TOGGLE,
-    SCALE_FACTOR_SET
+    SCALE_FACTOR_SET,
+    CURR_CANVAS_SAVE_IMG_DATA
 } from '../actions/actionTypes';
 
+function canvasDataHistory(state = [], action) {
+    switch (action.type) {
+        case CURR_CANVAS_SAVE_IMG_DATA: {
+            let newState = [...state];
+            if (newState.length > 100) {
+                newState.shift();
+            }
+            newState.push(action.imgURL);
+            return newState;
+        }
+        default: {
+            return state;
+        }
+    }
+}
+
 function scaleFactor(state = 0, action) {
-    switch(action.type) {
+    switch (action.type) {
         case SCALE_FACTOR_SET: {
             return action.scaleFactor;
         }
@@ -21,7 +38,7 @@ function scaleFactor(state = 0, action) {
 }
 
 function canPaint(state = false, action) {
-    switch(action.type) {
+    switch (action.type) {
         case CAN_PAINT_TOGGLE: {
             return action.canPaintStatus;
         }
@@ -31,8 +48,8 @@ function canPaint(state = false, action) {
     }
 }
 
-function brushColor(state = { r: 0, g: 0, b: 0}, action) {
-    switch(action.type) {
+function brushColor(state = { r: 0, g: 0, b: 0 }, action) {
+    switch (action.type) {
         case BRUSH_COLOR_SET: {
             return action.brushColor;
         }
@@ -43,7 +60,7 @@ function brushColor(state = { r: 0, g: 0, b: 0}, action) {
 }
 
 function brushSize(state = 1, action) {
-    switch(action.type) {
+    switch (action.type) {
         case BRUSH_SIZE_SET: {
             return action.brushSize;
         }
@@ -54,7 +71,7 @@ function brushSize(state = 1, action) {
 }
 
 function brushPos(state = null, action) {
-    switch(action.type) {
+    switch (action.type) {
         case BRUSH_POS_SET: {
             return action.brushPos;
         }
@@ -65,8 +82,8 @@ function brushPos(state = null, action) {
 }
 
 
-function eraserColor(state = { r: 255, g: 255, b: 255}, action) {
-    switch(action.type) {
+function eraserColor(state = { r: 255, g: 255, b: 255 }, action) {
+    switch (action.type) {
         case ERASER_COLOR_SET: {
             return action.eraserColor;
         }
@@ -77,7 +94,7 @@ function eraserColor(state = { r: 255, g: 255, b: 255}, action) {
 }
 
 function selectedTool(state = null, action) {
-    switch(action.type) {
+    switch (action.type) {
         case SELECTED_TOOL_SET: {
             if (state === action.toolName) return null;
             return action.toolName;
@@ -86,7 +103,7 @@ function selectedTool(state = null, action) {
             return state;
         }
     }
-} 
+}
 
 export default combineReducers({
     brushColor,
@@ -95,5 +112,6 @@ export default combineReducers({
     eraserColor,
     selectedTool,
     canPaint,
-    scaleFactor
+    scaleFactor,
+    canvasDataHistory
 });

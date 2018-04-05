@@ -5,8 +5,18 @@ import {
     SELECTED_TOOL_SET,
     BRUSH_POS_SET,
     CAN_PAINT_TOGGLE,
-    SCALE_FACTOR_SET
+    SCALE_FACTOR_SET,
+    CURR_CANVAS_SAVE_IMG_DATA
 } from '../actions/actionTypes';
+
+export function saveCurrCanvas(imgURL) {
+    return (dispatch) => {
+        dispatch({
+            type: CURR_CANVAS_SAVE_IMG_DATA,
+            imgURL
+        })
+    }
+}
 
 export function setScaleFactor(scaleFactor) {
     return (dispatch) => {

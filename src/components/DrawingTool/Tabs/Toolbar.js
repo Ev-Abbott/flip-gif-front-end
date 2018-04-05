@@ -19,10 +19,6 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
         }
     }
 
-    const saveCanvas = () => {
-        console.log(this.myCanvas)
-    }
-
     return (
         <div className='flex-container flex-row justify-content-space-around'>
             <div className='flex-container flex-column align-items-center'>
@@ -52,15 +48,6 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
                     <Label attached='top'>Tools</Label>
                     <ToolSelector />
                     <div className='flex-container flex-row'>
-                        <div 
-                            onTouchStart={(e) => saveCanvas()}
-                            className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                            <i className="fas fa-save fa-2x"></i>
-                        </div>
-                        <div 
-                            className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                            <i className="fas fa-download fa-2x"></i>
-                        </div>
                     </div>
                 </Segment>
             </div>
