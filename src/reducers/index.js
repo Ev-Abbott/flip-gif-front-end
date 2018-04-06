@@ -8,7 +8,8 @@ import {
     CAN_PAINT_TOGGLE,
     SCALE_FACTOR_SET,
     CANVAS_SAVE,
-    CANVAS_UNDO
+    CANVAS_UNDO,
+    CANVAS_REDO
 } from '../actions/actionTypes';
 
 function canvasSave(state = {index: -1, imageHistory: []}, action) {
@@ -25,6 +26,15 @@ function canvasSave(state = {index: -1, imageHistory: []}, action) {
             }
             return {
                 index: state.index - 1,
+                imageHistory: state.imageHistory
+            }
+        }
+        case CANVAS_REDO: {
+            if (state.index === state.imageHistory.length) {
+                return state;
+            }
+            return {
+                index: state.index + 1,
                 imageHistory: state.imageHistory
             }
         }

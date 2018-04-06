@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setSelectedTool, canvasUndo } from '../../../actions/index';
+import { setSelectedTool, canvasUndo, canvasRedo } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 
-const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo }) => {
+const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo }) => {
     const determineToolToToggle = (e, setSelectedTool, tool) => {
-        console.log('Toggling');
         setSelectedTool(tool);
     }
     return (
@@ -42,7 +41,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo }) => {
                     }>
                     <i className="fas fa-bomb fa-2x"></i>
                 </div>
-                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                <div onTouchStart={canvasRedo}
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-redo fa-2x"></i>
                 </div>
             </div>
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setSelectedTool, canvasUndo
+    setSelectedTool, canvasUndo, canvasRedo
 }, dispatch)
 
 export default connect(

@@ -11,4 +11,5 @@ export const SCALE_FACTOR_SET = 'SCALE_FACTOR_SET';
 export const CANVAS_SAVE = 'CANVAS_SAVE';
 
 export const CANVAS_UNDO = 'CANVAS_UNDO';
+export const CANVAS_REDO = 'CANVAS_REDO';
 

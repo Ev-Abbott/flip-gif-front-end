@@ -178,8 +178,8 @@ class DrawingCanvas extends Component {
     render() {
 
         let canvas = this.myCanvas;
-        if (canvas && this.props.canvasSaveData.index < currIndex) {
-          
+        console.log(this.props.canvasSaveData.index, currIndex);
+        if (canvas && this.props.canvasSaveData.index !== currIndex) {
           
           let ctx = canvas.getContext('2d');
           if(this.props.canvasSaveData.index > -1) {
@@ -200,7 +200,7 @@ class DrawingCanvas extends Component {
             currIndex = this.props.canvasSaveData.index
           }
         }
-        
+        console.log(this.props.canvasSaveData.index, currIndex);
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}

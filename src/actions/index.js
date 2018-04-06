@@ -7,7 +7,8 @@ import {
     CAN_PAINT_TOGGLE,
     SCALE_FACTOR_SET,
     CANVAS_SAVE,
-    CANVAS_UNDO
+    CANVAS_UNDO,
+    CANVAS_REDO
 } from '../actions/actionTypes';
 
 export function canvasSave(imgURL) {
@@ -23,6 +24,14 @@ export function canvasUndo() {
     return (dispatch) => {
         dispatch({
             type: CANVAS_UNDO
+        })
+    }
+}
+
+export function canvasRedo() {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_REDO
         })
     }
 }
