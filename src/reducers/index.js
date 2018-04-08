@@ -12,19 +12,39 @@ import {
     CANVAS_REDO
 } from '../actions/actionTypes';
 
-function canvasSave(state = {index: -1, imageHistory: []}, action) {
+function flipbook(state = '', action) {
+    switch(action.type) {
+        default: {
+            return state;
+        }
+    }
+}
+
+function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
     switch(action.type) {
         case CANVAS_SAVE: {
-            return {
-                index: state.index + 1,
-                imageHistory: [...state.imageHistory.slice(0, state.index+1), action.imgURL]
+            if (state.imageHistory.length < 100) {
+                return {
+                    frame: state.frame,
+                    index: state.index + 1,
+                    imageHistory: [...state.imageHistory.slice(0, state.index+1), action.imgURL]
+                }
+            } else {
+                // Test this function
+                return {
+                    frame: state.frame,
+                    index: 99,
+                    imageHistory: [...state.imageHistory.slice(1, state.index), action.imgURL]
+                }
             }
+            
         }
         case CANVAS_UNDO: {
             if ((state.index - 1 ) < -1) {
                 return state;
             }
             return {
+                frame: state.frame,
                 index: state.index - 1,
                 imageHistory: state.imageHistory
             }
@@ -34,6 +54,7 @@ function canvasSave(state = {index: -1, imageHistory: []}, action) {
                 return state;
             }
             return {
+                frame: state.frame,
                 index: state.index + 1,
                 imageHistory: state.imageHistory
             }

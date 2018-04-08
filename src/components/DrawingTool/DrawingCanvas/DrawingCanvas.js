@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave } from '../../../actions';
+import LightBox from './LightBox';
 
 let currIndex = -1
 
@@ -178,7 +179,7 @@ class DrawingCanvas extends Component {
     render() {
 
         let canvas = this.myCanvas;
-        console.log(this.props.canvasSaveData.index, currIndex);
+        
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
           
           let ctx = canvas.getContext('2d');
@@ -200,22 +201,26 @@ class DrawingCanvas extends Component {
             currIndex = this.props.canvasSaveData.index
           }
         }
-        console.log(this.props.canvasSaveData.index, currIndex);
+        console.log(this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index]);
         return (
-            <canvas id='DrawingTool-canvas' 
-                ref={(c => this.myCanvas = c)}
-                onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
-                                                        this.props.brushColor, this.props.eraserColor, 
-                                                        this.props.setBrushPos, this.props.toggleCanPaint,
-                                                         this.props.canvasSave)}
-                onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
-                                                        this.props.brushColor, this.props.eraserColor, 
-                                                        this.props.scaleFactor, this.props.brushSize,
-                                                        this.props.setBrushPos, this.props.brushPos)}
-                onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, 
-                                                    this.props.toggleCanPaint, this.props.canPaint,
-                                                     this.props.canvasSave)} >
-            </canvas>
+            <div style={{position: "relative"}}>
+                <canvas id='DrawingTool-canvas' 
+                    ref={(c => this.myCanvas = c)}
+                    onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
+                                                            this.props.brushColor, this.props.eraserColor, 
+                                                            this.props.setBrushPos, this.props.toggleCanPaint,
+                                                            this.props.canvasSave)}
+                    onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
+                                                            this.props.brushColor, this.props.eraserColor, 
+                                                            this.props.scaleFactor, this.props.brushSize,
+                                                            this.props.setBrushPos, this.props.brushPos)}
+                    onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, 
+                                                        this.props.toggleCanPaint, this.props.canPaint,
+                                                        this.props.canvasSave)} >
+                </canvas>
+                <LightBox />
+            </div>
+            
         );
     }
 }

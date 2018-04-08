@@ -1,4 +1,19 @@
 #DrawingTool-canvas {
+    z-index: 4;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin: 20px;
+    touch-action: none;
+}
+
+#DrawingTool-lightbox {
+    z-index: 3;
+    position: absolute;
+    left: 0;
+    top: 0;
     border: 1px solid black;
     border-radius: 5px;
     margin: 20px;
