@@ -9,8 +9,8 @@ class Lightbox extends Component {
         // Set canvas context
         const canvas = this.myLightBox;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 320;
-        const maxWidth = 640;
+        const modelWidth = 300;
+        const maxWidth = 600;
         const marginPixels = 42;
         let canvasWidth = (window.innerWidth-marginPixels);
         
@@ -29,10 +29,9 @@ class Lightbox extends Component {
                 frames.forEach(frame => {
                     let img = new Image;
                     img.onload= () => {
-                        ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
                         ctx.drawImage(img, 0, 0);
-                        ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+                        ctx.scale(scaleFactor, scaleFactor);
+                        ctx.scale(1/scaleFactor, 1/scaleFactor);
                     }
                     img.src = frame.imgURL;
                 });
@@ -41,10 +40,15 @@ class Lightbox extends Component {
     }
 
     render() {
+        
         return (
-            <canvas id='DrawingTool-lightbox'
-                ref={(c => this.myLightBox = c)}>
-            </canvas>
+            <div>
+                <img src='http://localhost:8000/gifs/My%20Test%20Flipbook' />
+                <canvas id='DrawingTool-lightbox'
+                    ref={(c => this.myLightBox = c)}>
+                </canvas>
+            </div>
+            
         );
     }
 }

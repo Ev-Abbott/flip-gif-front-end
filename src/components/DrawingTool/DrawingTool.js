@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tab } from 'semantic-ui-react';
+import LightBox from './DrawingCanvas/LightBox';
 import DrawingCanvas from './DrawingCanvas/DrawingCanvas'
 import Toolbar from './Tabs/Toolbar';
 import AnimationTab from './Tabs/Animation';
@@ -19,6 +20,7 @@ class DrawingTool extends Component {
         return (
             <div style={this.props.bodyMargin}>
                 <DrawingCanvas />
+                {/* <LightBox /> */}
                 <div className='DrawingTool-tabsContainer'>
                     <Tab panes={this.state.panes} />
                 </div>

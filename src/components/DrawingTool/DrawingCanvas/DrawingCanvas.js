@@ -12,8 +12,8 @@ class DrawingCanvas extends Component {
         // Set canvas context
         const canvas = this.myCanvas;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 320;
-        const maxWidth = 640;
+        const modelWidth = 300;
+        const maxWidth = 600;
         const marginPixels = 42;
         let canvasWidth = (window.innerWidth-marginPixels);
         
@@ -21,10 +21,6 @@ class DrawingCanvas extends Component {
         if (canvasWidth > maxWidth) canvasWidth = maxWidth; 
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
-
-        // Fill canvas with selected eraser color
-        ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         let scaleFactor = canvasWidth/modelWidth;
         ctx.scale(scaleFactor, scaleFactor);
@@ -71,7 +67,13 @@ class DrawingCanvas extends Component {
         setBrushPos(null);
         if (canPaint) {
             let canvas = this.myCanvas;
-            let imgURL = canvas.toDataURL();
+            let ctx = canvas.getContext('2d');
+            let dummyCanvas = document.createElement('canvas');
+            let dummyContext = dummyCanvas.getContext('2d');
+            dummyCanvas.width = 300;
+            dummyCanvas.height = 300;
+            dummyContext.drawImage(this.myCanvas, 0, 0, 300, 300);
+            let imgURL = dummyCanvas.toDataURL();
             canvasSave(imgURL);
             currIndex++
         }
@@ -80,9 +82,13 @@ class DrawingCanvas extends Component {
 
     clearScreen = (canvas, eraserColor, canvasSave) => {
         let ctx = canvas.getContext('2d');
-        ctx.fillStyle = `rgb(${this.props.eraserColor.r}, ${this.props.eraserColor.g}, ${this.props.eraserColor.b})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        let imgURL = canvas.toDataURL();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let dummyCanvas = document.createElement('canvas');
+        let dummyContext = dummyCanvas.getContext('2d');
+        dummyCanvas.width = 300;
+        dummyCanvas.height = 300;
+        dummyContext.drawImage(this.myCanvas, 0, 0, 300, 300);
+        let imgURL = dummyCanvas.toDataURL();
         canvasSave(imgURL);
         currIndex++
     }
@@ -126,7 +132,12 @@ class DrawingCanvas extends Component {
         let imgToRender = new Uint8ClampedArray(newImgData);
         imgData.data.set(imgToRender);
         ctx.putImageData(imgData, 0, 0);
-        let imgDataToSave = canvas.toDataURL();
+        let dummyCanvas = document.createElement('canvas');
+        let dummyContext = dummyCanvas.getContext('2d');
+        dummyCanvas.width = 300;
+        dummyCanvas.height = 300;
+        dummyContext.drawImage(this.myCanvas, 0, 0, 300, 300);
+        let imgDataToSave = dummyCanvas.toDataURL();
         canvasSave(imgDataToSave)
         currIndex++
     }
@@ -179,9 +190,7 @@ class DrawingCanvas extends Component {
     render() {
 
         let canvas = this.myCanvas;
-        
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
-          
           let ctx = canvas.getContext('2d');
           if(this.props.canvasSaveData.index > -1) {
             let img = new Image();
@@ -201,25 +210,22 @@ class DrawingCanvas extends Component {
             currIndex = this.props.canvasSaveData.index
           }
         }
-        console.log(this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index]);
+        console.log(this.props.canvasSaveData.imageHistory[0]);
         return (
-            <div style={{position: "relative"}}>
-                <canvas id='DrawingTool-canvas' 
-                    ref={(c => this.myCanvas = c)}
-                    onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
-                                                            this.props.brushColor, this.props.eraserColor, 
-                                                            this.props.setBrushPos, this.props.toggleCanPaint,
-                                                            this.props.canvasSave)}
-                    onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
-                                                            this.props.brushColor, this.props.eraserColor, 
-                                                            this.props.scaleFactor, this.props.brushSize,
-                                                            this.props.setBrushPos, this.props.brushPos)}
-                    onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, 
-                                                        this.props.toggleCanPaint, this.props.canPaint,
-                                                        this.props.canvasSave)} >
-                </canvas>
-                <LightBox />
-            </div>
+            <canvas id='DrawingTool-canvas' 
+                ref={(c => this.myCanvas = c)}
+                onTouchStart={(e) => this.brushStartTouch(e, this.props.selectedTool, this.props.scaleFactor,
+                                                        this.props.brushColor, this.props.eraserColor, 
+                                                        this.props.setBrushPos, this.props.toggleCanPaint,
+                                                        this.props.canvasSave)}
+                onTouchMove={(e) => this.brushMoveTouch(e, this.props.canPaint, this.props.selectedTool, 
+                                                        this.props.brushColor, this.props.eraserColor, 
+                                                        this.props.scaleFactor, this.props.brushSize,
+                                                        this.props.setBrushPos, this.props.brushPos)}
+                onTouchEnd={(e) => this.brushLeaveTouch(e, this.props.setBrushPos, 
+                                                    this.props.toggleCanPaint, this.props.canPaint,
+                                                    this.props.canvasSave)} >
+            </canvas>            
             
         );
     }
