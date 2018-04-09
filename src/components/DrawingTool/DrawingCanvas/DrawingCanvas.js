@@ -62,7 +62,7 @@ class DrawingCanvas extends Component {
                 this.drawToCanvas(ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos);
             }
             if (tool === 'ERASER') {
-                color = eraserColor;
+                color = {r: 0, g: 0, b: 0, a: 1.0};
                 this.drawToCanvas(ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos);
             }
         }
@@ -99,7 +99,13 @@ class DrawingCanvas extends Component {
     }
 
     drawToCanvas = (ctx, brushX, brushY, color, brushSize, setBrushPos, brushPos) => {
-        ctx.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+        if (color.a === 1.0) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+        } else {
+            ctx.strokeStyle = `rgb(${color.r}, ${color.g}, ${color.b})`;
+        }
+        
         ctx.lineCap ='round';
         ctx.lineJoin = 'round';
         ctx.lineWidth = brushSize;
@@ -108,6 +114,7 @@ class DrawingCanvas extends Component {
         ctx.lineTo(brushX, brushY);
         ctx.stroke();
         ctx.closePath();
+        ctx.globalCompositeOperation = 'source-over';
         setBrushPos({ x: brushX, y: brushY });
     }
 
@@ -195,7 +202,6 @@ class DrawingCanvas extends Component {
     render() {
         
         let canvas = this.myCanvas;
-        console.log('Test');
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
           let ctx = canvas.getContext('2d');
           if(this.props.canvasSaveData.index > -1) {

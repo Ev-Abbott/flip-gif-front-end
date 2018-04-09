@@ -29,7 +29,6 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
                     <div className='flex-container flex-column'>
                         <div>
                             <BrushColorPicker /> 
-                            <EraserColorPicker />
                         </div>
                         <div>
                             <Input error={brushSize === ''} placeholder={1} type='number'>
