@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Input } from 'semantic-ui-react';
 import { setSelectedTool, canvasUndo, canvasRedo } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 
@@ -46,7 +47,20 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo })
                     <i className="fas fa-redo fa-2x"></i>
                 </div>
             </div>
-            
+            <div className='flex-container flex-row justify-content-space-between'>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="far fa-lightbulb fa-2x"></i>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <Input placeholder={1} type='number'>
+                        <input
+                            style={{width: "50px"}} />
+                    </Input>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i class="fas fa-save fa-2x"></i>
+                </div>
+            </div>
         </div>
     );
 }

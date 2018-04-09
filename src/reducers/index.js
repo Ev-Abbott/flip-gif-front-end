@@ -98,7 +98,7 @@ function brushColor(state = { r: 0, g: 0, b: 0 }, action) {
     }
 }
 
-function brushSize(state = 1, action) {
+function brushSize(state = 4, action) {
     switch (action.type) {
         case BRUSH_SIZE_SET: {
             return action.brushSize;

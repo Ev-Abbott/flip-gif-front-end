@@ -32,8 +32,8 @@ class DrawingCanvas extends Component {
         const canvas = this.myCanvas;
 
         let rect = this.myCanvas.getBoundingClientRect();
-        let brushX = (e.touches[0].pageX - rect.left) / scaleFactor;
-        let brushY = (e.touches[0].pageY - rect.top) / scaleFactor;
+        let brushX = (e.touches[0].clientX - rect.left) / scaleFactor;
+        let brushY = (e.touches[0].clientY - rect.top) / scaleFactor;
 
         if (tool === 'BRUSH' || tool === 'ERASER') {
             setBrushPos({ x: brushX, y: brushY });
@@ -54,8 +54,8 @@ class DrawingCanvas extends Component {
             const ctx = canvas.getContext('2d');
             
             let rect = this.myCanvas.getBoundingClientRect();
-            let brushX = (e.touches[0].pageX - rect.left) / scaleFactor;
-            let brushY = (e.touches[0].pageY - rect.top) / scaleFactor;
+            let brushX = (e.touches[0].clientX - rect.left) / scaleFactor;
+            let brushY = (e.touches[0].clientY - rect.top) / scaleFactor;
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
@@ -75,9 +75,9 @@ class DrawingCanvas extends Component {
             let ctx = canvas.getContext('2d');
             let dummyCanvas = document.createElement('canvas');
             let dummyContext = dummyCanvas.getContext('2d');
-            dummyCanvas.width = 300;
-            dummyCanvas.height = 300;
-            dummyContext.drawImage(this.myCanvas, 0, 0, 300, 300);
+            dummyCanvas.width = 600;
+            dummyCanvas.height = 600;
+            dummyContext.drawImage(this.myCanvas, 0, 0, 600, 600);
             let imgURL = dummyCanvas.toDataURL();
             canvasSave(imgURL);
             currIndex++
@@ -90,9 +90,9 @@ class DrawingCanvas extends Component {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         let dummyCanvas = document.createElement('canvas');
         let dummyContext = dummyCanvas.getContext('2d');
-        dummyCanvas.width = 300;
-        dummyCanvas.height = 300;
-        dummyContext.drawImage(this.myCanvas, 0, 0, 300, 300);
+        dummyCanvas.width = 600;
+        dummyCanvas.height = 600;
+        dummyContext.drawImage(this.myCanvas, 0, 0, 600, 600);
         let imgURL = dummyCanvas.toDataURL();
         canvasSave(imgURL);
         currIndex++
@@ -146,9 +146,9 @@ class DrawingCanvas extends Component {
         ctx.putImageData(imgData, 0, 0);
         let dummyCanvas = document.createElement('canvas');
         let dummyContext = dummyCanvas.getContext('2d');
-        dummyCanvas.width = 300;
-        dummyCanvas.height = 300;
-        dummyContext.drawImage(this.myCanvas, 0, 0, 300, 300);
+        dummyCanvas.width = 600;
+        dummyCanvas.height = 600;
+        dummyContext.drawImage(this.myCanvas, 0, 0, 600, 600);
         let imgDataToSave = dummyCanvas.toDataURL();
         canvasSave(imgDataToSave)
         currIndex++
@@ -200,7 +200,6 @@ class DrawingCanvas extends Component {
     }
 
     render() {
-        
         let canvas = this.myCanvas;
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
           let ctx = canvas.getContext('2d');
@@ -209,13 +208,12 @@ class DrawingCanvas extends Component {
             img.onload = () => {
               ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
               ctx.clearRect(0, 0, canvas.width, canvas.height);
-              ctx.drawImage(img, 0, 0);
+              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
               ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
             }
             img.src = this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index];
             currIndex = this.props.canvasSaveData.index
           } else {
-            
             ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
