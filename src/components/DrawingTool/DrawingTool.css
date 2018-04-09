@@ -1,8 +1,8 @@
 #DrawingTool-canvas {
-    z-index: 4;
+    z-index: 99;
     position: absolute;
-    left: 0;
-    top: 0;
+    top: 0px;
+    left: 0px;
     border: 1px solid black;
     border-radius: 5px;
     margin: 20px;
@@ -12,19 +12,19 @@
 #DrawingTool-lightbox {
     z-index: 3;
     position: absolute;
-    left: 0;
-    top: 0;
+    top: 0px;
+    left: 0px;
     border: 1px solid black;
     border-radius: 5px;
     margin: 20px;
     touch-action: none;
 }
 
+.DrawingTool-tabsContainer {
+    margin: 20px 20px 20px 20px;
+}
+
 .DrawingTool-drawingContainer {
-    display: flex;
-    /* align-items: center;
-    justify-content: center; */
-    flex-direction: column;
     position: relative; 
 }
 
@@ -32,13 +32,8 @@
     margin-bottom: 5px;
 }
 
-
 .DrawingTool-numberInput {
     width: 60px;
-}
-
-.DrawingTool-tabsContainer {
-    margin: 0px 20px 0px 20px;
 }
 
 .DrawingTool-iconContainer {

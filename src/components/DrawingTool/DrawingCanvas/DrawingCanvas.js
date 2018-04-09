@@ -31,8 +31,6 @@ class DrawingCanvas extends Component {
         e.preventDefault();
         const canvas = this.myCanvas;
 
-        // let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
-        // let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
         let rect = this.myCanvas.getBoundingClientRect();
         let brushX = (e.touches[0].pageX - rect.left) / scaleFactor;
         let brushY = (e.touches[0].pageY - rect.top) / scaleFactor;
@@ -54,8 +52,7 @@ class DrawingCanvas extends Component {
         if (paintState) {
             const canvas = this.myCanvas;
             const ctx = canvas.getContext('2d');
-            // let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
-            // let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
+            
             let rect = this.myCanvas.getBoundingClientRect();
             let brushX = (e.touches[0].pageX - rect.left) / scaleFactor;
             let brushY = (e.touches[0].pageY - rect.top) / scaleFactor;
@@ -196,8 +193,9 @@ class DrawingCanvas extends Component {
     }
 
     render() {
-
+        
         let canvas = this.myCanvas;
+        console.log('Test');
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
           let ctx = canvas.getContext('2d');
           if(this.props.canvasSaveData.index > -1) {

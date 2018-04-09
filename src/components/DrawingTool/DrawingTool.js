@@ -16,17 +16,24 @@ class DrawingTool extends Component {
         ]
     }
 
+    calculateSize = () => {
+        const maxWidth = 642;
+        let canvasWidth = window.innerWidth;
+        if (canvasWidth > maxWidth) canvasWidth = maxWidth; 
+        return canvasWidth;
+    }
+
     render() {
         return (
-            <div style={this.props.bodyMargin}>
-                <div className='DrawingTool-drawingContainer'>
-                    <DrawingCanvas />
-                    <LightBox />
-                </div>
-                {/* <div className='DrawingTool-tabsContainer'>
+            <div style={{ position: 'relative', top: '3em'}}>
+                
+                <DrawingCanvas />
+                <LightBox />
+                <div style={{ position: 'relative', top: this.calculateSize(), margin: '0px 20px 0px 20px' }}>
                     <Tab panes={this.state.panes} />
-                </div> */}
+                </div>
             </div>
+            
         );
     }
 }
