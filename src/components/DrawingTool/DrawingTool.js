@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Tab } from 'semantic-ui-react';
 import LightBox from './DrawingCanvas/LightBox';
 import DrawingCanvas from './DrawingCanvas/DrawingCanvas'
 import Toolbar from './Toolbar';

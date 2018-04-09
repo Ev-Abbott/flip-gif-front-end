@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { setBrushSize } from '../../actions';
 import { Input, Label, Segment } from 'semantic-ui-react';
 import BrushColorPicker from './ColorPickers/BrushColorPicker';
-import EraserColorPicker from './ColorPickers/EraserColorPicker';
 import ToolSelector from './ToolSelector/ToolSelector';
 
 const Toolbar = ({ brushSize, setBrushSize }) => {

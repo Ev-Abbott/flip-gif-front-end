@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Sidebar, Segment, Icon, Button, Header, Container, Dropdown, Image, Menu } from 'semantic-ui-react';
+import { Sidebar, Menu } from 'semantic-ui-react';
 
 import HeaderBar from './components/HeaderBar/HeaderBar';
 import FooterBar from './components/FooterBar/FooterBar';
@@ -24,6 +24,8 @@ class App extends Component {
 
   render() {
     const bodyMargin = { marginTop: '3em' };
+    const token = localStorage.getItem('token');
+    
     return (
       <Router>
         <div>
@@ -38,7 +40,8 @@ class App extends Component {
               vertical
               inverted
             >
-              {localStorage.getItem('token') ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
+
+              { token ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
             </Sidebar>
             <Sidebar.Pusher>
               <div style={{minHeight: '125vh'}}>

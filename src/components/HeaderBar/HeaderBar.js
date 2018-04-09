@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Sidebar, Segment, Icon, Button, Header, Container, Dropdown, Image, Menu } from 'semantic-ui-react';
-import { withRouter, Link } from 'react-router-dom';
+import { Container, Menu } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class HeaderBar extends Component {
   render() {

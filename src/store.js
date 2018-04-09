@@ -3,7 +3,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers';
 import { createLogger } from 'redux-logger';
-import { CANVAS_SAVE, CANVAS_UNDO, CANVAS_REDO } from './actions/actionTypes';
+// import { CANVAS_SAVE, CANVAS_UNDO, CANVAS_REDO } from './actions/actionTypes';
 
 const logger = createLogger({
     predicate: (getState, action) => (
