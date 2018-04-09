@@ -21,6 +21,15 @@ class Lightbox extends Component {
         
         let scaleFactor = canvasWidth/modelWidth;
         ctx.scale(scaleFactor, scaleFactor);
+        
+
+    }
+
+    loadLightBox = (name, index, frames) => {
+        const canvas = this.myLightBox;
+        const ctx = canvas.getContext('2d');
+        const modelWidth = 370;
+        let scaleFactor = canvas.width/modelWidth;
         axios.get(`${BaseUrl}/flipbooks/My%20Test%20Flipbook/frames/2?lightBox=3`)
             .then(res => {
                 let frames = res.data.data;
@@ -34,7 +43,14 @@ class Lightbox extends Component {
                     img.src = frame.imgURL;
                 });
             })
-
+    }
+    
+    clearLightBox = () => {
+        const canvas = this.myLightBox;
+        const ctx = canvas.getContext('2d');
+        const modelWidth = 370;
+        let scaleFactor = canvas.width/modelWidth;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
     render() {
