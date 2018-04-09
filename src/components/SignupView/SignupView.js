@@ -16,6 +16,11 @@ class SignupForm extends Component {
         error: ''
     }
 
+    componentDidMount () {
+        let token = localStorage.getItem('token');
+        if (token) this.props.history.push('/');
+    }
+    
     handleChange = (e, {name, value }) => this.setState({ [name]: value });
 
     handleSubmit = (history) => {

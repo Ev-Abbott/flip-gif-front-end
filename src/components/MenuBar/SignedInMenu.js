@@ -6,19 +6,19 @@ const SignedInMenu = ({ toggleVisibility }) => {
     return (
         <div>
             <Link to='/'>
-                <Menu.Item name='home'>
+                <Menu.Item name='home' onClick={toggleVisibility}>
                     <Icon name='home' />
                     Home
                 </Menu.Item>
             </Link>
             <Link to='/draw'>
-                <Menu.Item name='draw'>
+                <Menu.Item name='draw' onClick={toggleVisibility}>
                     <Icon name='paint brush' />
                     Let's Draw!
                 </Menu.Item>
             </Link>
             <Link to='/'>
-                <Menu.Item name='logout'>
+                <Menu.Item name='logout' onClick={toggleVisibility}>
                     <Icon name='sign out' />
                     Sign Out
                 </Menu.Item>
