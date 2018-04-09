@@ -38,8 +38,7 @@ class App extends Component {
               vertical
               inverted
             >
-              <SignedOutMenu toggleVisibility={this.toggleVisibility} />
-              {/* <SignedInMenu toggleVisibility={this.toggleVisibility} /> */}
+              {localStorage.getItem('token') ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
             </Sidebar>
             <Sidebar.Pusher>
               <div style={{minHeight: '125vh'}}>
@@ -60,7 +59,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  
+
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
