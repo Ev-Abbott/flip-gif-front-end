@@ -13,7 +13,7 @@ class HeaderBar extends Component {
             </Menu.Item>
           </Link>
           <Menu.Item as='a' onClick={this.props.toggleVisibility} position='right'>
-            <i class="fas fa-bars"></i>
+            <i className="fas fa-bars"></i>
           </Menu.Item>
         </Container>
       </Menu>

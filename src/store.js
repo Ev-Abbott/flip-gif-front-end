@@ -7,7 +7,8 @@ import { CANVAS_SAVE, CANVAS_UNDO, CANVAS_REDO } from './actions/actionTypes';
 
 const logger = createLogger({
     predicate: (getState, action) => (
-        action.type === CANVAS_SAVE || action.type === CANVAS_UNDO || action.type === CANVAS_REDO
+        action.type
+        // action.type === CANVAS_SAVE || action.type === CANVAS_UNDO || action.type === CANVAS_REDO
     )
 });
 

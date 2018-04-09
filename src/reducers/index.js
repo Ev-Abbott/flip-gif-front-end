@@ -9,11 +9,15 @@ import {
     SCALE_FACTOR_SET,
     CANVAS_SAVE,
     CANVAS_UNDO,
-    CANVAS_REDO
+    CANVAS_REDO,
+    FLIPBOOK_SET_NAME
 } from '../actions/actionTypes';
 
 function flipbook(state = '', action) {
     switch(action.type) {
+        case FLIPBOOK_SET_NAME: {
+            return action.flipbookName;
+        }
         default: {
             return state;
         }
@@ -152,5 +156,6 @@ export default combineReducers({
     selectedTool,
     canPaint,
     scaleFactor,
-    canvasSave
+    canvasSave,
+    flipbook
 });

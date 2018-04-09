@@ -8,8 +8,19 @@ import {
     SCALE_FACTOR_SET,
     CANVAS_SAVE,
     CANVAS_UNDO,
-    CANVAS_REDO
+    CANVAS_REDO,
+    FLIPBOOK_SET_NAME,
+
 } from '../actions/actionTypes';
+
+export function setFlipbookName(flipbookName) {
+    return (dispatch) => {
+        dispatch({
+            type: FLIPBOOK_SET_NAME,
+            flipbookName
+        })
+    }
+}
 
 export function canvasSave(imgURL) {
     return (dispatch) => {
