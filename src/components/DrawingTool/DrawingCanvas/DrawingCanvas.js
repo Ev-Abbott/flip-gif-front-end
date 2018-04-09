@@ -30,8 +30,13 @@ class DrawingCanvas extends Component {
     brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint, canvasSave) => {
         e.preventDefault();
         const canvas = this.myCanvas;
-        let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
-        let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
+
+        // let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
+        // let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
+        let rect = this.myCanvas.getBoundingClientRect();
+        let brushX = (e.touches[0].pageX - rect.left) / scaleFactor;
+        let brushY = (e.touches[0].pageY - rect.top) / scaleFactor;
+
         if (tool === 'BRUSH' || tool === 'ERASER') {
             setBrushPos({ x: brushX, y: brushY });
             toggleCanPaint(true);
@@ -49,8 +54,11 @@ class DrawingCanvas extends Component {
         if (paintState) {
             const canvas = this.myCanvas;
             const ctx = canvas.getContext('2d');
-            let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
-            let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
+            // let brushX = (e.touches[0].pageX - canvas.offsetLeft) / scaleFactor;
+            // let brushY = (e.touches[0].pageY - canvas.offsetTop) / scaleFactor;
+            let rect = this.myCanvas.getBoundingClientRect();
+            let brushX = (e.touches[0].pageX - rect.left) / scaleFactor;
+            let brushY = (e.touches[0].pageY - rect.top) / scaleFactor;
             let color;
             if (tool === 'BRUSH') {
                 color = brushColor;
@@ -210,7 +218,7 @@ class DrawingCanvas extends Component {
             currIndex = this.props.canvasSaveData.index
           }
         }
-        console.log(this.props.canvasSaveData.imageHistory[0]);
+        
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}

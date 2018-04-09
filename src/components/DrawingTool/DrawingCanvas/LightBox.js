@@ -9,7 +9,7 @@ class Lightbox extends Component {
         // Set canvas context
         const canvas = this.myLightBox;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 300;
+        const modelWidth = 370;
         const maxWidth = 600;
         const marginPixels = 42;
         let canvasWidth = (window.innerWidth-marginPixels);
@@ -18,8 +18,6 @@ class Lightbox extends Component {
         if (canvasWidth > maxWidth) canvasWidth = maxWidth; 
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
-
-        // Fill canvas with selected eraser color
         
         let scaleFactor = canvasWidth/modelWidth;
         ctx.scale(scaleFactor, scaleFactor);
@@ -40,15 +38,10 @@ class Lightbox extends Component {
     }
 
     render() {
-        
         return (
-            <div>
-                <img src='http://localhost:8000/gifs/My%20Test%20Flipbook' />
-                <canvas id='DrawingTool-lightbox'
-                    ref={(c => this.myLightBox = c)}>
-                </canvas>
-            </div>
-            
+            <canvas id='DrawingTool-lightbox'
+                ref={(c => this.myLightBox = c)}>
+            </canvas>            
         );
     }
 }

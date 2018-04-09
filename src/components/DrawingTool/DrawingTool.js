@@ -19,11 +19,13 @@ class DrawingTool extends Component {
     render() {
         return (
             <div style={this.props.bodyMargin}>
-                <DrawingCanvas />
-                {/* <LightBox /> */}
-                <div className='DrawingTool-tabsContainer'>
-                    <Tab panes={this.state.panes} />
+                <div className='DrawingTool-drawingContainer'>
+                    <DrawingCanvas />
+                    <LightBox />
                 </div>
+                {/* <div className='DrawingTool-tabsContainer'>
+                    <Tab panes={this.state.panes} />
+                </div> */}
             </div>
         );
     }

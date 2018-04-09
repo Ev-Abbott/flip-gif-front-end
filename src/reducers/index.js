@@ -132,7 +132,7 @@ function eraserColor(state = { r: 255, g: 255, b: 255 }, action) {
     }
 }
 
-function selectedTool(state = null, action) {
+function selectedTool(state = 'BRUSH', action) {
     switch (action.type) {
         case SELECTED_TOOL_SET: {
             if (state === action.toolName) return null;

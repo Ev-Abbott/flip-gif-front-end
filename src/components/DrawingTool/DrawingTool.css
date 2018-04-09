@@ -1,8 +1,8 @@
 #DrawingTool-canvas {
     z-index: 4;
-    /* position: absolute;
+    position: absolute;
     left: 0;
-    top: 0; */
+    top: 0;
     border: 1px solid black;
     border-radius: 5px;
     margin: 20px;
@@ -11,13 +11,21 @@
 
 #DrawingTool-lightbox {
     z-index: 3;
-    /* position: absolute;
+    position: absolute;
     left: 0;
-    top: 0; */
+    top: 0;
     border: 1px solid black;
     border-radius: 5px;
     margin: 20px;
     touch-action: none;
+}
+
+.DrawingTool-drawingContainer {
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    flex-direction: column;
+    position: relative; 
 }
 
 .DrawingTool-brushProps-container {
