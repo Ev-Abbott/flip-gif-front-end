@@ -8,6 +8,9 @@ import HeaderBar from './components/HeaderBar/HeaderBar';
 import FooterBar from './components/FooterBar/FooterBar';
 import HomePage from './components/HomePage/Homepage';
 import DrawingTool from './components/DrawingTool/DrawingTool';
+import SignedInMenu from './components/MenuBar/SignedInMenu';
+import SignedOutMenu from './components/MenuBar/SignedOutMenu';
+
 import './App.css';
 
 class App extends Component {
@@ -31,22 +34,8 @@ class App extends Component {
               vertical
               inverted
             >
-              <Menu.Item name='home'>
-                <Icon name='home' />
-                Home
-              </Menu.Item>
-              <Menu.Item name='gamepad'>
-                <Icon name='gamepad' />
-                Games
-              </Menu.Item>
-              <Menu.Item name='camera'>
-                <Icon name='camera' />
-                Channels
-              </Menu.Item>
-              <Menu.Item name='camera' onClick={this.toggleVisibility}>
-                <Icon name='camera' />
-                Close
-              </Menu.Item>
+              <SignedOutMenu toggleVisibility={this.toggleVisibility} />
+              {/* <SignedInMenu toggleVisibility={this.toggleVisibility} /> */}
             </Sidebar>
             <Sidebar.Pusher>
               <div style={{minHeight: '100vh'}}>
