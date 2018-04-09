@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
 import { Sidebar, Segment, Icon, Button, Header, Container, Dropdown, Image, Menu } from 'semantic-ui-react';
+import { withRouter, Link } from 'react-router-dom';
 
 const SignedInMenu = ({ toggleVisibility }) => {
     return (
         <div>
-            <Menu.Item name='home'>
-                <Icon name='home' />
-                Home
-            </Menu.Item>
-            <Menu.Item name='draw'>
-                <Icon name='paint brush' />
-                Let's Draw!
-            </Menu.Item>
-            <Menu.Item name='logout'>
-                <Icon name='sign out' />
-                Sign Out
-            </Menu.Item>
+            <Link to='/'>
+                <Menu.Item name='home'>
+                    <Icon name='home' />
+                    Home
+                </Menu.Item>
+            </Link>
+            <Link to='/draw'>
+                <Menu.Item name='draw'>
+                    <Icon name='paint brush' />
+                    Let's Draw!
+                </Menu.Item>
+            </Link>
+            <Link to='/'>
+                <Menu.Item name='logout'>
+                    <Icon name='sign out' />
+                    Sign Out
+                </Menu.Item>
+            </Link>
             <Menu.Item name='close' onClick={toggleVisibility}>
                 <Icon name='window close' />
                 Close

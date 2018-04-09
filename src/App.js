@@ -8,8 +8,12 @@ import HeaderBar from './components/HeaderBar/HeaderBar';
 import FooterBar from './components/FooterBar/FooterBar';
 import HomePage from './components/HomePage/Homepage';
 import DrawingTool from './components/DrawingTool/DrawingTool';
+import LoginView from './components/LoginView/LoginView';
+import SignupView from './components/SignupView/SignupView';
+
 import SignedInMenu from './components/MenuBar/SignedInMenu';
 import SignedOutMenu from './components/MenuBar/SignedOutMenu';
+
 
 import './App.css';
 
@@ -38,9 +42,11 @@ class App extends Component {
               {/* <SignedInMenu toggleVisibility={this.toggleVisibility} /> */}
             </Sidebar>
             <Sidebar.Pusher>
-              <div style={{minHeight: '100vh'}}>
+              <div style={{minHeight: '125vh'}}>
                 <HeaderBar toggleVisibility={this.toggleVisibility} />
                 <Switch>
+                  <Route path="/login" render={() => <LoginView />} /> 
+                  <Route path="/signup" render={() => <SignupView />} /> 
                   <Route path="/draw" render={ () => <DrawingTool bodyMargin={bodyMargin} />} />
                   <Route path="/" render={ () => <HomePage bodyMargin={bodyMargin} />} />
                 </Switch>
