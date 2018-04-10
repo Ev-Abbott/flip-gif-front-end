@@ -28,8 +28,19 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     return (
         <div>
            
-            <div className='flex-container flex-row justify-content-space-around flex-wrap'>
+            <div className='flex-container flex-row justify-content-center flex-wrap'>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="far fa-lightbulb fa-2x"></i>
+                </div>
                 
+                <Input placeholder={1} type='number'>
+                    <input
+                        style={{width: "50px"}} />
+                </Input>
+                
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-play fa-2x"></i>
+                </div>
                 <div onClick={() => saveToServer(flipbook, canvasSaveData)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i class="fas fa-save fa-2x"></i>
@@ -40,18 +51,6 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-trash-alt fa-2x"></i>
                 </div>
-                {/* <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="far fa-lightbulb fa-2x"></i>
-                </div>
-                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <Input placeholder={1} type='number'>
-                        <input
-                            style={{width: "50px"}} />
-                    </Input>
-                </div> */}
-            </div>
-            <div className='flex-container flex-row justify-content-center'>
-                
             </div>
         </div>
     );
