@@ -12,7 +12,9 @@ import {
     CANVAS_REDO,
     CANVAS_INITIALIZE,
     FLIPBOOK_SET,
-    CANVAS_ADD_FRAME
+    CANVAS_ADD_FRAME,
+    CANVAS_UPDATE_MAX_COUNT,
+    CANVAS_UPDATE_CURR_FRAME
 } from '../actions/actionTypes';
 
 function flipbook(state = '', action) {
@@ -26,18 +28,46 @@ function flipbook(state = '', action) {
     }
 }
 
-function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
+function canvasSave(state = {frame: 1, frameMax: 1, index: -1, imageHistory: []}, action) {
     switch(action.type) {
+        case CANVAS_UPDATE_MAX_COUNT: {
+            return {
+                frame: state.frame,
+                frameMax: action.int,
+                index: state.index,
+                imageHistory: state.imageHistory
+            }
+        }
+        case CANVAS_UPDATE_CURR_FRAME: {
+            if (action.direction === 'DECREASE') {
+                return {
+                    frame: state.frame-1,
+                    frameMax: state.frameMax,
+                    index: -1,
+                    imageHistory: []
+                }
+            } else if (action.direction === 'INCREASE') {
+                return {
+                    frame: state.frame+1,
+                    frameMax: state.frameMax,
+                    index: -1,
+                    imageHistory: []
+                }
+            }
+            return state;
+        }
         case CANVAS_SAVE: {
             if (state.imageHistory.length < 100) {
                 return {
                     frame: state.frame,
+                    frameMax: state.frameMax,
                     index: state.index + 1,
                     imageHistory: [...state.imageHistory.slice(0, state.index+1), action.imgURL]
                 }
             } else {
                 return {
                     frame: state.frame,
+                    frameMax: state.frameMax,
                     index: 99,
                     imageHistory: [...state.imageHistory.slice(1, state.index), action.imgURL]
                 }
@@ -47,6 +77,7 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
         case CANVAS_ADD_FRAME: {
             return {
                 frame: state.frame + 1,
+                frameMax: state.frameMax + 1,
                 index: 0,
                 imageHistory: [ action.canvasData ]
             }
@@ -54,6 +85,7 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
         case CANVAS_INITIALIZE: {
             return {
                 frame: 1,
+                frameMax: state.frameMax,
                 index: 0,
                 imageHistory: [ action.canvasData ]
             }
@@ -64,6 +96,7 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
             }
             return {
                 frame: state.frame,
+                frameMax: state.frameMax,
                 index: state.index - 1,
                 imageHistory: state.imageHistory
             }
@@ -74,6 +107,7 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
             }
             return {
                 frame: state.frame,
+                frameMax: state.frameMax,
                 index: state.index + 1,
                 imageHistory: state.imageHistory
             }

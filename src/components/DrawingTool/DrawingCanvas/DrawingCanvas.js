@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave } from '../../../actions';
+import {notify} from 'react-notify-toast';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 let currIndex = -1
@@ -212,6 +213,7 @@ class DrawingCanvas extends Component {
                 img.src = frameData;
                 currIndex = this.props.canvasSaveData.index
                 currFrame = this.props.canvasSaveData.frame
+                notify.show(`On Frame ${this.props.canvasSaveData.frame} / ${this.props.canvasSaveData.frameMax}`, 'success', 800);
             })
     }
 
@@ -237,7 +239,7 @@ class DrawingCanvas extends Component {
     }
 
     render() {
-        console.log(this.props);
+        
         let canvas = this.myCanvas;
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
             this.loadCanvasWithCurrentFrame(canvas);

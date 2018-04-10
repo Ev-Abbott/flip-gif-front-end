@@ -12,6 +12,8 @@ import {
     CANVAS_INITIALIZE,
     FLIPBOOK_SET,
     CANVAS_ADD_FRAME,
+    CANVAS_UPDATE_MAX_COUNT,
+    CANVAS_UPDATE_CURR_FRAME,
 } from '../actions/actionTypes';
 
 export function setFlipbook(flipbook) {
@@ -19,6 +21,24 @@ export function setFlipbook(flipbook) {
         dispatch({
             type: FLIPBOOK_SET,
             flipbook
+        })
+    }
+}
+
+export function updateCurrFrame(direction) {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_UPDATE_CURR_FRAME,
+            direction
+        })
+    }
+}
+
+export function canvasUpdateMax(int) {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_UPDATE_MAX_COUNT,
+            int
         })
     }
 }

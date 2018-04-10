@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
 import {notify} from 'react-notify-toast';
-import { setSelectedTool, canvasAddFrame } from '../../../actions';
+import { setSelectedTool, canvasAddFrame, canvasUpdateMax, updateCurrFrame } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 
-const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, canvasAddFrame }) => {
+let currMax = 0;
+
+const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, canvasAddFrame, canvasUpdateMax, updateCurrFrame }) => {
     
     const saveToServer = (flipbook, canvasSaveData) => {
-        console.log('Triggered');
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
+        
         return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
             .then(res => {
                 if (!res.data.data) {
@@ -51,12 +53,12 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         notify.show('Frame Deleted!', 'error', 800);
     }
 
-    const toggleFramePrev = (flipbook, canvasSaveData) => {
-        notify.show('On Frame 1 / 1!', 'success', 800);
+    const toggleFramePrev = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
+        updateCurrFrame(direction);
     }
 
-    const toggleFrameNext = (flipbook, canvasSaveData) => {
-        notify.show('On Frame 1 / 1!', 'success', 800);
+    const toggleFrameNext = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
+        updateCurrFrame(direction);
     }
 
     const toggleLightbox = (flipbook, canvasSaveData) => {
@@ -66,6 +68,22 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     const toggleAnimation = (flipbook, canvasSaveData) => {
         notify.show('Animation on!', 'success', 800);
     }
+
+    const updateMaxFrameCount = (flipbook, canvasSaveData, canvasUpdateMax) => {
+        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}?frameCnt=true`)
+            .then(res => {
+                let count = res.data.data.max;
+                if (count === null) {
+                    currMax = 1;
+                } else {
+                    currMax = count; 
+                }
+                canvasUpdateMax(currMax);
+            });
+    }
+    
+    if (flipbook.name && currMax !== canvasSaveData.frameMax) updateMaxFrameCount(flipbook, canvasSaveData, canvasUpdateMax);
+    
     return (
         <div>
             <div className='flex-container flex-row justify-content-center'>
@@ -96,15 +114,15 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     <input
                         style={{width: "50px"}} />
                 </Input>
-                <div onClick={() => toggleFramePrev(flipbook, canvasSaveData)} 
+                <div onClick={() => toggleFramePrev(flipbook, canvasSaveData, updateCurrFrame, 'DECREASE')} 
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-angle-left fa-2x"></i>
                 </div>
                 <div 
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <p>Frame: {canvasSaveData.frame} / 100</p>
+                    <p>Frame: {canvasSaveData.frame} / {canvasSaveData.frameMax}</p>
                 </div>
-                <div onClick={() => toggleFrameNext(flipbook, canvasSaveData)}
+                <div onClick={() => toggleFrameNext(flipbook, canvasSaveData, updateCurrFrame, 'INCREASE')}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-angle-right fa-2x"></i>
                 </div>
@@ -121,7 +139,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setSelectedTool,
-    canvasAddFrame
+    canvasAddFrame,
+    canvasUpdateMax,
+    updateCurrFrame
 }, dispatch)
 
 export default connect(
