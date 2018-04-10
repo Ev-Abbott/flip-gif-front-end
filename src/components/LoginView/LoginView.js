@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setFlipbookName } from '../../actions';
+import { setFlipbook } from '../../actions';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom';
 
@@ -28,7 +28,9 @@ class LoginForm extends Component {
             .then(res => {
                 const token = res.headers.auth.split(' ')[1];
                 localStorage.setItem('token', token);
-                this.props.setFlipbookName(res.data.flipbook.name);
+                localStorage.setItem('user_id', res.data.flipbook.user_id);
+                console.log(res.data.flipbook);
+                this.props.setFlipbook(res.data.flipbook);
                 history.push('/draw');
             })
             .catch(err => {
@@ -101,7 +103,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setFlipbookName
+    setFlipbook
 }, dispatch)
 
 export default withRouter(connect(

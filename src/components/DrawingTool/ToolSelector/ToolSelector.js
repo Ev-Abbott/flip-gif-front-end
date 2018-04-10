@@ -4,11 +4,30 @@ import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
 import { setSelectedTool, canvasUndo, canvasRedo } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
+import axios from 'axios';
+const BaseUrl = 'http://localhost:8080';
 
-const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo }) => {
+const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData }) => {
     const determineToolToToggle = (e, setSelectedTool, tool) => {
         setSelectedTool(tool);
     }
+
+    const saveToServer = (flipbook, canvasSaveData) => {
+        let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
+        let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
+        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
+            .then(res => {
+                if (!res.data.data) {
+                    return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave);
+                } else {
+                    return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            }); 
+    }
+
     return (
         <div>
             <div className='flex-container flex-row justify-content-space-between'>
@@ -57,7 +76,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo })
                             style={{width: "50px"}} />
                     </Input>
                 </div>
-                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i class="fas fa-save fa-2x"></i>
                 </div>
             </div>
@@ -66,7 +86,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo })
 }
 
 const mapStateToProps = (state) => ({
-    selectedTool: state.selectedTool
+    selectedTool: state.selectedTool,
+    flipbook: state.flipbook,
+    canvasSaveData: state.canvasSave
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

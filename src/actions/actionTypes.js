@@ -1,6 +1,6 @@
 
 // Flipbook Actions
-export const FLIPBOOK_SET_NAME = 'FLIPBOOK_SET_NAME';
+export const FLIPBOOK_SET = 'FLIPBOOK_SET_NAME';
 
 // Brush Actions
 export const BRUSH_COLOR_SET = 'BRUSH_COLOR_SET';
@@ -15,4 +15,5 @@ export const SCALE_FACTOR_SET = 'SCALE_FACTOR_SET';
 export const CANVAS_SAVE = 'CANVAS_SAVE';
 export const CANVAS_UNDO = 'CANVAS_UNDO';
 export const CANVAS_REDO = 'CANVAS_REDO';
+export const CANVAS_INITIALIZE = 'CANVAS_INITIALIZE';
 

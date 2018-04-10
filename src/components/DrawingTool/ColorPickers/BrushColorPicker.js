@@ -19,7 +19,7 @@ class BrushColorPicker extends Component {
     };
 
     handleChange = (color, setBrushColor) => {
-        setBrushColor(color.rgb);
+        setBrushColor({r: color.rgb.r, g: color.rgb.g, b: color.rgb.b});
     };
     
     render() {
@@ -29,7 +29,7 @@ class BrushColorPicker extends Component {
                 width: '36px',
                 height: '14px',
                 borderRadius: '2px',
-                background: `rgba(${ this.props.brushColor.r }, ${ this.props.brushColor.g }, ${ this.props.brushColor.b })`,
+                background: `rgb(${ this.props.brushColor.r }, ${ this.props.brushColor.g }, ${ this.props.brushColor.b })`,
               },
               swatch: {
                 padding: '5px',
@@ -41,7 +41,7 @@ class BrushColorPicker extends Component {
               },
               popover: {
                 position: 'absolute',
-                top: '-60px',
+                top: '0px',
                 zIndex: '2',
               },
               cover: {

@@ -10,13 +10,14 @@ import {
     CANVAS_SAVE,
     CANVAS_UNDO,
     CANVAS_REDO,
-    FLIPBOOK_SET_NAME
+    CANVAS_INITIALIZE,
+    FLIPBOOK_SET
 } from '../actions/actionTypes';
 
 function flipbook(state = '', action) {
     switch(action.type) {
-        case FLIPBOOK_SET_NAME: {
-            return action.flipbookName;
+        case FLIPBOOK_SET: {
+            return action.flipbook;
         }
         default: {
             return state;
@@ -34,7 +35,6 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
                     imageHistory: [...state.imageHistory.slice(0, state.index+1), action.imgURL]
                 }
             } else {
-                // Test this function
                 return {
                     frame: state.frame,
                     index: 99,
@@ -43,8 +43,15 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
             }
             
         }
+        case CANVAS_INITIALIZE: {
+            return {
+                frame: 1,
+                index: 0,
+                imageHistory: [ action.canvasData ]
+            }
+        }
         case CANVAS_UNDO: {
-            if ((state.index - 1 ) < -1) {
+            if ((state.index - 1 ) < 0) {
                 return state;
             }
             return {

@@ -9,7 +9,7 @@ class Lightbox extends Component {
         // Set canvas context
         const canvas = this.myLightBox;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 370;
+        const modelWidth = 300;
         const maxWidth = 600;
         const marginPixels = 42;
         let canvasWidth = (window.innerWidth-marginPixels);
@@ -21,21 +21,19 @@ class Lightbox extends Component {
         
         let scaleFactor = canvasWidth/modelWidth;
         ctx.scale(scaleFactor, scaleFactor);
-        
-
     }
 
     loadLightBox = (name, index, frames) => {
         const canvas = this.myLightBox;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 370;
+        const modelWidth = 300;
         let scaleFactor = canvas.width/modelWidth;
         axios.get(`${BaseUrl}/flipbooks/My%20Test%20Flipbook/frames/2?lightBox=3`)
             .then(res => {
                 let frames = res.data.data;
                 frames.forEach(frame => {
-                    let img = new Image;
-                    img.onload= () => {
+                    let img = new Image();
+                    img.onload = () => {
                         ctx.drawImage(img, 0, 0);
                         ctx.scale(scaleFactor, scaleFactor);
                         ctx.scale(1/scaleFactor, 1/scaleFactor);
@@ -48,8 +46,8 @@ class Lightbox extends Component {
     clearLightBox = () => {
         const canvas = this.myLightBox;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 370;
-        let scaleFactor = canvas.width/modelWidth;
+        // const modelWidth = 300;
+        // let scaleFactor = canvas.width/modelWidth;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 

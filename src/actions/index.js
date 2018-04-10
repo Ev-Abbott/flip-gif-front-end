@@ -9,15 +9,24 @@ import {
     CANVAS_SAVE,
     CANVAS_UNDO,
     CANVAS_REDO,
-    FLIPBOOK_SET_NAME,
-
+    CANVAS_INITIALIZE,
+    FLIPBOOK_SET,
 } from '../actions/actionTypes';
 
-export function setFlipbookName(flipbookName) {
+export function setFlipbook(flipbook) {
     return (dispatch) => {
         dispatch({
-            type: FLIPBOOK_SET_NAME,
-            flipbookName
+            type: FLIPBOOK_SET,
+            flipbook
+        })
+    }
+}
+
+export function canvasInitialize(canvasData) {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_INITIALIZE,
+            canvasData
         })
     }
 }

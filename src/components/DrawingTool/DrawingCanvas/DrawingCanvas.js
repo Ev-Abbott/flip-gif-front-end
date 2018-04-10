@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave } from '../../../actions';
-import LightBox from './LightBox';
 
 let currIndex = -1
 
@@ -71,8 +70,6 @@ class DrawingCanvas extends Component {
     brushLeaveTouch = (e, setBrushPos, toggleCanPaint, canPaint, canvasSave) => {
         setBrushPos(null);
         if (canPaint) {
-            let canvas = this.myCanvas;
-            let ctx = canvas.getContext('2d');
             let dummyCanvas = document.createElement('canvas');
             let dummyContext = dummyCanvas.getContext('2d');
             dummyCanvas.width = 600;

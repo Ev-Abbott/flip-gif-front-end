@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 class SignedInMenu extends Component {
     signOut = (toggleVisibility, history) => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
         toggleVisibility();
         history.push('/');
     }
