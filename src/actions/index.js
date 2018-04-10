@@ -15,9 +15,28 @@ import {
     CANVAS_UPDATE_MAX_COUNT,
     CANVAS_UPDATE_CURR_FRAME,
     CANVAS_REMOVE_FRAME,
+    LIGHTBOX_TOGGLE_ACTIVE,
+    LIGHTBOX_SET_FRAME_COUNT,
 } from '../actions/actionTypes';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
+
+export function toggleLightbox() {
+    return (dispatch) => {
+        dispatch({
+            type: LIGHTBOX_TOGGLE_ACTIVE
+        })
+    }
+}
+
+export function setLightboxFrames(frames) {
+    return (dispatch) => {
+        dispatch({
+            type: LIGHTBOX_SET_FRAME_COUNT,
+            frames
+        })
+    }
+}
 
 export function setFlipbook(flipbook) {
     return (dispatch) => {

@@ -3,14 +3,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
 import {notify} from 'react-notify-toast';
-import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame } from '../../../actions';
+import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, 
+        updateCurrFrame, toggleLightbox, setLightboxFrames } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 
 let currMax = 0;
 
-const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame }) => {
+const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, 
+    canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame, toggleLightbox, 
+    setLightboxFrames, lightbox }) => {
     
     const saveToServer = (flipbook, canvasSaveData) => {
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -81,7 +84,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         
     }
 
-    const toggleLightbox = (flipbook, canvasSaveData) => {
+    const dispatchLightbox = (flipbook, canvasSaveData, toggleLightbox) => {
+        toggleLightbox();
         notify.show('Lightbox is On', 'warning', 800);
     }
 
@@ -125,8 +129,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 </div>
             </div>
             <div className='flex-container flex-row justify-content-center'>
-                <div onClick={() => toggleLightbox(flipbook, canvasSaveData)}
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                <div onClick={() => toggleLightbox(flipbook, canvasSaveData, toggleLightbox)}
+                    className={(lightbox.isActive ? 'DrawingTool-lightboxSelected ' : '') 
+                    + 'DrawingTool-iconContainer flex-container justify-content-center align-items-center'}>
                     <i className="far fa-lightbulb fa-2x"></i>
                 </div>
                 
@@ -154,7 +159,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
 const mapStateToProps = (state) => ({
     selectedTool: state.selectedTool,
     flipbook: state.flipbook,
-    canvasSaveData: state.canvasSave
+    canvasSaveData: state.canvasSave,
+    lightbox: state.lightBox
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -162,7 +168,9 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     canvasAddFrame,
     canvasRemoveFrame,
     canvasUpdateMax,
-    updateCurrFrame
+    updateCurrFrame,
+    toggleLightbox,
+    setLightboxFrames
 }, dispatch)
 
 export default connect(

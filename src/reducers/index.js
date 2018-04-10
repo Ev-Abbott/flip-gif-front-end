@@ -15,8 +15,30 @@ import {
     CANVAS_ADD_FRAME,
     CANVAS_UPDATE_MAX_COUNT,
     CANVAS_UPDATE_CURR_FRAME,
-    CANVAS_REMOVE_FRAME
+    CANVAS_REMOVE_FRAME,
+    LIGHTBOX_TOGGLE_ACTIVE,
+    LIGHTBOX_SET_FRAME_COUNT
 } from '../actions/actionTypes';
+
+function lightBox(state = { isActive: false, frames: 0 }, action) {
+    switch(action.type) {
+        case LIGHTBOX_TOGGLE_ACTIVE: {
+            return {
+                isActive: !state.isActive,
+                frames: state.frames
+            }
+        }
+        case LIGHTBOX_SET_FRAME_COUNT: {
+            return {
+                isActive: state.isActive,
+                frames: action.frames
+            }
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 function flipbook(state = '', action) {
     switch(action.type) {
@@ -223,5 +245,6 @@ export default combineReducers({
     canPaint,
     scaleFactor,
     canvasSave,
-    flipbook
+    flipbook,
+    lightBox
 });
