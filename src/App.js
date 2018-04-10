@@ -45,7 +45,7 @@ class App extends Component {
               { token ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
             </Sidebar>
             <Sidebar.Pusher>
-              <div style={{minHeight: '125vh'}}>
+              <div style={{minHeight: '150vh'}}>
                 <HeaderBar toggleVisibility={this.toggleVisibility} />
                 <Switch>
                   <Route path="/login" render={() => <LoginView />} /> 

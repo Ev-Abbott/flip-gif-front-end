@@ -11,6 +11,7 @@ import {
     CANVAS_REDO,
     CANVAS_INITIALIZE,
     FLIPBOOK_SET,
+    CANVAS_ADD_FRAME,
 } from '../actions/actionTypes';
 
 export function setFlipbook(flipbook) {
@@ -18,6 +19,15 @@ export function setFlipbook(flipbook) {
         dispatch({
             type: FLIPBOOK_SET,
             flipbook
+        })
+    }
+}
+
+export function canvasAddFrame(canvasData) {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_ADD_FRAME,
+            canvasData
         })
     }
 }

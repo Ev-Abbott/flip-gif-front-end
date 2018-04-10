@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave } from '../../../actions';
-
+import axios from 'axios';
+const BaseUrl = 'http://localhost:8080';
 let currIndex = -1
+let currFrame = 1;
 
 class DrawingCanvas extends Component {
 
@@ -195,27 +197,53 @@ class DrawingCanvas extends Component {
         }
         return flattened;
     }
+    loadCanvasWithCurrentFrame = (canvas) => {
+        let ctx = canvas.getContext('2d');
+        return axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}`)
+            .then(res => {
+                let frameData = res.data.data.imgURL;
+                let img = new Image();
+                img.onload = () => {
+                    ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+                }
+                img.src = frameData;
+                currIndex = this.props.canvasSaveData.index
+                currFrame = this.props.canvasSaveData.frame
+            })
+    }
 
-    render() {
-        let canvas = this.myCanvas;
-        if (canvas && this.props.canvasSaveData.index !== currIndex) {
-          let ctx = canvas.getContext('2d');
-          if(this.props.canvasSaveData.index > -1) {
+    updateCanvas = (canvas) => {
+        
+        let ctx = canvas.getContext('2d');
+        if (this.props.canvasSaveData.index > -1) {
             let img = new Image();
             img.onload = () => {
-              ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+                ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
             }
             img.src = this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index];
             currIndex = this.props.canvasSaveData.index
-          } else {
+        } else {
             ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
             currIndex = this.props.canvasSaveData.index
-          }
+        }
+    }
+
+    render() {
+        console.log(this.props);
+        let canvas = this.myCanvas;
+        if (canvas && this.props.canvasSaveData.frame !== currFrame) {
+            this.loadCanvasWithCurrentFrame(canvas);
+        }
+        if (canvas && this.props.canvasSaveData.index !== currIndex) {
+            this.updateCanvas(canvas)
         }
         
         return (
@@ -246,7 +274,8 @@ const mapStateToProps = (state) => ({
     brushPos: state.brushPos,
     canPaint: state.canPaint,
     scaleFactor: state.scaleFactor,
-    canvasSaveData: state.canvasSave
+    canvasSaveData: state.canvasSave,
+    flipbook: state.flipbook
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

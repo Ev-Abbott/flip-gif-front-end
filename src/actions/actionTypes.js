@@ -16,4 +16,5 @@ export const CANVAS_SAVE = 'CANVAS_SAVE';
 export const CANVAS_UNDO = 'CANVAS_UNDO';
 export const CANVAS_REDO = 'CANVAS_REDO';
 export const CANVAS_INITIALIZE = 'CANVAS_INITIALIZE';
+export const CANVAS_ADD_FRAME = 'CANVAS_ADD_FRAME';
 

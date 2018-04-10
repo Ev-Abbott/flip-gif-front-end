@@ -11,7 +11,8 @@ import {
     CANVAS_UNDO,
     CANVAS_REDO,
     CANVAS_INITIALIZE,
-    FLIPBOOK_SET
+    FLIPBOOK_SET,
+    CANVAS_ADD_FRAME
 } from '../actions/actionTypes';
 
 function flipbook(state = '', action) {
@@ -42,6 +43,13 @@ function canvasSave(state = {frame: 1, index: -1, imageHistory: []}, action) {
                 }
             }
             
+        }
+        case CANVAS_ADD_FRAME: {
+            return {
+                frame: state.frame + 1,
+                index: 0,
+                imageHistory: [ action.canvasData ]
+            }
         }
         case CANVAS_INITIALIZE: {
             return {
