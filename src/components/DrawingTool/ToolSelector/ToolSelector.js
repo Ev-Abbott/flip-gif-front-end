@@ -89,6 +89,17 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         notify.show('Lightbox is On', 'warning', 800);
     }
 
+    const changeLightboxFrames = (e, setLightboxFrames) => {
+        let sizeInput = parseInt(e.target.value, 10);
+        if (Number.isInteger(sizeInput)) {
+            if (sizeInput > -1 && sizeInput < 20) {
+                setLightboxFrames(sizeInput)
+            }
+        } else {
+            setLightboxFrames('');
+        }
+    }
+
     const toggleAnimation = (flipbook, canvasSaveData) => {
         notify.show('Animation on!', 'success', 800);
     }
@@ -135,8 +146,10 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     <i className="far fa-lightbulb fa-2x"></i>
                 </div>
                 
-                <Input placeholder={1} type='number'>
+                <Input error={lightbox.frames === ''} placeholder={1} type='number'>
                     <input
+                        value={lightbox.frames}
+                        onChange={(e) => changeLightboxFrames(e, setLightboxFrames)}
                         style={{width: "50px"}} />
                 </Input>
                 <div onClick={() => toggleFramePrev(flipbook, canvasSaveData, updateCurrFrame, 'DECREASE')} 

@@ -52,7 +52,7 @@ class DrawingTool extends Component {
             <div style={{ position: 'relative', top: '3em'}}>
                 
                 <DrawingCanvas />
-                <LightBox />
+                { this.props.lightbox.isActive ? <LightBox /> : ''}
                 <div style={{ position: 'relative', top: this.calculateSize(), margin: '0px 20px 0px 20px'}}>
                     <Toolbar />
                 </div>
@@ -64,7 +64,8 @@ class DrawingTool extends Component {
 
 const mapStateToProps = (state) => ({
     flipbook: state.flipbook,
-    canvasSaveData: state.canvasSave
+    canvasSaveData: state.canvasSave,
+    lightbox: state.lightBox
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

@@ -19,37 +19,30 @@ class Lightbox extends Component {
         canvas.width = canvasWidth;
         canvas.height = canvas.width;
         
-        let scaleFactor = canvasWidth/modelWidth;
-        ctx.scale(scaleFactor, scaleFactor);
+        ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+        this.initializeLightBox(canvas);
     }
 
-    loadLightBox = (name, index, frames) => {
-        const canvas = this.myLightBox;
+    initializeLightBox = (canvas) => {
         const ctx = canvas.getContext('2d');
-        const modelWidth = 300;
-        let scaleFactor = canvas.width/modelWidth;
-        axios.get(`${BaseUrl}/flipbooks/My%20Test%20Flipbook/frames/2?lightBox=3`)
+        if (this.props.lightbox.frames === '' || 0) return;
+        axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`)
             .then(res => {
                 let frames = res.data.data;
                 frames.forEach(frame => {
                     let img = new Image();
                     img.onload = () => {
-                        ctx.drawImage(img, 0, 0);
-                        ctx.scale(scaleFactor, scaleFactor);
-                        ctx.scale(1/scaleFactor, 1/scaleFactor);
+                        ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
                     }
                     img.src = frame.imgURL;
+                    console.log(frame.imgURL);
                 });
             })
     }
     
-    clearLightBox = () => {
-        const canvas = this.myLightBox;
-        const ctx = canvas.getContext('2d');
-        // const modelWidth = 300;
-        // let scaleFactor = canvas.width/modelWidth;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
 
     render() {
         return (
@@ -62,7 +55,9 @@ class Lightbox extends Component {
 
 const mapStateToProps = (state) => ({
     scaleFactor: state.scaleFactor,
-    canvasSaveData: state.canvasSave
+    canvasSaveData: state.canvasSave,
+    lightbox: state.lightBox,
+    flipbook: state.flipbook
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
