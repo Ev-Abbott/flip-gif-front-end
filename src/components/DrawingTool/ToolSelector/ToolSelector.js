@@ -64,11 +64,21 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     }
 
     const toggleFramePrev = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
-        updateCurrFrame(direction);
+        if (canvasSaveData.frame === 1) {
+            notify.show('Cannot go to frame 0.', 'error', 800);
+        } else {
+            updateCurrFrame(direction);
+        }
+        
     }
 
     const toggleFrameNext = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
-        updateCurrFrame(direction);
+        if (canvasSaveData.frame === canvasSaveData.frameMax) {
+            notify.show('Cannot exceed maximum frame count.', 'error', 800);
+        } else {
+            updateCurrFrame(direction);
+        }
+        
     }
 
     const toggleLightbox = (flipbook, canvasSaveData) => {
