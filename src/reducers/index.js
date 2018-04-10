@@ -14,7 +14,8 @@ import {
     FLIPBOOK_SET,
     CANVAS_ADD_FRAME,
     CANVAS_UPDATE_MAX_COUNT,
-    CANVAS_UPDATE_CURR_FRAME
+    CANVAS_UPDATE_CURR_FRAME,
+    CANVAS_REMOVE_FRAME
 } from '../actions/actionTypes';
 
 function flipbook(state = '', action) {
@@ -80,6 +81,22 @@ function canvasSave(state = {frame: 1, frameMax: 1, index: -1, imageHistory: []}
                 frameMax: state.frameMax + 1,
                 index: 0,
                 imageHistory: [ action.canvasData ]
+            }
+        }
+        case CANVAS_REMOVE_FRAME: {
+            if (state.frame === 1) {
+                return {
+                    frame: 1,
+                    frameMax: state.frameMax -1,
+                    index: -1,
+                    imageHistory: []
+                }
+            }
+            return {
+                frame: state.frame - 1,
+                frameMax: state.frameMax -1,
+                index: -1,
+                imageHistory: []
             }
         }
         case CANVAS_INITIALIZE: {

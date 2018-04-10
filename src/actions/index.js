@@ -14,6 +14,7 @@ import {
     CANVAS_ADD_FRAME,
     CANVAS_UPDATE_MAX_COUNT,
     CANVAS_UPDATE_CURR_FRAME,
+    CANVAS_REMOVE_FRAME,
 } from '../actions/actionTypes';
 
 export function setFlipbook(flipbook) {
@@ -48,6 +49,14 @@ export function canvasAddFrame(canvasData) {
         dispatch({
             type: CANVAS_ADD_FRAME,
             canvasData
+        })
+    }
+}
+
+export function canvasRemoveFrame() {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_REMOVE_FRAME
         })
     }
 }

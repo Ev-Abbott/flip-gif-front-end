@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
 import {notify} from 'react-notify-toast';
-import { setSelectedTool, canvasAddFrame, canvasUpdateMax, updateCurrFrame } from '../../../actions';
+import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 
 let currMax = 0;
 
-const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, canvasAddFrame, canvasUpdateMax, updateCurrFrame }) => {
+const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame }) => {
     
     const saveToServer = (flipbook, canvasSaveData) => {
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -49,8 +49,18 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             })
     }
 
-    const removeFrame = (flipbook, canvasSaveData) => {
-        notify.show('Frame Deleted!', 'error', 800);
+    const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame) => {
+        if (canvasSaveData.frame === 1 && canvasSaveData.frame === canvasSaveData.frameMax) {
+            notify.show('Cannot delete last frame.', 'error', 800);
+        } else {    
+            return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
+                .then(res => {
+                    canvasRemoveFrame();
+                    notify.show('Frame Deleted!', 'error', 800);
+                })
+        }
+        
+        
     }
 
     const toggleFramePrev = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
@@ -99,7 +109,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-plus-circle fa-2x"></i>
                 </div>
-                <div onClick={() => removeFrame(flipbook, canvasSaveData)}  
+                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame)}  
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-trash-alt fa-2x"></i>
                 </div>
@@ -140,6 +150,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     setSelectedTool,
     canvasAddFrame,
+    canvasRemoveFrame,
     canvasUpdateMax,
     updateCurrFrame
 }, dispatch)
