@@ -55,7 +55,6 @@ export function updateCurrFrame(direction) {
         if (direction === 'DECREASE') modifier = -1;
         let canvasData = await axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSave.frame+modifier}`);
         let dataToSend = canvasData.data.data.imgURL;
-        console.log(dataToSend);
         dispatch({
             type: CANVAS_UPDATE_CURR_FRAME,
             direction,
@@ -83,7 +82,7 @@ export function canvasAddFrame(canvasData) {
 }
 
 export function canvasRemoveFrame() {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch({
             type: CANVAS_REMOVE_FRAME
         })

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave } from '../../../actions';
+import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave, updateCurrFrame } from '../../../actions';
 import {notify} from 'react-notify-toast';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
@@ -200,7 +200,9 @@ class DrawingCanvas extends Component {
     }
     loadCanvasWithCurrentFrame = (canvas) => {
         let ctx = canvas.getContext('2d');
-        return axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}`)
+        let frameCheck = this.props.canvasSaveData.frame;
+        if (this.props.canvasSaveData.frame === 0) frameCheck = 1
+        return axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${frameCheck}`)
             .then(res => {
                 let frameData = res.data.data.imgURL;
                 let img = new Image();
@@ -213,12 +215,12 @@ class DrawingCanvas extends Component {
                 img.src = frameData;
                 currIndex = this.props.canvasSaveData.index
                 currFrame = this.props.canvasSaveData.frame
+                console.log(this.props.canvasSaveData.frame, frameCheck);
                 notify.show(`On Frame ${this.props.canvasSaveData.frame} / ${this.props.canvasSaveData.frameMax}`, 'success', 800);
             })
     }
 
     updateCanvas = (canvas) => {
-        
         let ctx = canvas.getContext('2d');
         if (this.props.canvasSaveData.index > -1) {
             let img = new Image();
@@ -239,10 +241,8 @@ class DrawingCanvas extends Component {
     }
 
     render() {
-        
         let canvas = this.myCanvas;
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
-            console.log('Frame');
             this.loadCanvasWithCurrentFrame(canvas);
         }
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
@@ -285,7 +285,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setBrushPos,
     toggleCanPaint,
     setScaleFactor,
-    canvasSave
+    canvasSave,
+    updateCurrFrame
 }, dispatch)
 
 export default connect(
