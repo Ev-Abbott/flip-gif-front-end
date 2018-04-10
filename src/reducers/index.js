@@ -44,15 +44,15 @@ function canvasSave(state = {frame: 1, frameMax: 1, index: -1, imageHistory: []}
                 return {
                     frame: state.frame-1,
                     frameMax: state.frameMax,
-                    index: -1,
-                    imageHistory: []
+                    index: 0,
+                    imageHistory: [ action.dataToSend ]
                 }
             } else if (action.direction === 'INCREASE') {
                 return {
                     frame: state.frame+1,
                     frameMax: state.frameMax,
-                    index: -1,
-                    imageHistory: []
+                    index: 0,
+                    imageHistory: [ action.dataToSend ]
                 }
             }
             return state;
