@@ -70,7 +70,13 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         if (canvasSaveData.frame === 1) {
             notify.show('Cannot go to frame 0.', 'error', 800);
         } else {
-            updateCurrFrame(direction);
+            let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
+            let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
+            return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+                .then(res => {
+                    updateCurrFrame(direction);
+                })
+            
         }
         
     }
@@ -79,7 +85,12 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         if (canvasSaveData.frame === canvasSaveData.frameMax) {
             notify.show('Cannot exceed maximum frame count.', 'error', 800);
         } else {
-            updateCurrFrame(direction);
+            let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
+            let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
+            return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+                .then(res => {
+                    updateCurrFrame(direction);
+                })
         }
         
     }
