@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
-import { setSelectedTool, canvasUndo, canvasRedo } from '../../../actions';
+import {notify} from 'react-notify-toast';
+import { setSelectedTool } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
@@ -10,6 +11,7 @@ const BaseUrl = 'http://localhost:8080';
 const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData }) => {
 
     const saveToServer = (flipbook, canvasSaveData) => {
+        console.log('Triggered');
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
         return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
@@ -20,14 +22,31 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
                 }
             })
+            .then(res => {
+                console.log(res);
+                notify.show('Frame Saved!', 'success', 800);
+            })
             .catch(err => {
                 console.log(err);
             }); 
     }
-
     return (
         <div>
-           
+            <div className='flex-container flex-row justify-content-center'>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-play fa-2x"></i>
+                </div>
+                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i class="fas fa-save fa-2x"></i>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-plus-circle fa-2x"></i>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-trash-alt fa-2x"></i>
+                </div>
+            </div>
             <div className='flex-container flex-row justify-content-center'>
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="far fa-lightbulb fa-2x"></i>
@@ -47,22 +66,6 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     <i className="fas fa-angle-right fa-2x"></i>
                 </div>
             </div>
-            <div className='flex-container flex-row justify-content-center'>
-                
-                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-play fa-2x"></i>
-                </div>
-                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i class="fas fa-save fa-2x"></i>
-                </div>
-                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-plus-circle fa-2x"></i>
-                </div>
-                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-trash-alt fa-2x"></i>
-                </div>
-            </div>
         </div>
     );
 }
@@ -74,7 +77,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setSelectedTool, canvasUndo, canvasRedo
+    setSelectedTool
 }, dispatch)
 
 export default connect(

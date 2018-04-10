@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Sidebar, Menu } from 'semantic-ui-react';
-
+import Notification from 'react-notify-toast';
 import HeaderBar from './components/HeaderBar/HeaderBar';
 import FooterBar from './components/FooterBar/FooterBar';
 import HomePage from './components/HomePage/Homepage';
@@ -29,6 +29,7 @@ class App extends Component {
     return (
       <Router>
         <div>
+          <Notification options={{zIndex: 5000}} />
           <Sidebar.Pushable style={{minHeight: '100vh'}}>
             <Sidebar
               as={Menu}
