@@ -28,7 +28,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     return (
         <div>
            
-            <div className='flex-container flex-row justify-content-center flex-wrap'>
+            <div className='flex-container flex-row justify-content-center'>
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="far fa-lightbulb fa-2x"></i>
                 </div>
@@ -37,6 +37,17 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     <input
                         style={{width: "50px"}} />
                 </Input>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-angle-left fa-2x"></i>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <p>Frame: {canvasSaveData.frame} / 100</p>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-angle-right fa-2x"></i>
+                </div>
+            </div>
+            <div className='flex-container flex-row justify-content-center'>
                 
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-play fa-2x"></i>
