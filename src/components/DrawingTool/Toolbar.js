@@ -5,6 +5,7 @@ import { setBrushSize } from '../../actions';
 import { Input, Label, Segment } from 'semantic-ui-react';
 import BrushColorPicker from './ColorPickers/BrushColorPicker';
 import ToolSelector from './ToolSelector/ToolSelector';
+import BrushSelector from './ToolSelector/BrushSelector';
 
 const Toolbar = ({ brushSize, setBrushSize }) => {
     const changeBrushSize = (e, setBrushSize) => {
@@ -22,21 +23,41 @@ const Toolbar = ({ brushSize, setBrushSize }) => {
         
         <div className='flex-container flex-column align-items-center'>
             <Segment style={{width: '100%'}}>
-                <Label attached='top'>Brush Settings</Label>
-                <div className='flex-container flex-row justify-content-space-around align-items-center'>
-                    <BrushColorPicker /> 
-                    <Input error={brushSize === ''} placeholder={1} type='number'>
-                        <input
-                            value={brushSize}
-                            onChange={(e) => changeBrushSize(e, setBrushSize)}
-                            style={{width: "50px"}} />
-                    </Input>
+                <Label attached='top'>
+                    <span className='header-styled-text'>Brush Settings</span>
+                </Label>
+                <div className='flex-container flex-row justify-content-space-around align-items-center flex-wrap'>
+                    <div className='flex-container flex-row justify-content-space-between align-items-center'>
+                        <div style={{ margin: '5px'}}>
+                            <BrushColorPicker /> 
+                        </div>
+                        <div style={{ margin: '5px'}}>
+                            <Input error={brushSize === ''} placeholder={1} type='number'>
+                                <input
+                                    value={brushSize}
+                                    onChange={(e) => changeBrushSize(e, setBrushSize)}
+                                    style={{width: "50px"}} />
+                            </Input>
+                        </div>
+                        <div 
+                            className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                            <i className="fas fa-undo fa-2x"></i>
+                        </div>
+                        <div 
+                            className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                            <i className="fas fa-redo fa-2x"></i>
+                        </div>
+                    </div>
                     
+                    <BrushSelector />
                 </div>
                 
             </Segment>
+        
             <Segment style={{width: '100%'}}>
-                <Label attached='top'>Tools</Label>
+                <Label attached='top'>
+                    <span className='header-styled-text'>Animation Settings</span>
+                </Label>
                 <ToolSelector /> 
             </Segment>
         </div>

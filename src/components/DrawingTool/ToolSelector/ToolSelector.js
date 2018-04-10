@@ -8,9 +8,6 @@ import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 
 const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData }) => {
-    const determineToolToToggle = (e, setSelectedTool, tool) => {
-        setSelectedTool(tool);
-    }
 
     const saveToServer = (flipbook, canvasSaveData) => {
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -30,44 +27,20 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
 
     return (
         <div>
-            <div className='flex-container flex-row justify-content-space-between'>
-                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BRUSH')} 
-                    className={
-                        (selectedTool === 'BRUSH' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
-                    }>
-                    <i className="fas fa-paint-brush fa-2x"></i>
-                </div>
-                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BUCKET')} 
-                    className={
-                        (selectedTool === 'BUCKET' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
-                    }>
-                    <img src={paintBucket} width='28' height='28.5'/>
-                </div>
-                <div onTouchStart={canvasUndo}
+           
+            <div className='flex-container flex-row justify-content-space-around flex-wrap'>
+                
+                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-undo fa-2x"></i>
+                    <i class="fas fa-save fa-2x"></i>
                 </div>
-            </div>
-            <div className='flex-container flex-row justify-content-space-between'>
-                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'ERASER')} 
-                    className={
-                        (selectedTool === 'ERASER' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
-                    }>
-                    <i className="fas fa-eraser fa-2x"></i>
-                </div>
-                <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BOMB')} 
-                    className={
-                        (selectedTool === 'BOMB' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
-                    }>
-                    <i className="fas fa-bomb fa-2x"></i>
-                </div>
-                <div onTouchStart={canvasRedo}
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-redo fa-2x"></i>
-                </div>
-            </div>
-            <div className='flex-container flex-row justify-content-space-between'>
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-plus-circle fa-2x"></i>
+                </div>
+                <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-trash-alt fa-2x"></i>
+                </div>
+                {/* <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="far fa-lightbulb fa-2x"></i>
                 </div>
                 <div className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
@@ -75,11 +48,10 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                         <input
                             style={{width: "50px"}} />
                     </Input>
-                </div>
-                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i class="fas fa-save fa-2x"></i>
-                </div>
+                </div> */}
+            </div>
+            <div className='flex-container flex-row justify-content-center'>
+                
             </div>
         </div>
     );
