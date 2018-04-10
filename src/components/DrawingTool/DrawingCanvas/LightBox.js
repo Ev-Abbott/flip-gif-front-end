@@ -28,17 +28,16 @@ class Lightbox extends Component {
         if (this.props.lightbox.frames === '' || 0) return;
         axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`)
             .then(res => {
+                console.log(res.data);
                 let frames = res.data.data;
                 frames.forEach(frame => {
                     let img = new Image();
                     img.onload = () => {
                         ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                         ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
                     }
                     img.src = frame.imgURL;
-                    console.log(frame.imgURL);
                 });
             })
     }
