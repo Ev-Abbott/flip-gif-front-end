@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 
-let currFrame;
 class Lightbox extends Component {
     componentDidMount() {
         // Set canvas context
@@ -68,10 +67,9 @@ class Lightbox extends Component {
     }
     render() {
         let canvas = this.myLightBox;
-        if (canvas && currFrame !== this.props.canvasSaveData.frame) {
+        if (canvas) {
             let ctx = canvas.getContext('2d');
             this.loadNewLightBox(canvas)
-
         }
         return (
             <canvas id='DrawingTool-lightbox'

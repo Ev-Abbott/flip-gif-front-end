@@ -27,6 +27,7 @@ class DrawingCanvas extends Component {
         let scaleFactor = canvasWidth/modelWidth;
         ctx.scale(scaleFactor, scaleFactor);
         this.props.setScaleFactor(scaleFactor);
+        this.loadCanvasWithCurrentFrame(canvas);
     }
 
     brushStartTouch = (e, tool, scaleFactor, brushColor, eraserColor, setBrushPos, toggleCanPaint, canvasSave) => {
@@ -198,6 +199,7 @@ class DrawingCanvas extends Component {
         }
         return flattened;
     }
+
     loadCanvasWithCurrentFrame = (canvas) => {
         let ctx = canvas.getContext('2d');
         let frameCheck = this.props.canvasSaveData.frame;
@@ -215,13 +217,13 @@ class DrawingCanvas extends Component {
                 img.src = frameData;
                 currIndex = this.props.canvasSaveData.index
                 currFrame = this.props.canvasSaveData.frame
-                console.log(this.props.canvasSaveData.frame, frameCheck);
                 notify.show(`On Frame ${this.props.canvasSaveData.frame} / ${this.props.canvasSaveData.frameMax}`, 'success', 800);
             })
     }
 
     updateCanvas = (canvas) => {
         let ctx = canvas.getContext('2d');
+        
         if (this.props.canvasSaveData.index > -1) {
             let img = new Image();
             img.onload = () => {
@@ -233,15 +235,14 @@ class DrawingCanvas extends Component {
             img.src = this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index];
             currIndex = this.props.canvasSaveData.index
         } else {
-            ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+            this.loadCanvasWithCurrentFrame(canvas);
             currIndex = this.props.canvasSaveData.index
         }
     }
 
     render() {
         let canvas = this.myCanvas;
+        
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
             this.loadCanvasWithCurrentFrame(canvas);
         }
