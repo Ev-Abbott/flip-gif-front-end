@@ -36,6 +36,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 notify.show('Frame Saved!', 'success', 800);
             })
             .catch(err => {
+                toggleDimmer();
                 console.log(err);
             }); 
     }
@@ -63,6 +64,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 notify.show('Frame Added!', 'success', 800);
             })
             .catch(err => {
+                toggleDimmer();
                 console.log(err);
             })
         
@@ -80,6 +82,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     canvasRemoveFrame(flipbook.name, canvasSaveData.frame);
                     toggleDimmer();
                     notify.show('Frame Deleted!', 'error', 800);
+                })
+                .catch(err => {
+                    toggleDimmer();
                 })
         }
         
@@ -99,6 +104,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     updateCurrFrame(direction);
                     toggleDimmer();
                 })
+                .catch(err => {
+                    toggleDimmer();
+                })
             
         }
         
@@ -115,6 +123,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
                 .then(res => {
                     updateCurrFrame(direction);
+                    toggleDimmer();
+                })
+                .catch(err => {
                     toggleDimmer();
                 })
         }
