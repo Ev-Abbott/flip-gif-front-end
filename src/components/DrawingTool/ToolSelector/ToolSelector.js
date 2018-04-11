@@ -41,8 +41,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             }); 
     }
 
-    const addNewFrame = (flipbook, canvasSaveData, canvasAddFrame) => {
-        
+    const addNewFrame = (flipbook, canvasSaveData, canvasAddFrame, toggleDimmer) => {
+        toggleDimmer()
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
         return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
@@ -60,11 +60,11 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             })
             .then(res => {
                 canvasAddFrame(res.data.data.imgURL);
-                
+                toggleDimmer()
                 notify.show('Frame Added!', 'success', 800);
             })
             .catch(err => {
-                
+                toggleDimmer()
                 console.log(err);
             })
         
@@ -221,7 +221,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-save fa-2x"></i>
                 </div>
-                <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame)} 
+                <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame, toggleDimmer)} 
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-plus-circle fa-2x"></i>
                 </div>
