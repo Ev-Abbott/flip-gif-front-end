@@ -247,11 +247,11 @@ class DrawingCanvas extends Component {
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
             this.loadCanvasWithCurrentFrame(canvas);
         }
-        
+
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
             this.updateCanvas(canvas)
         }
-        
+        console.log(this.props.canvasSaveData.imageHistory &&this.props.canvasSaveData.imageHistory[0])
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}

@@ -109,10 +109,15 @@ export function canvasAddFrame(canvasData) {
     }
 }
 
-export function canvasRemoveFrame() {
-    return (dispatch, getState) => {
+export function canvasRemoveFrame(name, frame) {
+    return async (dispatch, getState) => {
+        // to-do resolve frame 1 decrement
+        
+        let imgResult = await axios.get(`${BaseUrl}/flipbooks/${name}/frames/${frame}`);
+        let canvasData = imgResult.data.data.imgURL;
         dispatch({
             type: CANVAS_REMOVE_FRAME,
+            canvasData
         })
     }
 }
