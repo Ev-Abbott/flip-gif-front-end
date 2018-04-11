@@ -5,7 +5,7 @@ import { Input } from 'semantic-ui-react';
 import {notify} from 'react-notify-toast';
 import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, 
         updateCurrFrame, toggleLightbox, setLightboxFrames, setFlipbook,
-        setAnimationActive, setAnimationInactive } from '../../../actions';
+        setAnimationActive, setAnimationInactive, toggleDimmer } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
@@ -14,7 +14,8 @@ let currMax = 0;
 
 const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, 
     canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame, toggleLightbox, 
-    setLightboxFrames, lightbox, setFlipbook, setAnimationActive, setAnimationInactive, animation }) => {
+    setLightboxFrames, lightbox, setFlipbook, setAnimationActive, setAnimationInactive, animation ,
+    toggleDimmer }) => {
     
     const saveToServer = (flipbook, canvasSaveData) => {
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -68,7 +69,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     }
 
     const toggleFramePrev = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
+        
         if (canvasSaveData.frame === 1) {
+            
             notify.show('Cannot go to frame 0.', 'error', 800);
         } else {
             let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -76,6 +79,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
                 .then(res => {
                     updateCurrFrame(direction);
+                    
                 })
             
         }
@@ -83,7 +87,9 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     }
 
     const toggleFrameNext = (flipbook, canvasSaveData, updateCurrFrame, direction) => {
+        
         if (canvasSaveData.frame === canvasSaveData.frameMax) {
+        
             notify.show('Cannot exceed maximum frame count.', 'error', 800);
         } else {
             let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -112,9 +118,11 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         }
     }
 
-    const toggleAnimation = (flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive) => {
+    const toggleAnimation = (flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive, toggleDimmer) => {
+        toggleDimmer();
         if (animation.isActive) {
             setAnimationInactive();
+            toggleDimmer();
             return notify.show('Animation off!', 'success', 800);
         }
 
@@ -123,6 +131,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 let newFlipbook = res.data.data;
                 setFlipbook(newFlipbook);
                 setAnimationActive(newFlipbook.gifURL);
+                toggleDimmer();
                 notify.show('Animation on!', 'success', 800);
             })
         
@@ -146,7 +155,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     return (
         <div>
             <div className='flex-container flex-row justify-content-center'>
-                <div onClick={() => toggleAnimation(flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive)}
+                <div onClick={() => toggleAnimation(flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive,
+                                    toggleDimmer)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className={(animation.isActive ? 'fas fa-pause ' : 'fas fa-play ') + 'fa-2x'}></i>
                 </div>
@@ -176,7 +186,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                         onChange={(e) => changeLightboxFrames(e, setLightboxFrames)}
                         style={{width: "50px"}} />
                 </Input>
-                <div onClick={() => toggleFramePrev(flipbook, canvasSaveData, updateCurrFrame, 'DECREASE')} 
+                <div onClick={() => toggleFramePrev(flipbook, canvasSaveData, updateCurrFrame, 'DECREASE', toggleDimmer)} 
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-angle-left fa-2x"></i>
                 </div>
@@ -184,7 +194,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <p>Frame: {canvasSaveData.frame} / {canvasSaveData.frameMax}</p>
                 </div>
-                <div onClick={() => toggleFrameNext(flipbook, canvasSaveData, updateCurrFrame, 'INCREASE')}
+                <div onClick={() => toggleFrameNext(flipbook, canvasSaveData, updateCurrFrame, 'INCREASE', toggleDimmer)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-angle-right fa-2x"></i>
                 </div>
@@ -211,7 +221,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     setLightboxFrames,
     setFlipbook,
     setAnimationActive,
-    setAnimationInactive
+    setAnimationInactive,
+    toggleDimmer
 }, dispatch)
 
 export default connect(

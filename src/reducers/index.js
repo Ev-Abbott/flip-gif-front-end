@@ -19,8 +19,20 @@ import {
     LIGHTBOX_TOGGLE_ACTIVE,
     LIGHTBOX_SET_FRAME_COUNT,
     ANIMATION_SET_ACTIVE,
-    ANIMATION_SET_INACTIVE
+    ANIMATION_SET_INACTIVE,
+    DIMMER_TOGGLE_DIMMER
 } from '../actions/actionTypes';
+
+function dimmer(state = false, action) {
+    switch(action.type) {
+        case DIMMER_TOGGLE_DIMMER: {
+            return !state;
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 function animation(state = { isActive: false, imgURL: '' }, action) {
     switch(action.type) {
@@ -269,5 +281,6 @@ export default combineReducers({
     canvasSave,
     flipbook,
     lightBox,
-    animation
+    animation,
+    dimmer
 });

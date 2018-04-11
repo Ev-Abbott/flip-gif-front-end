@@ -19,9 +19,18 @@ import {
     LIGHTBOX_SET_FRAME_COUNT,
     ANIMATION_SET_ACTIVE,
     ANIMATION_SET_INACTIVE,
+    DIMMER_TOGGLE_DIMMER,
 } from '../actions/actionTypes';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
+
+export function toggleDimmer() {
+    return (dispatch) => {
+        dispatch({
+            type: DIMMER_TOGGLE_DIMMER
+        })
+    }
+}
 
 export function setAnimationActive(imgURL) {
     return (dispatch) => {

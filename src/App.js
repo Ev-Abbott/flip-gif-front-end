@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Sidebar, Menu } from 'semantic-ui-react';
+import { Sidebar, Menu, Dimmer, Icon, Header } from 'semantic-ui-react';
 import Notification from 'react-notify-toast';
 import HeaderBar from './components/HeaderBar/HeaderBar';
 import FooterBar from './components/FooterBar/FooterBar';
@@ -29,6 +29,14 @@ class App extends Component {
     return (
       <Router>
         <div>
+          <Dimmer active={this.props.dimmerVisible}
+            page
+          >
+            <Header as='h2' icon inverted style={{ position: 'relative', top: '30vh'}}> 
+              <Icon name='paint brush' loading />
+              Loading...
+            </Header>
+          </Dimmer>
           <Notification options={{zIndex: 5000}} />
           <Sidebar.Pushable style={{minHeight: '100vh'}}>
             <Sidebar
@@ -63,7 +71,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => ({
-
+    dimmerVisible: state.dimmer
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
