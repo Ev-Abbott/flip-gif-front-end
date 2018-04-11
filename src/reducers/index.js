@@ -141,14 +141,14 @@ function canvasSave(state = {frame: 1, frameMax: 1, index: -1, imageHistory: []}
         }
         case CANVAS_REMOVE_FRAME: {
             // Resolve Frame 1 issues later
-            // if (state.frame === 1) {
-            //     return {
-            //         frame: 1,
-            //         frameMax: state.frameMax -1,
-            //         index: -1,
-            //         imageHistory: [ ]
-            //     }
-            // }
+            if (state.frame === state.frameMax) {
+                return {
+                    frame: state.frame-1,
+                    frameMax: state.frameMax -1,
+                    index: 0,
+                    imageHistory: [action.canvasData ]
+                }
+            }
             return {
                 frame: state.frame,
                 frameMax: state.frameMax -1,
