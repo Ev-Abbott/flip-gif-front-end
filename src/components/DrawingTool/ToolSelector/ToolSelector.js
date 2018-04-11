@@ -17,7 +17,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     setLightboxFrames, lightbox, setFlipbook, setAnimationActive, setAnimationInactive, animation ,
     toggleDimmer }) => {
     
-    const saveToServer = (flipbook, canvasSaveData) => {
+    const saveToServer = (flipbook, canvasSaveData, toggleDimmer) => {
+        toggleDimmer()
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
         
@@ -31,11 +32,11 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             })
             .then(res => {
                 console.log(res);
-                
+                toggleDimmer()
                 notify.show('Frame Saved!', 'success', 800);
             })
             .catch(err => {
-                
+                toggleDimmer()
                 console.log(err);
             }); 
     }
@@ -70,7 +71,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             
     }
 
-    const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame) => {
+    const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame, ) => {
         
         if (canvasSaveData.frame === 1 && canvasSaveData.frame === canvasSaveData.frameMax) {
             
@@ -79,10 +80,11 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
                 .then(res => {
                     canvasRemoveFrame(flipbook.name, canvasSaveData.frame);
-                    =
+                    
                     notify.show('Frame Deleted!', 'error', 800);
                 })
                 .catch(err => {
+                    console.log(err)
                     
                 })
         }
@@ -215,7 +217,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className={(animation.isActive ? 'fas fa-pause ' : 'fas fa-play ') + 'fa-2x'}></i>
                 </div>
-                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
+                <div onClick={() => saveToServer(flipbook, canvasSaveData, toggleDimmer)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-save fa-2x"></i>
                 </div>
