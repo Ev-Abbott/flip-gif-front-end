@@ -112,7 +112,7 @@ export function canvasAddFrame(canvasData) {
 export function canvasRemoveFrame() {
     return (dispatch, getState) => {
         dispatch({
-            type: CANVAS_REMOVE_FRAME
+            type: CANVAS_REMOVE_FRAME,
         })
     }
 }

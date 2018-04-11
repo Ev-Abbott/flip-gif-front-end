@@ -152,7 +152,7 @@ function canvasSave(state = {frame: 1, frameMax: 1, index: -1, imageHistory: []}
                 frame: state.frame - 1,
                 frameMax: state.frameMax -1,
                 index: -1,
-                imageHistory: []
+                imageHistory: [  ]
             }
         }
         case CANVAS_INITIALIZE: {

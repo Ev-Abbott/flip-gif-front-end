@@ -241,6 +241,7 @@ class DrawingCanvas extends Component {
     }
 
     render() {
+        
         let canvas = this.myCanvas;
         
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {

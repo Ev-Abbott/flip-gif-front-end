@@ -42,7 +42,15 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
-        return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
+            .then(res => {
+                if (!res.data.data) {
+                    return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave);
+                    
+                } else {
+                    return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+                }
+            })
             .then(res => {
                 let newFrame = {...frameToSave, index: canvasSaveData.frame+1};
                 return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave);
@@ -52,6 +60,11 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 canvasAddFrame(res.data.data.imgURL);
                 notify.show('Frame Added!', 'success', 800);
             })
+            .catch(err => {
+                console.log(err);
+            })
+        
+            
     }
 
     const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame) => {
@@ -60,7 +73,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         } else {    
             return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
                 .then(res => {
-                    canvasRemoveFrame();
+                    canvasRemoveFrame(flipbook.name, canvasSaveData.frame);
                     notify.show('Frame Deleted!', 'error', 800);
                 })
         }
