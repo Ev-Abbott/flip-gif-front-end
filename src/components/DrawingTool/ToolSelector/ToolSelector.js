@@ -141,12 +141,14 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
 
         return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/createGif`)
             .then(res => {
-                console.log(res.data.data.gifURL);
                 let newFlipbook = res.data.data;
                 setFlipbook(newFlipbook);
                 setAnimationActive(newFlipbook.gifURL);
                 toggleDimmer();
                 notify.show('Animation on!', 'success', 800);
+            })
+            .then(res => {
+                
             })
         
     }
@@ -168,25 +170,6 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     
     return (
         <div>
-            <div className='flex-container flex-row justify-content-center'>
-                <div onClick={() => toggleAnimation(flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive,
-                                    toggleDimmer)}
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className={(animation.isActive ? 'fas fa-pause ' : 'fas fa-play ') + 'fa-2x'}></i>
-                </div>
-                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-save fa-2x"></i>
-                </div>
-                <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame)} 
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-plus-circle fa-2x"></i>
-                </div>
-                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame)}  
-                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-trash-alt fa-2x"></i>
-                </div>
-            </div>
             <div className='flex-container flex-row justify-content-center'>
                 <div onClick={() => toggleLightbox(flipbook, canvasSaveData, toggleLightbox)}
                     className={(lightbox.isActive ? 'DrawingTool-lightboxSelected ' : '') 
@@ -211,6 +194,25 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 <div onClick={() => toggleFrameNext(flipbook, canvasSaveData, updateCurrFrame, 'INCREASE', toggleDimmer)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-angle-right fa-2x"></i>
+                </div>
+            </div>
+            <div className='flex-container flex-row justify-content-center'>
+                <div onClick={() => toggleAnimation(flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive,
+                                    toggleDimmer)}
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className={(animation.isActive ? 'fas fa-pause ' : 'fas fa-play ') + 'fa-2x'}></i>
+                </div>
+                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-save fa-2x"></i>
+                </div>
+                <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame)} 
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-plus-circle fa-2x"></i>
+                </div>
+                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame)}  
+                    className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                    <i className="fas fa-trash-alt fa-2x"></i>
                 </div>
             </div>
         </div>

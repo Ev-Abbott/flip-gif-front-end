@@ -247,6 +247,7 @@ class DrawingCanvas extends Component {
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
             this.loadCanvasWithCurrentFrame(canvas);
         }
+        
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
             this.updateCanvas(canvas)
         }
