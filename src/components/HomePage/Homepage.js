@@ -10,6 +10,26 @@ const HomePage = ({ bodyMargin }) => {
             <Header as='h2'>If you do not have an account, click the hamburger and signup. Otherwise,
             click the hamburger to login in. You need an account to create a flipbook.</Header>
             <hr />
+            <Header as='h2'>Tools that might need explaining</Header>
+                <div className='flex-container flex-row'>
+                    <div className='DrawingTool-iconContainer flex-container flex-column justify-content-center align-items-center'>
+                        <i className="fas fa-bomb fa-2x"></i>
+                        <p>Tool to Clear the Canvas</p>
+                    </div>
+                    <div className='DrawingTool-iconContainer flex-container flex-column justify-content-center align-items-center'>
+                        <i className="fas fa-plus-circle fa-2x"></i>
+                        <p>Creates new Frame with a copy of what is on the canvas</p>
+                    </div>
+                    <div className='DrawingTool-iconContainer flex-container flex-column justify-content-center align-items-center'>
+                        <i className="fas fa-trash-alt fa-2x"></i>
+                        <p>Permanently Deletes a Frame</p>
+                    </div>
+                    <div className='DrawingTool-iconContainer flex-container flex-column justify-content-center align-items-center'>
+                        <i className="far fa-lightbulb fa-2x"></i>
+                        <p>Turns on Transparency tool</p>
+                    </div>
+                </div>
+            <hr />
             <Header as='h2'>Quirks about the app</Header>
             <ul>
                 <li>This is a touch only app and is optimized for the phone. A mouse WIL NOT WORK. A pen with one of those rubber tipped styluses is preferred.</li>
