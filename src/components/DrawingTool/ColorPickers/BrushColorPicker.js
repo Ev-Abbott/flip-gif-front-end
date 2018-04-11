@@ -41,8 +41,9 @@ class BrushColorPicker extends Component {
               },
               popover: {
                 position: 'absolute',
-                top: '0px',
-                zIndex: '2',
+                top: '-75px',
+                left: '0px',
+                zIndex: '15'
               },
               cover: {
                 position: 'fixed',
