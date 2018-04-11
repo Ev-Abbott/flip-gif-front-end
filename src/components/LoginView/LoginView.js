@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setFlipbook } from '../../actions';
+import { setFlipbook, toggleDimmer } from '../../actions';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom';
 
@@ -24,6 +24,7 @@ class LoginForm extends Component {
 
     handleSubmit = (history) => {
         const { username, password } = this.state;
+        this.props.toggleDimmer()
         return axios.post(`${BaseUrl}/users/login`, { username: username.toLowerCase(), password} )
             .then(res => {
                 const token = res.headers.auth.split(' ')[1];
@@ -32,8 +33,10 @@ class LoginForm extends Component {
                 console.log(res.data.flipbook);
                 this.props.setFlipbook(res.data.flipbook);
                 history.push('/draw');
+                this.props.toggleDimmer()
             })
             .catch(err => {
+                this.props.toggleDimmer()
                 this.setState({ error: 'Username or password is incorred.' });
             });
     }
@@ -103,7 +106,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    setFlipbook
+    setFlipbook,
+    toggleDimmer
 }, dispatch)
 
 export default withRouter(connect(
