@@ -205,15 +205,15 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className={(animation.isActive ? 'fas fa-pause ' : 'fas fa-play ') + 'fa-2x'}></i>
                 </div>
-                <div onClick={() => saveToServer(flipbook, canvasSaveData)}
+                <div onClick={() => saveToServer(flipbook, canvasSaveData, toggleDimmer)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-save fa-2x"></i>
                 </div>
-                <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame)} 
+                <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame, toggleDimmer)} 
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-plus-circle fa-2x"></i>
                 </div>
-                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame)}  
+                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame, toggleDimmer)}  
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-trash-alt fa-2x"></i>
                 </div>
