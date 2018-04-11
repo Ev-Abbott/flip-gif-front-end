@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import { Input } from 'semantic-ui-react';
 import {notify} from 'react-notify-toast';
 import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, 
-        updateCurrFrame, toggleLightbox, setLightboxFrames } from '../../../actions';
+        updateCurrFrame, toggleLightbox, setLightboxFrames, setFlipbook,
+        setAnimationActive, setAnimationInactive } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
@@ -13,7 +14,7 @@ let currMax = 0;
 
 const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, flipbook, canvasSaveData, 
     canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, updateCurrFrame, toggleLightbox, 
-    setLightboxFrames, lightbox }) => {
+    setLightboxFrames, lightbox, setFlipbook, setAnimationActive, setAnimationInactive, animation }) => {
     
     const saveToServer = (flipbook, canvasSaveData) => {
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
@@ -111,8 +112,20 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         }
     }
 
-    const toggleAnimation = (flipbook, canvasSaveData) => {
-        notify.show('Animation on!', 'success', 800);
+    const toggleAnimation = (flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive) => {
+        if (animation.isActive) {
+            setAnimationInactive();
+            return notify.show('Animation off!', 'success', 800);
+        }
+
+        return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/createGif`)
+            .then(res => {
+                let newFlipbook = res.data.data;
+                setFlipbook(newFlipbook);
+                setAnimationActive(newFlipbook.gifURL);
+                notify.show('Animation on!', 'success', 800);
+            })
+        
     }
 
     const updateMaxFrameCount = (flipbook, canvasSaveData, canvasUpdateMax) => {
@@ -133,13 +146,13 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     return (
         <div>
             <div className='flex-container flex-row justify-content-center'>
-                <div onClick={() => toggleAnimation(flipbook, canvasSaveData)}
+                <div onClick={() => toggleAnimation(flipbook, canvasSaveData, setFlipbook, animation, setAnimationActive, setAnimationInactive)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i className="fas fa-play fa-2x"></i>
+                    <i className={(animation.isActive ? 'fas fa-pause ' : 'fas fa-play ') + 'fa-2x'}></i>
                 </div>
                 <div onClick={() => saveToServer(flipbook, canvasSaveData)}
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                    <i class="fas fa-save fa-2x"></i>
+                    <i className="fas fa-save fa-2x"></i>
                 </div>
                 <div onClick={() => addNewFrame(flipbook, canvasSaveData, canvasAddFrame)} 
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
@@ -184,7 +197,8 @@ const mapStateToProps = (state) => ({
     selectedTool: state.selectedTool,
     flipbook: state.flipbook,
     canvasSaveData: state.canvasSave,
-    lightbox: state.lightBox
+    lightbox: state.lightBox,
+    animation: state.animation
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -194,7 +208,10 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     canvasUpdateMax,
     updateCurrFrame,
     toggleLightbox,
-    setLightboxFrames
+    setLightboxFrames,
+    setFlipbook,
+    setAnimationActive,
+    setAnimationInactive
 }, dispatch)
 
 export default connect(

@@ -50,7 +50,17 @@ class DrawingTool extends Component {
     render() {
         return (
             <div style={{ position: 'relative', top: '3em'}}>
-                
+                { this.props.animation.isActive ? <img src={this.props.animation.imgURL} style={{
+                    zIndex: 99,
+                    position: 'absolute',
+                    top: '0px',
+                    left: '0px',
+                    width: this.calculateSize() - 42,
+                    height: this.calculateSize() - 42,
+                    margin: '20px',
+                    border: '1px solid #CCC',
+                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+                    borderRadius: '5px'}} />: ''}
                 <DrawingCanvas />
                 { this.props.lightbox.isActive ? <LightBox /> : ''}
                 <div style={{ position: 'relative', top: this.calculateSize(), margin: '0px 20px 0px 20px'}}>
@@ -65,7 +75,8 @@ class DrawingTool extends Component {
 const mapStateToProps = (state) => ({
     flipbook: state.flipbook,
     canvasSaveData: state.canvasSave,
-    lightbox: state.lightBox
+    lightbox: state.lightBox,
+    animation: state.animation
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

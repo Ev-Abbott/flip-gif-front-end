@@ -17,8 +17,30 @@ import {
     CANVAS_UPDATE_CURR_FRAME,
     CANVAS_REMOVE_FRAME,
     LIGHTBOX_TOGGLE_ACTIVE,
-    LIGHTBOX_SET_FRAME_COUNT
+    LIGHTBOX_SET_FRAME_COUNT,
+    ANIMATION_SET_ACTIVE,
+    ANIMATION_SET_INACTIVE
 } from '../actions/actionTypes';
+
+function animation(state = { isActive: false, imgURL: '' }, action) {
+    switch(action.type) {
+        case ANIMATION_SET_ACTIVE: {
+            return {
+                isActive: true,
+                imgURL: action.imgURL
+            }
+        }
+        case ANIMATION_SET_INACTIVE: {
+            return {
+                isActive: false,
+                imgURL: ''
+            }
+        }
+        default: {
+            return state;
+        }
+    }
+}
 
 function lightBox(state = { isActive: false, frames: 0 }, action) {
     switch(action.type) {
@@ -246,5 +268,6 @@ export default combineReducers({
     scaleFactor,
     canvasSave,
     flipbook,
-    lightBox
+    lightBox,
+    animation
 });

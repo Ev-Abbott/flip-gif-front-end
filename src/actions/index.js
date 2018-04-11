@@ -17,9 +17,28 @@ import {
     CANVAS_REMOVE_FRAME,
     LIGHTBOX_TOGGLE_ACTIVE,
     LIGHTBOX_SET_FRAME_COUNT,
+    ANIMATION_SET_ACTIVE,
+    ANIMATION_SET_INACTIVE,
 } from '../actions/actionTypes';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
+
+export function setAnimationActive(imgURL) {
+    return (dispatch) => {
+        dispatch({
+            type: ANIMATION_SET_ACTIVE,
+            imgURL
+        })
+    }
+}
+
+export function setAnimationInactive() {
+    return (dispatch) => {
+        dispatch({
+            type: ANIMATION_SET_INACTIVE
+        })
+    }
+}
 
 export function toggleLightbox() {
     return (dispatch) => {
