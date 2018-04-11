@@ -128,6 +128,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
 
         return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/createGif`)
             .then(res => {
+                console.log(res.data.data.gifURL);
                 let newFlipbook = res.data.data;
                 setFlipbook(newFlipbook);
                 setAnimationActive(newFlipbook.gifURL);
