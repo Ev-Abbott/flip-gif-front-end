@@ -72,11 +72,10 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     }
 
     const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame, toggleDimmer) => {
-        toggleDimmer()
         if (canvasSaveData.frame === 1 && canvasSaveData.frame === canvasSaveData.frameMax) {
-            toggleDimmer()
             notify.show('Cannot delete last frame.', 'error', 800);
-        } else {    
+        } else { 
+            toggleDimmer()   
             return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
                 .then(res => {
                     canvasRemoveFrame(flipbook.name, canvasSaveData.frame);
