@@ -20,6 +20,7 @@ import {
     ANIMATION_SET_ACTIVE,
     ANIMATION_SET_INACTIVE,
     DIMMER_TOGGLE_DIMMER,
+    CANVAS_UPDATE_INDEX_HACK,
 } from '../actions/actionTypes';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
@@ -71,6 +72,14 @@ export function setFlipbook(flipbook) {
         dispatch({
             type: FLIPBOOK_SET,
             flipbook
+        })
+    }
+}
+
+export function canvasUpdateIndexHack() {
+    return (dispatch) => {
+        dispatch({
+            type: CANVAS_UPDATE_INDEX_HACK
         })
     }
 }

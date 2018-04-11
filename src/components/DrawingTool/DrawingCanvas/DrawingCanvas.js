@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave, updateCurrFrame } from '../../../actions';
+import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave, updateCurrFrame, canvasUpdateIndexHack } from '../../../actions';
 import {notify} from 'react-notify-toast';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
@@ -223,8 +223,17 @@ class DrawingCanvas extends Component {
 
     updateCanvas = (canvas) => {
         let ctx = canvas.getContext('2d');
-        
-        if (this.props.canvasSaveData.index > -1) {
+        if (this.props.canvasSaveData.index === -1) {
+            let img = new Image();
+            img.onload = () => {
+                ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+            }
+            img.src = this.props.canvasSaveData.imageHistory[0];
+            this.props.canvasUpdateIndexHack();
+        } else {
             let img = new Image();
             img.onload = () => {
                 ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
@@ -234,24 +243,31 @@ class DrawingCanvas extends Component {
             }
             img.src = this.props.canvasSaveData.imageHistory[this.props.canvasSaveData.index];
             currIndex = this.props.canvasSaveData.index
-        } else {
-            this.loadCanvasWithCurrentFrame(canvas);
-            currIndex = this.props.canvasSaveData.index
         }
+        
     }
 
     render() {
-        
+        console.log('Frame :')
+        console.log(currFrame, this.props.canvasSaveData.frame);
+        console.log('Index :')
+        console.log(currIndex, this.props.canvasSaveData.index);
         let canvas = this.myCanvas;
         
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
+            console.log('FRAME UPDATE');
             this.loadCanvasWithCurrentFrame(canvas);
         }
 
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
+            console.log('INDEX UPDATE');
             this.updateCanvas(canvas)
         }
-        console.log(this.props.canvasSaveData.imageHistory && this.props.canvasSaveData.imageHistory[0])
+        console.log('Frame :')
+        console.log(currFrame, this.props.canvasSaveData.frame);
+        console.log('Index :')
+        console.log(currIndex, this.props.canvasSaveData.index);
+        // console.log(this.props.canvasSaveData.imageHistory && this.props.canvasSaveData.imageHistory[0])
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}
@@ -289,7 +305,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     toggleCanPaint,
     setScaleFactor,
     canvasSave,
-    updateCurrFrame
+    updateCurrFrame,
+    canvasUpdateIndexHack
 }, dispatch)
 
 export default connect(

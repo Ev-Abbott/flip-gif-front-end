@@ -20,7 +20,8 @@ import {
     LIGHTBOX_SET_FRAME_COUNT,
     ANIMATION_SET_ACTIVE,
     ANIMATION_SET_INACTIVE,
-    DIMMER_TOGGLE_DIMMER
+    DIMMER_TOGGLE_DIMMER,
+    CANVAS_UPDATE_INDEX_HACK
 } from '../actions/actionTypes';
 
 function dimmer(state = false, action) {
@@ -145,15 +146,23 @@ function canvasSave(state = {frame: 1, frameMax: 1, index: -1, imageHistory: []}
                 return {
                     frame: state.frame-1,
                     frameMax: state.frameMax -1,
-                    index: 0,
-                    imageHistory: [action.canvasData ]
+                    index: -1,
+                    imageHistory: [ action.canvasData ]
                 }
-            }
+            } 
             return {
                 frame: state.frame,
                 frameMax: state.frameMax -1,
-                index: 0,
+                index: -1,
                 imageHistory: [ action.canvasData ]
+            }
+        }
+        case CANVAS_UPDATE_INDEX_HACK: {
+            return {
+                frame: state.frame,
+                frameMax: state.frameMax,
+                index: 0,
+                imageHistory: state.imageHistory
             }
         }
         case CANVAS_INITIALIZE: {
