@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
-const BaseUrl = 'http://localhost:8080';
+const BaseUrl = 'https://flipgif-backend.herokuapp.com';
 
 class Lightbox extends Component {
     componentDidMount() {

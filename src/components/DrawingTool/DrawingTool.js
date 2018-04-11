@@ -10,7 +10,7 @@ import Toolbar from './Toolbar';
 
 import './DrawingTool.css';
 
-const BaseUrl = 'http://localhost:8080';
+const BaseUrl = 'https://flipgif-backend.herokuapp.com';
 
 class DrawingTool extends Component {
     componentDidMount() {

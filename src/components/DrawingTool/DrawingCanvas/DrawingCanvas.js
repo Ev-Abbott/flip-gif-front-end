@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { setBrushPos, toggleCanPaint, setScaleFactor, canvasSave, updateCurrFrame, canvasUpdateIndexHack } from '../../../actions';
 import {notify} from 'react-notify-toast';
 import axios from 'axios';
-const BaseUrl = 'http://localhost:8080';
+const BaseUrl = 'https://flipgif-backend.herokuapp.com';
 let currIndex = -1
 let currFrame = 1;
 
