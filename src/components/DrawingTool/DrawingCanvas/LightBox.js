@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 
+let currFrame;
 class Lightbox extends Component {
     componentDidMount() {
         // Set canvas context
@@ -26,6 +27,7 @@ class Lightbox extends Component {
     initializeLightBox = (canvas) => {
         const ctx = canvas.getContext('2d');
         if (this.props.lightbox.frames === '' || 0) return;
+        
         axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`)
             .then(res => {
                 console.log(res.data);
@@ -38,12 +40,39 @@ class Lightbox extends Component {
                         ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
                     }
                     img.src = frame.imgURL;
+                    
                 });
             })
     }
     
-
+    loadNewLightBox = (canvas) => {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (this.props.lightbox.frames === '' || 0) return;
+        
+        axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`)
+            .then(res => {
+                console.log(res.data);
+                let frames = res.data.data;
+                frames.forEach(frame => {
+                    let img = new Image();
+                    img.onload = () => {
+                        ctx.scale(1/this.props.scaleFactor, 1/this.props.scaleFactor);
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        ctx.scale(this.props.scaleFactor, this.props.scaleFactor);
+                    }
+                    img.src = frame.imgURL;
+                    
+                });
+            })
+    }
     render() {
+        let canvas = this.myLightBox;
+        if (canvas && currFrame !== this.props.canvasSaveData.frame) {
+            let ctx = canvas.getContext('2d');
+            this.loadNewLightBox(canvas)
+
+        }
         return (
             <canvas id='DrawingTool-lightbox'
                 ref={(c => this.myLightBox = c)}>
