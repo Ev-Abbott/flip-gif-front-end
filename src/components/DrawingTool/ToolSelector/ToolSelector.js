@@ -71,21 +71,21 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             
     }
 
-    const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame, ) => {
-        
+    const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame, toggleDimmer) => {
+        toggleDimmer()
         if (canvasSaveData.frame === 1 && canvasSaveData.frame === canvasSaveData.frameMax) {
-            
+            toggleDimmer()
             notify.show('Cannot delete last frame.', 'error', 800);
         } else {    
             return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
                 .then(res => {
                     canvasRemoveFrame(flipbook.name, canvasSaveData.frame);
-                    
+                    toggleDimmer()
                     notify.show('Frame Deleted!', 'error', 800);
                 })
                 .catch(err => {
                     console.log(err)
-                    
+                    toggleDimmer()
                 })
         }
         
@@ -225,7 +225,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-plus-circle fa-2x"></i>
                 </div>
-                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame)}  
+                <div onClick={() => removeFrame(flipbook, canvasSaveData, canvasRemoveFrame, toggleDimmer)}  
                     className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
                     <i className="fas fa-trash-alt fa-2x"></i>
                 </div>
