@@ -6,7 +6,6 @@ import {notify} from 'react-notify-toast';
 import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax, 
         updateCurrFrame, toggleLightbox, setLightboxFrames, setFlipbook,
         setAnimationActive, setAnimationInactive, toggleDimmer } from '../../../actions';
-import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
 const BaseUrl = 'http://localhost:8080';
 

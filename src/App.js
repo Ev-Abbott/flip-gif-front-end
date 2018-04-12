@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { Sidebar, Menu, Dimmer, Icon, Header } from 'semantic-ui-react';
 import Notification from 'react-notify-toast';
 import HeaderBar from './components/HeaderBar/HeaderBar';
-import FooterBar from './components/FooterBar/FooterBar';
 import HomePage from './components/HomePage/Homepage';
 import DrawingTool from './components/DrawingTool/DrawingTool';
 import LoginView from './components/LoginView/LoginView';
@@ -53,7 +52,7 @@ class App extends Component {
               { token ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
             </Sidebar>
             <Sidebar.Pusher>
-              <div style={{minHeight: '150vh'}}>
+              <div style={{minHeight: '100vh'}}>
                 <HeaderBar toggleVisibility={this.toggleVisibility} />
                 <Switch>
                   <Route path="/login" render={() => <LoginView />} /> 

@@ -9,7 +9,6 @@ class Lightbox extends Component {
         // Set canvas context
         const canvas = this.myLightBox;
         const ctx = canvas.getContext('2d');
-        const modelWidth = 300;
         const maxWidth = 600;
         const marginPixels = 42;
         let canvasWidth = (window.innerWidth-marginPixels);
@@ -68,7 +67,6 @@ class Lightbox extends Component {
     render() {
         let canvas = this.myLightBox;
         if (canvas) {
-            let ctx = canvas.getContext('2d');
             this.loadNewLightBox(canvas)
         }
         return (

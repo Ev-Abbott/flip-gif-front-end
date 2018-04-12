@@ -1,5 +1,4 @@
 import React from 'react';
-import {notify} from 'react-notify-toast';
 import { Tab } from 'semantic-ui-react';
 import BrushSettings from './ToolSelector/BrushSettings';
 import ToolSelector from './ToolSelector/ToolSelector';

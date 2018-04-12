@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Input } from 'semantic-ui-react';
 import { setSelectedTool } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
-import axios from 'axios';
-const BaseUrl = 'http://localhost:8080';
 
 const BrushSelector = ({ selectedTool, setSelectedTool }) => {
     const determineToolToToggle = (e, setSelectedTool, tool) => {
@@ -31,7 +28,7 @@ const BrushSelector = ({ selectedTool, setSelectedTool }) => {
                     className={
                         (selectedTool === 'BUCKET' ? 'DrawingTool-isSelected ': '') + ('DrawingTool-iconContainer flex-container justify-content-center align-items-center')
                     }>
-                    <img src={paintBucket} width='28' height='28.5'/>
+                    <img src={paintBucket} alt='Paint Bucket' width='28' height='28.5'/>
                 </div>
                 <div onTouchStart={(e) => determineToolToToggle(e, setSelectedTool, 'BOMB')} 
                     className={

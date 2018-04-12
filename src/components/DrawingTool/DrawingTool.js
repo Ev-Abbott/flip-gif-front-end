@@ -51,7 +51,9 @@ class DrawingTool extends Component {
         
         return (
             <div style={{ position: 'relative', top: '3em'}}>
-                { this.props.animation.isActive ? <img src={this.props.animation.imgURL} style={{
+                { this.props.animation.isActive ? <img src={this.props.animation.imgURL} 
+                                                    alt='Your animation you made!'
+                                                    style={{
                                                         zIndex: 99,
                                                         position: 'absolute',
                                                         top: '0px',
