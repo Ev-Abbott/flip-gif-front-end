@@ -23,7 +23,7 @@ import {
     CANVAS_UPDATE_INDEX_HACK,
 } from '../actions/actionTypes';
 import axios from 'axios';
-const BaseUrl = 'https://flipgif-backend.herokuapp.com';
+const BaseUrl = 'http://localhost:8080';
 
 export function toggleDimmer() {
     return (dispatch) => {

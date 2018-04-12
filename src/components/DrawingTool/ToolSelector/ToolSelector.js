@@ -8,7 +8,7 @@ import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax,
         setAnimationActive, setAnimationInactive, toggleDimmer } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
-const BaseUrl = 'https://flipgif-backend.herokuapp.com';
+const BaseUrl = 'http://localhost:8080';
 
 let currMax = 0;
 

@@ -6,7 +6,7 @@ import { setFlipbook } from '../../actions';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom';
 
-const BaseUrl = 'https://flipgif-backend.herokuapp.com';
+const BaseUrl = 'http://localhost:8080';
 
 class SignupForm extends Component {
     state = {

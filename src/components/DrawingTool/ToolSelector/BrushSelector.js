@@ -5,7 +5,7 @@ import { Input } from 'semantic-ui-react';
 import { setSelectedTool } from '../../../actions';
 import paintBucket from './paint-bucket.svg';
 import axios from 'axios';
-const BaseUrl = 'https://flipgif-backend.herokuapp.com';
+const BaseUrl = 'http://localhost:8080';
 
 const BrushSelector = ({ selectedTool, setSelectedTool }) => {
     const determineToolToToggle = (e, setSelectedTool, tool) => {
