@@ -11,7 +11,7 @@ class SignedInMenu extends Component {
     }
     render() {
         return (
-            <div>
+            <div style={{ position: 'fixed', top: 0, left: 0, zIndex: '110 !important'}}>
                 <Link to='/'>
                     <Menu.Item name='home' onClick={this.props.toggleVisibility}>
                         <Icon name='home' />

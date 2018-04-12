@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Sidebar, Menu, Dimmer, Icon, Header } from 'semantic-ui-react';
+import { Sidebar, Menu, Dimmer, Icon, Header, Sticky, Segment } from 'semantic-ui-react';
 import Notification from 'react-notify-toast';
 import HeaderBar from './components/HeaderBar/HeaderBar';
 import HomePage from './components/HomePage/Homepage';
@@ -28,6 +28,7 @@ class App extends Component {
     return (
       <Router>
         <div>
+          
           <Dimmer active={this.props.dimmerVisible}
             page
           >
@@ -36,33 +37,41 @@ class App extends Component {
               Loading...
             </Header>
           </Dimmer>
-          <Notification options={{zIndex: 5000}} />
-          <Sidebar.Pushable style={{minHeight: '100vh'}}>
-            <Sidebar
-              as={Menu}
-              animation='overlay'
-              width='thin'
-              direction='right'
-              visible={this.state.visible}
-              icon='labeled'
-              vertical
-              inverted
-            >
+          <Notification options={{zIndex: 200}} />
+          <HeaderBar toggleVisibility={this.toggleVisibility} />
+          <Sidebar.Pushable>
+          
+              <Sidebar
+                as={Menu}
+                animation='push'
+                width='thin'
+                direction='right'
+                visible={this.state.visible}
+                icon='labeled'
+                vertical
+                inverted
+              >
 
-              { token ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
-            </Sidebar>
+                { token ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
+              </Sidebar>
+              
             <Sidebar.Pusher>
-              <div style={{minHeight: '100vh'}}>
-                <HeaderBar toggleVisibility={this.toggleVisibility} />
-                <Switch>
-                  <Route path="/login" render={() => <LoginView />} /> 
-                  <Route path="/signup" render={() => <SignupView />} /> 
-                  <Route path="/draw" render={ () => <DrawingTool bodyMargin={bodyMargin} />} />
-                  <Route path="/" render={ () => <HomePage bodyMargin={bodyMargin} />} />
-                </Switch>
-              </div>
+              
+                
+                <div style={{ minHeight: '100vh' }}>
+                  <Switch>
+                    <Route path="/login" render={() => <LoginView />} /> 
+                    <Route path="/signup" render={() => <SignupView />} /> 
+                    <Route path="/draw" render={ () => <DrawingTool bodyMargin={bodyMargin} />} />
+                    <Route path="/" render={ () => <HomePage bodyMargin={bodyMargin} />} />
+                  </Switch>
+                </div>
+              
+              
+              
             </Sidebar.Pusher>
           </Sidebar.Pushable>
+          
         </div>
       </Router>
     );

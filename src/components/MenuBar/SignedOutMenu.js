@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 const SignedOutMenu = ({ toggleVisibility, history }) => {
     return (
-        <div>
+        <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 110}} >
             <Link to='/'>
                 <Menu.Item name='home' onClick={toggleVisibility}>
                     <Icon name='home' />
