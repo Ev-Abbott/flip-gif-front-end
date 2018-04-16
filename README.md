@@ -1,6 +1,6 @@
-# RubberSoul
+# FlipGif Studio
 
-*Authors: [Everett Abbott](https://github.com/AbbottEverett "Everett Abbott's GitHub")*
+*Author: [Everett Abbott](https://github.com/AbbottEverett "Everett Abbott's GitHub")*
 
 
 FlipGif Studio is mobile-first, web application which allows users to create their own animated gifs and share them with their friends. Using custom-made, browser-based drawing software, users can quickly sketch their ideas and bring them to life right on their phone!
@@ -8,19 +8,19 @@ FlipGif Studio is mobile-first, web application which allows users to create the
 FlipGif Studio was built in 2 weeks.
 
 
-### Live URL: TBH
+### Live URL: TBD - Waiting on content creators to make gifs first
 #### Frontend GitHub: https://github.com/AbbottEverett/flip-gif-front-end
 #### Backend GitHub: https://github.com/AbbottEverett/flip-gif-back-end
 #### Gif Service Github: https://github.com/AbbottEverett/flip-gif-gif-service
 
-
-<img src="screenshots/rubber_soul_search_filter.gif">
-<img src="screenshots/rubber_soul_add_to_cart.gif">
+Gif Demos of live site to be added after Capstone Presentation.
 
 ## Features
-- Managed state through React Redux store
-- Dynamic search and filter
-- Send and retrieve authenticated data from server using REST API
+- Browser based drawing tool which includes changing brush color, changing brush size, fill tool, clear tool, undo, redo, lightbox (see frames near to the one you are on), add frame, remove frame, save to server.
+- Drawing tool state managed using the Redux store.
+- Leveraging Amazon S3, HTML5 Canvas API and a GIFEncoder in order to dynamically create and upload .gif files based from the drawings made in the tool.
+- User authenticated routes and resources in order to protect the security of users work, passwords, etc.
+
 
 ## Technologies
 #### Frontend
@@ -44,13 +44,10 @@ FlipGif Studio was built in 2 weeks.
 
 ## Screenshots
 ### Home Page View:
-![Product List Image](screenshots/rubber_soul_product_list.png)
+Screenshot to be added after Capstone presentation.
 
 ### Flipbook Drawing View:
-![Product Detail Image](screenshots/rubber_soul_product_detail.png)
-![Product Reviews Image](screenshots/rubber_soul_product_reviews.png)
-![Submit New Review Image](screenshots/rubber_soul_submit_review.png)
+Screenshot to be added after Capstone presentation.
 
 ### Signup View:
-![Cart Image](screenshots/rubber_soul_cart_dropdown.png)
-![Checkout Image](screenshots/rubber_soul_checkout.png)
+Screenshot to be added after Capstone presentation.
