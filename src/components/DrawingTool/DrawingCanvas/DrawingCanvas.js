@@ -204,7 +204,8 @@ class DrawingCanvas extends Component {
         let ctx = canvas.getContext('2d');
         let frameCheck = this.props.canvasSaveData.frame;
         if (this.props.canvasSaveData.frame === 0) frameCheck = 1
-        return axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${frameCheck}`)
+        const token = localStorage.getItem('token');
+        return axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${frameCheck}`, { headers: {token} })
             .then(res => {
                 let frameData = res.data.data.imgURL;
                 let img = new Image();
@@ -248,26 +249,17 @@ class DrawingCanvas extends Component {
     }
 
     render() {
-        console.log('Frame :')
-        console.log(currFrame, this.props.canvasSaveData.frame);
-        console.log('Index :')
-        console.log(currIndex, this.props.canvasSaveData.index);
+        
         let canvas = this.myCanvas;
         
         if (canvas && this.props.canvasSaveData.frame !== currFrame) {
-            console.log('FRAME UPDATE');
             this.loadCanvasWithCurrentFrame(canvas);
         }
 
         if (canvas && this.props.canvasSaveData.index !== currIndex) {
-            console.log('INDEX UPDATE');
             this.updateCanvas(canvas)
         }
-        console.log('Frame :')
-        console.log(currFrame, this.props.canvasSaveData.frame);
-        console.log('Index :')
-        console.log(currIndex, this.props.canvasSaveData.index);
-        // console.log(this.props.canvasSaveData.imageHistory && this.props.canvasSaveData.imageHistory[0])
+        
         return (
             <canvas id='DrawingTool-canvas' 
                 ref={(c => this.myCanvas = c)}

@@ -90,7 +90,8 @@ export function updateCurrFrame(direction) {
         let modifier = 0;
         if (direction === 'INCREASE') modifier = 1;
         if (direction === 'DECREASE') modifier = -1;
-        let canvasData = await axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSave.frame+modifier}`);
+        const token = localStorage.getItem('token');
+        let canvasData = await axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSave.frame+modifier}`, { headers: {token} });
         let dataToSend = canvasData.data.data.imgURL;
         dispatch({
             type: CANVAS_UPDATE_CURR_FRAME,
@@ -123,7 +124,8 @@ export function canvasRemoveFrame(name, frame) {
         // to-do resolve frame 1 decrement
         const { canvasSave } = getState();
         if (frame === canvasSave.frameMax) frame = parseInt(frame, 10) - 1;
-        let imgResult = await axios.get(`${BaseUrl}/flipbooks/${name}/frames/${frame}`);
+        const token = localStorage.getItem('token');
+        let imgResult = await axios.get(`${BaseUrl}/flipbooks/${name}/frames/${frame}`, { headers: {token} });
         let canvasData = imgResult.data.data.imgURL;
         dispatch({
             type: CANVAS_REMOVE_FRAME,

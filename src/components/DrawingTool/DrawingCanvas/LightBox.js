@@ -25,8 +25,8 @@ class Lightbox extends Component {
     initializeLightBox = (canvas) => {
         const ctx = canvas.getContext('2d');
         if (this.props.lightbox.frames === '' || 0) return;
-        
-        axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`)
+        const token = localStorage.getItem('token');
+        axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`, { headers: {token} })
             .then(res => {
                 console.log(res.data);
                 let frames = res.data.data;
@@ -47,8 +47,8 @@ class Lightbox extends Component {
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (this.props.lightbox.frames === '' || 0) return;
-        
-        axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`)
+        const token = localStorage.getItem('token');
+        axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`, { headers: {token} })
             .then(res => {
                 console.log(res.data);
                 let frames = res.data.data;

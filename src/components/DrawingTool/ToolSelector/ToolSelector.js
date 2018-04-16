@@ -20,13 +20,13 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         toggleDimmer()
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
-        
-        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
+        const token = localStorage.getItem('token');
+        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, { headers: {token} })
             .then(res => {
                 if (!res.data.data) {
-                    return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave);
+                    return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave, { headers: {token} });
                 } else {
-                    return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+                    return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave, { headers: {token} })
                 }
             })
             .then(res => {
@@ -44,18 +44,19 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
         toggleDimmer()
         let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
         let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
-        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
+        const token = localStorage.getItem('token');
+        return axios.get(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, { headers: {token} })
             .then(res => {
                 if (!res.data.data) {
-                    return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave);
+                    return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave, { headers: {token} });
                     
                 } else {
-                    return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+                    return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave, { headers: {token} })
                 }
             })
             .then(res => {
                 let newFrame = {...frameToSave, index: canvasSaveData.frame+1};
-                return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave);
+                return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/frames`, frameToSave, { headers: {token} });
             })
             .then(res => {
                 canvasAddFrame(res.data.data.imgURL);
@@ -71,11 +72,12 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     }
 
     const removeFrame = (flipbook, canvasSaveData, canvasRemoveFrame, toggleDimmer) => {
+        const token = localStorage.getItem('token');
         if (canvasSaveData.frame === 1 && canvasSaveData.frame === canvasSaveData.frameMax) {
             notify.show('Cannot delete last frame.', 'error', 800);
         } else { 
             toggleDimmer()   
-            return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`)
+            return axios.delete(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, { headers: {token} })
                 .then(res => {
                     canvasRemoveFrame(flipbook.name, canvasSaveData.frame);
                     toggleDimmer()
@@ -92,13 +94,14 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
 
     const toggleFramePrev = (flipbook, canvasSaveData, updateCurrFrame, direction, toggleDimmer) => {
         toggleDimmer();
+        const token = localStorage.getItem('token');
         if (canvasSaveData.frame === 1) {
             toggleDimmer();
             notify.show('Cannot go to frame 0.', 'error', 800);
         } else {
             let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
             let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
-            return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+            return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave, { headers: {token} })
                 .then(res => {
                     updateCurrFrame(direction);
                     toggleDimmer();
@@ -113,13 +116,14 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
 
     const toggleFrameNext = (flipbook, canvasSaveData, updateCurrFrame, direction, toggleDimmer) => {
         toggleDimmer();
+        const token = localStorage.getItem('token');
         if (canvasSaveData.frame === canvasSaveData.frameMax) {
             toggleDimmer();
             notify.show('Cannot exceed maximum frame count.', 'error', 800);
         } else {
             let dataToSave = canvasSaveData.imageHistory[canvasSaveData.index];
             let frameToSave = { index: canvasSaveData.frame, imgURL: dataToSave, flipbook_id: flipbook.id };
-            return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave)
+            return axios.patch(`${BaseUrl}/flipbooks/${flipbook.name}/frames/${canvasSaveData.frame}`, frameToSave, { headers: {token} })
                 .then(res => {
                     updateCurrFrame(direction);
                     toggleDimmer();
@@ -129,11 +133,6 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 })
         }
         
-    }
-
-    const dispatchLightbox = (flipbook, canvasSaveData, toggleLightbox) => {
-        toggleLightbox();
-        notify.show('Lightbox is On', 'warning', 800);
     }
 
     const changeLightboxFrames = (e, setLightboxFrames) => {
@@ -154,8 +153,8 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
             toggleDimmer();
             return notify.show('Animation off!', 'success', 800);
         }
-
-        return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/createGif`)
+        const token = localStorage.getItem('token');
+        return axios.post(`${BaseUrl}/flipbooks/${flipbook.name}/createGif`, {}, { headers: {token} })
             .then(res => {
                 let newFlipbook = res.data.data;
                 setFlipbook(newFlipbook);
@@ -184,7 +183,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
     return (
         <div>
             <div className='flex-container flex-row justify-content-center'>
-                <div onClick={() => toggleLightbox(flipbook, canvasSaveData, toggleLightbox)}
+                <div onClick={() => toggleLightbox(flipbook, canvasSaveData)}
                     className={(lightbox.isActive ? 'DrawingTool-lightboxSelected ' : '') 
                     + 'DrawingTool-iconContainer flex-container justify-content-center align-items-center'}>
                     <i className="far fa-lightbulb fa-2x"></i>

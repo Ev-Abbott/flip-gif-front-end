@@ -12,9 +12,10 @@ class HeaderBar extends Component {
           <Container>
             <Link to="/">
               <Menu.Item as='h3' header>
-                <span className="header-styled-text">FlipGif</span>
+                <span className="header-styled-text">FlipGif Studio</span>
               </Menu.Item>
             </Link>
+            
             <Menu.Item as='a' onClick={this.props.toggleVisibility} position='right'>
               <i className="fas fa-bars"></i>
             </Menu.Item>

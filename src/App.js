@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Sidebar, Menu, Dimmer, Icon, Header, Sticky, Segment } from 'semantic-ui-react';
+import { Sidebar, Menu, Dimmer, Icon, Header } from 'semantic-ui-react';
 import Notification from 'react-notify-toast';
 import HeaderBar from './components/HeaderBar/HeaderBar';
 import HomePage from './components/HomePage/Homepage';
@@ -12,7 +12,6 @@ import SignupView from './components/SignupView/SignupView';
 
 import SignedInMenu from './components/MenuBar/SignedInMenu';
 import SignedOutMenu from './components/MenuBar/SignedOutMenu';
-
 
 import './App.css';
 
@@ -38,12 +37,13 @@ class App extends Component {
             </Header>
           </Dimmer>
           <Notification options={{zIndex: 200}} />
-          <HeaderBar toggleVisibility={this.toggleVisibility} />
+          
+
           <Sidebar.Pushable>
           
               <Sidebar
                 as={Menu}
-                animation='push'
+                animation='overlay'
                 width='thin'
                 direction='right'
                 visible={this.state.visible}
@@ -51,13 +51,11 @@ class App extends Component {
                 vertical
                 inverted
               >
-
                 { token ? <SignedInMenu toggleVisibility={this.toggleVisibility} /> : <SignedOutMenu toggleVisibility={this.toggleVisibility} />}
               </Sidebar>
               
             <Sidebar.Pusher>
-              
-                
+                <HeaderBar toggleVisibility={this.toggleVisibility} />
                 <div style={{ minHeight: '100vh' }}>
                   <Switch>
                     <Route path="/login" render={() => <LoginView />} /> 
@@ -71,7 +69,6 @@ class App extends Component {
               
             </Sidebar.Pusher>
           </Sidebar.Pushable>
-          
         </div>
       </Router>
     );
