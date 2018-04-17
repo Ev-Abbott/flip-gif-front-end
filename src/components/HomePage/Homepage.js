@@ -26,6 +26,19 @@ class HomePage extends Component {
         notify.show('Gif URL copied!', 'success', 1500)
     }
 
+    downloadImage = (gifURL, name) => {   
+        axios.get(`${gifURL}`, { responseType: 'blob',headers: { 'Access-Control-Allow-Origin': '*' }})
+            .then(res => {
+                const url = window.URL.createObjectURL(res.data);
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', `${name}.gif`);
+                link.click();
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     render() {
         return (
@@ -47,11 +60,15 @@ class HomePage extends Component {
                                         <Card key={gif} fluid style={{ boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) '}}>
                                             
                                             <Image data-clipboard-text={gif.gifURL} src={gif.gifURL} bordered rounded fluid/>
+                                           
+                                            
                                             
                                             
                                             <Card.Content>
                                                 <Card.Header>
-                                                    <span className='header-styled-text'>Title: {gif.name}</span>
+                                                    
+                                                    <span className='header-styled-text' onClick={() => this.downloadImage(gif.gifURL, gif.name)}>Title: {gif.name}</span>
+                                                    
                                                 </Card.Header>
                                             </Card.Content>
                                         </Card>
