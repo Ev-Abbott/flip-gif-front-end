@@ -24,7 +24,12 @@ class SignedInMenu extends Component {
                         Let's Draw!
                     </Menu.Item>
                 </Link>
-                
+                <Link to='/tutorial'>
+                    <Menu.Item name='tutorial' onClick={this.props.toggleVisibility}>
+                        <Icon name='university' />
+                        Tutorial
+                    </Menu.Item>
+                </Link>
                 <Menu.Item name='logout' onClick={() => this.signOut(this.props.toggleVisibility, this.props.history)}>
                     <Icon name='sign out' />
                     Sign Out

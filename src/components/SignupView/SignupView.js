@@ -34,7 +34,7 @@ class SignupForm extends Component {
                 localStorage.setItem('token', token);
                 localStorage.setItem('user_id', res.data.flipbook.user_id);
                 this.props.setFlipbook(res.data.flipbook.name);
-                history.push('/');
+                history.push('/tutorial');
             })
             .catch(err => {
                 this.setState({ error: 'Username already exists.' });
