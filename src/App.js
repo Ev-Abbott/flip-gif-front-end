@@ -9,11 +9,11 @@ import HomePage from './components/HomePage/Homepage';
 import DrawingTool from './components/DrawingTool/DrawingTool';
 import LoginView from './components/LoginView/LoginView';
 import SignupView from './components/SignupView/SignupView';
-
 import SignedInMenu from './components/MenuBar/SignedInMenu';
 import SignedOutMenu from './components/MenuBar/SignedOutMenu';
 
 import './App.css';
+import TutorialView from './components/TutorialView/TutorialView';
 
 class App extends Component {
   state = { visible: false }
@@ -59,6 +59,7 @@ class App extends Component {
                 <div style={{ minHeight: '100vh' }}>
                   <Switch>
                     <Route path="/login" render={() => <LoginView />} /> 
+                    <Route path="/tutorial" render={() => <TutorialView />} /> 
                     <Route path="/signup" render={() => <SignupView />} /> 
                     <Route path="/draw" render={ () => <DrawingTool bodyMargin={bodyMargin} />} />
                     <Route path="/" render={ () => <HomePage bodyMargin={bodyMargin} />} />
