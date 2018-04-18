@@ -6,7 +6,7 @@ import { setFlipbook, toggleDimmer } from '../../actions';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import { withRouter, Link } from 'react-router-dom';
 
-const BaseUrl = 'http://localhost:8080';
+const BaseUrl = 'https://flipgif-backend.herokuapp.com';
 
 class LoginForm extends Component {
     state = {

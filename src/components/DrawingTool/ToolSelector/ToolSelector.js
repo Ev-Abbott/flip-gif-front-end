@@ -7,7 +7,7 @@ import { setSelectedTool, canvasAddFrame, canvasRemoveFrame, canvasUpdateMax,
         updateCurrFrame, toggleLightbox, setLightboxFrames, setFlipbook,
         setAnimationActive, setAnimationInactive, toggleDimmer } from '../../../actions';
 import axios from 'axios';
-const BaseUrl = 'http://localhost:8080';
+const BaseUrl = 'https://flipgif-backend.herokuapp.com';
 
 let currMax = 0;
 

@@ -16,13 +16,13 @@ const TutorialView = ({ history }) => {
                 <div className='flex-container flex-column justify-content-center flex-wrap'>
                     <div className='flex-container flex-row justify-content-space-between align-items-center'>
                         
-                        <div className='flex-container flex-row align-items-center'>
-                            <div 
-                                className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
-                                <i className='fas fa-paint-brush fa-2x'></i>
-                            </div>
-                            <p>Set the stroke to defined color and size.</p>
+                        
+                        <div 
+                            className='DrawingTool-iconContainer flex-container justify-content-center align-items-center'>
+                            <i className='fas fa-paint-brush fa-2x'></i>
                         </div>
+                        <p>Set the stroke to defined color and size.</p>
+                       
                     </div>
                     <div className='flex-container flex-row justify-content-space-between align-items-center'>
                         

@@ -5,7 +5,7 @@ import { Container, Image, Card, Transition, List } from 'semantic-ui-react';
 import FooterBar from '../FooterBar/FooterBar';
 import axios from 'axios';
 
-const BaseUrl = 'http://localhost:8080';
+const BaseUrl = 'https://flipgif-backend.herokuapp.com';
 
 class HomePage extends Component {
     state = {
