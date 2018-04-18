@@ -30,7 +30,7 @@ class LoginForm extends Component {
                 const token = res.headers.auth.split(' ')[1];
                 localStorage.setItem('token', token);
                 localStorage.setItem('user_id', res.data.flipbook.user_id);
-                console.log(res.data.flipbook);
+                
                 this.props.setFlipbook(res.data.flipbook);
                 history.push('/draw');
                 this.props.toggleDimmer()

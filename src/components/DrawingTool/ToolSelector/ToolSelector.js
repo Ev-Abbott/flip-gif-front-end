@@ -30,7 +30,7 @@ const ToolSelector = ({ selectedTool, setSelectedTool, canvasUndo, canvasRedo, f
                 }
             })
             .then(res => {
-                console.log(res);
+                
                 toggleDimmer()
                 notify.show('Frame Saved!', 'success', 800);
             })

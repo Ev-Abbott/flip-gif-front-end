@@ -28,7 +28,7 @@ class Lightbox extends Component {
         const token = localStorage.getItem('token');
         axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`, { headers: {token} })
             .then(res => {
-                console.log(res.data);
+                
                 let frames = res.data.data;
                 frames.forEach(frame => {
                     let img = new Image();
@@ -50,7 +50,7 @@ class Lightbox extends Component {
         const token = localStorage.getItem('token');
         axios.get(`${BaseUrl}/flipbooks/${this.props.flipbook.name}/frames/${this.props.canvasSaveData.frame}?lightBox=${this.props.lightbox.frames}`, { headers: {token} })
             .then(res => {
-                console.log(res.data);
+                
                 let frames = res.data.data;
                 frames.forEach(frame => {
                     let img = new Image();

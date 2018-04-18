@@ -15,7 +15,14 @@ class HomePage extends Component {
     componentDidMount() {
         axios.get(`${BaseUrl}/flipbooks`)
             .then(flipbooks => {
-                this.setState({ gifs: flipbooks.data.data.reverse() });
+                let demo = flipbooks.data.data.find(el => {
+                    return el.id === 22;
+                })
+                let index = flipbooks.data.data.indexOf(demo);
+                let copy = [...flipbooks.data.data];
+                copy.splice(index, 1);
+                let newFlipbooks = [demo].concat(copy);
+                this.setState({ gifs: newFlipbooks });
             })
             .catch(err => {
                 console.log(err);
@@ -26,8 +33,9 @@ class HomePage extends Component {
         notify.show('Gif URL copied!', 'success', 1500)
     }
 
-    downloadImage = (gifURL, name) => {   
-        axios.get(`${gifURL}`, { responseType: 'blob',headers: { 'Access-Control-Allow-Origin': '*' }})
+    downloadImage = (gifURL, name) => {
+        
+        axios.get(`${gifURL}`, { responseType: 'blob', headers: { 'Access-Control-Allow-Origin': '*' }})
             .then(res => {
                 const url = window.URL.createObjectURL(res.data);
                 const link = document.createElement('a');
@@ -41,6 +49,7 @@ class HomePage extends Component {
     }
 
     render() {
+        
         return (
             <div>
                 <Container text style={{ marginTop: '5em'}}>
