@@ -44,7 +44,11 @@ Animated Demos of live site to be added after Capstone Presentation.
 
 ## Screenshots
 ### Home Page View:
-Screenshot to be added after Capstone presentation.
+![ Home View Image ]
+(screenshots/homeview.png)
+
+### Tutorial Page View:
+![Tutorial View Image](screenshots/tutorialview.png)
 
 ### Flipbook Drawing View:
 ![Drawing View Image](screenshots/drawview-Page1.png)
