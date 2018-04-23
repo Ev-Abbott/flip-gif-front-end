@@ -8,7 +8,7 @@ FlipGif Studio is mobile-first, web application which allows users to create the
 FlipGif Studio was built in 2 weeks.
 
 Note: FlipGif Studio's drawing tool is currently only supported in mobile.
-### Live URL: TBD - http://flipgif-studio.surge.sh/#/
+### Live URL: http://flipgif-studio.surge.sh/#/
 #### Frontend GitHub: https://github.com/AbbottEverett/flip-gif-front-end
 #### Backend GitHub: https://github.com/AbbottEverett/flip-gif-back-end
 #### Gif Service Github: https://github.com/AbbottEverett/flip-gif-gif-service
